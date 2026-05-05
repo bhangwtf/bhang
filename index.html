@@ -667,7 +667,7 @@ document.getElementById('btn-home').addEventListener('click',function(){
   if(isFullscreen) toggleMode();
 });
 
-function showTab(tab){
+function showTab(tab, updateHash){
   var gallery=document.querySelector('.gallery');
   var about=document.getElementById('about');
   var tracker=document.getElementById('tracker');
@@ -688,11 +688,14 @@ function showTab(tab){
     document.getElementById('btn-tracker').classList.add('active');
     tracker.style.display='block';
   }
+  if(updateHash!==false) location.hash=tab==='home'?'':'#'+tab;
 }
 
 document.getElementById('btn-about').addEventListener('click',function(){ showTab('about'); });
 document.getElementById('btn-tracker').addEventListener('click',function(){ showTab('tracker'); });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
+window.addEventListener('hashchange',function(){ showTab((location.hash||'').replace('#','')||'home',false); });
+(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker') showTab(t,false);})();
 
 // ─── STATE ───
 var H=893000;
