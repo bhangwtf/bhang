@@ -634,24 +634,21 @@ function toggleMode(){
   if(isFullscreen){
     gallery.classList.add('fullscreen');
     tiltX=0;tiltY=0;tiltTargetX=0;tiltTargetY=0;
-    if(btn)btn.textContent='\u26F6 gallery';
-    // Show footer
+    if(btn){btn.textContent='\u26F6 gallery';btn.style.display='';btn.style.bottom='68px';}
     footer.style.display='flex';
-    // Move button above footer
-    if(btn)btn.style.bottom='68px';
+    location.hash='';
   }else{
     gallery.classList.remove('fullscreen');
-    if(btn)btn.textContent='\u26F6 fullscreen';
-    // Hide footer
+    if(btn){btn.textContent='\u26F6 fullscreen';btn.style.display='';btn.style.bottom='12px';}
     footer.style.display='none';
     document.getElementById('about').style.display='none';
     document.getElementById('tracker').style.display='none';
     document.getElementById('btn-home').classList.add('active');
     document.getElementById('btn-about').classList.remove('active');
     document.getElementById('btn-tracker').classList.remove('active');
-    if(btn)btn.style.bottom='12px';
+    gallery.style.display='block';
+    location.hash='';
   }
-  // Trigger resize so canvas adjusts
   setTimeout(function(){window.dispatchEvent(new Event('resize'));},50);
 }
 
@@ -664,13 +661,15 @@ function initKeys(){
 
 // ─── Footer navigation ───
 document.getElementById('btn-home').addEventListener('click',function(){
-  if(isFullscreen) toggleMode();
+  // no-op — handled by showTab
 });
 
 function showTab(tab, updateHash){
   var gallery=document.querySelector('.gallery');
   var about=document.getElementById('about');
   var tracker=document.getElementById('tracker');
+  var footer=document.getElementById('footer');
+  var btn=document.querySelector('.mode-btn');
   document.getElementById('btn-home').classList.remove('active');
   document.getElementById('btn-about').classList.remove('active');
   document.getElementById('btn-tracker').classList.remove('active');
@@ -680,13 +679,20 @@ function showTab(tab, updateHash){
 
   if(tab==='home'){
     document.getElementById('btn-home').classList.add('active');
-    if(gallery)gallery.style.display='block';
+    if(gallery){gallery.style.display='block';gallery.classList.add('fullscreen');}
+    footer.style.display='flex';
+    if(btn){btn.style.bottom='68px';btn.textContent='\u26F6 gallery';}
+    isFullscreen=true;
   }else if(tab==='about'){
     document.getElementById('btn-about').classList.add('active');
     about.style.display='block';
+    footer.style.display='flex';
+    if(btn){btn.style.display='none';}
   }else if(tab==='tracker'){
     document.getElementById('btn-tracker').classList.add('active');
     tracker.style.display='block';
+    footer.style.display='flex';
+    if(btn){btn.style.display='none';}
   }
   if(updateHash!==false) location.hash=tab==='home'?'':'#'+tab;
 }
@@ -695,7 +701,7 @@ document.getElementById('btn-about').addEventListener('click',function(){ showTa
 document.getElementById('btn-tracker').addEventListener('click',function(){ showTab('tracker'); });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
 window.addEventListener('hashchange',function(){ showTab((location.hash||'').replace('#','')||'home',false); });
-(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){if(!isFullscreen)toggleMode();showTab(t,false);}})();
+(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){showTab(t,false);}else{showTab('home',false);}})();
 
 // ─── STATE ───
 var H=893000;
