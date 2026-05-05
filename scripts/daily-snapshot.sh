@@ -10,15 +10,18 @@ cd "$TRACKER_DIR" || exit 0
 # Export snapshot
 npx tsx scripts/export-snapshot.ts 2>/dev/null || exit 0
 
-# Check if data actually changed
+# Copy to root for GitHub Pages
 cd "$SITE_DIR" || exit 0
-if git diff --quiet public/tracker-data.json 2>/dev/null; then
+cp public/tracker-data.json tracker-data.json
+
+# Check if data actually changed
+if git diff --quiet tracker-data.json public/tracker-data.json 2>/dev/null; then
   echo "No changes, skipping push."
   exit 0
 fi
 
 # Commit and push
-git add public/tracker-data.json
+git add tracker-data.json public/tracker-data.json
 git commit -m "tracker snapshot $(date +%Y-%m-%dT%H:%M)"
 git push origin main
 

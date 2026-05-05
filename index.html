@@ -740,10 +740,18 @@ function showTab(tab, updateHash){
 
   if(tab==='home'){
     document.getElementById('btn-home').classList.add('active');
-    if(gallery){gallery.style.display='block';gallery.classList.add('fullscreen');}
-    footer.style.display='flex';
-    if(btn){btn.style.bottom='68px';btn.textContent='\u26F6 gallery';}
-    isFullscreen=true;
+    if(gallery){
+      gallery.style.display='block';
+      if(isFullscreen){
+        gallery.classList.add('fullscreen');
+        footer.style.display='flex';
+        if(btn){btn.style.display='';btn.style.bottom='68px';btn.textContent='\u26F6 gallery';}
+      }else{
+        gallery.classList.remove('fullscreen');
+        footer.style.display='none';
+        if(btn){btn.style.display='';btn.style.bottom='12px';btn.textContent='\u26F6 fullscreen';}
+      }
+    }
   }else if(tab==='about'){
     document.getElementById('btn-about').classList.add('active');
     about.style.display='block';
@@ -762,7 +770,7 @@ document.getElementById('btn-about').addEventListener('click',function(){ showTa
 document.getElementById('btn-tracker').addEventListener('click',function(){ showTab('tracker'); });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
 window.addEventListener('hashchange',function(){ showTab((location.hash||'').replace('#','')||'home',false); });
-(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){showTab(t,false);}else{showTab('home',false);}})();
+(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){showTab(t,false);}})();
 
 // ─── STATE ───
 var H=893000;
