@@ -168,12 +168,14 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   /* Tracker: series grid */
   .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
   .tracker-series-grid > div { padding: 6px 4px !important; }
-  /* Tracker: address types — 2x2 */
-  .tracker-addr-grid { grid-template-columns: repeat(2, 1fr) !important; }
   /* Tracker: stats */
-  .tracker-stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; }
+  #t-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
   /* Tracker: header — stack title and date */
   #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
+  /* Tracker: next target */
+  #t-next-target div[style*="grid-template-columns:repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Tracker: trace progress */
+  #t-trace div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
   /* Tracker: UTXO table — horizontal scroll */
   #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   #t-utxos table { min-width: 480px; }
@@ -388,96 +390,157 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
         <span style="color:#555;font-size:11px;">v1.0</span>
       </div>
-      <div id="t-updated" style="color:#555;font-size:11px;"></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="t-blockheight" style="color:#00ff41;font-size:11px;font-weight:bold;"></span>
+        <div id="t-updated" style="color:#555;font-size:11px;"></div>
+      </div>
     </div>
 
     <!-- Series overview -->
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES OVERVIEW</div>
     <div id="t-series" class="tracker-series-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px;"></div>
 
+    <!-- Next target mining progress -->
+    <div id="t-next-target" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
+
     <!-- Trace progress -->
     <div id="t-trace" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
 
     <!-- Wallet search -->
-    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">WALLET SEARCH</div>
-    <div style="display:flex;gap:8px;margin-bottom:24px;">
-      <input id="t-search" type="text" placeholder="Search by address..." style="flex:1;background:#111;border:1px solid #1a1a1a;border-radius:4px;padding:8px 12px;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;" />
-      <button id="t-search-btn" style="background:#1a1a1a;border:1px solid #333;border-radius:4px;padding:8px 16px;color:#D4AF37;font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;">SEARCH</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <span style="color:#555;font-size:11px;letter-spacing:2px;white-space:nowrap;">SEARCH</span>
+      <input id="t-search" type="text" placeholder="Enter wallet address or outpoint..." style="flex:1;background:#111;border:1px solid #1a1a1a;border-radius:4px;padding:8px 12px;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;" />
     </div>
     <div id="t-search-results" style="margin-bottom:24px;"></div>
 
     <!-- Address type breakdown -->
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">ADDRESS TYPES</div>
-    <div id="t-addr-types" class="tracker-addr-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;"></div>
+    <div id="t-addr-types" style="margin-bottom:24px;"></div>
 
     <!-- UTXOs -->
-    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — LIVE UTXOS</div>
-    <div id="t-stats" class="tracker-stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;"></div>
+    <div id="t-series1-title" style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — MINED (308,915,776 SATS)</div>
+    <div id="t-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;font-size:12px;"></div>
     <div id="t-utxos" style="font-size:12px;"></div>
   </div>
 </div>
 
 <script>
 (function loadTracker(){
+  // Fetch block height
+  fetch('https://mempool.space/api/blocks/tip/height')
+    .then(function(r){return r.text();})
+    .then(function(h){
+      var el=document.getElementById('t-blockheight');
+      el.innerHTML='<span style="color:#00ff41;">●</span> BLK: '+parseInt(h).toLocaleString();
+      window._currentBlock=parseInt(h);
+    }).catch(function(){});
+
   fetch('/tracker-data.json')
     .then(function(r){return r.json();})
     .then(function(data){
       // Last updated
       var d=new Date(data.exported_at);
-      document.getElementById('t-updated').textContent='Last updated: '+d.toLocaleString();
+      document.getElementById('t-updated').textContent=d.toLocaleString();
+
+      var seriesData=data.series;
+      var currentBlock=window._currentBlock||948000;
+      // Block ranges per series (L-R)
+      var BLKSETS=[
+        {L:579124,R:579125},{L:1568922,R:1568923},{L:2544826,R:2544826},
+        {L:3536797,R:3536798},{L:4530322,R:4530322},{L:5500597,R:5500597},{L:6403598,R:6403598}
+      ];
+      function fmtSats(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString();}
 
       // Series cards
       var sh='';
-      var seriesData=data.series;
       for(var i=0;i<seriesData.length;i++){
         var s=seriesData[i];
         var mined=s.mined===1;
+        var pctMined=mined?100:Math.min(100,Math.round((currentBlock/s.target_block)*100));
         var border=mined?'border-color:rgba(0,255,65,0.3);background:rgba(0,255,65,0.03)':'border-color:#1a1a1a;background:#111';
-        var label=mined?'<span style="color:#00ff41">MINED</span>':'<span style="color:#ffb000">'+Math.min(100,Math.round((893000/s.target_block)*100))+'%</span>';
-        var count=s.stats.utxo_count>0?s.stats.total_sats.toLocaleString()+'':'';
+        var label=mined?'<span style="color:#00ff41">MINED</span>':'<span style="color:#ffb000">'+pctMined+'%</span>';
+        var blkRange=BLKSETS[i]?BLKSETS[i].L.toLocaleString()+(BLKSETS[i].L!==BLKSETS[i].R?'-'+BLKSETS[i].R.toLocaleString():''):'';
         sh+='<div style="border:1px solid;padding:10px;border-radius:4px;text-align:center;'+border+'">';
         sh+='<div style="color:#555;font-size:10px;">S'+s.id+'</div>';
         sh+='<div style="font-size:16px;font-weight:bold;margin:4px 0;">'+label+'</div>';
-        sh+='<div style="color:#fff;font-size:12px;">'+s.sat_count.toLocaleString()+'</div>';
+        sh+='<div style="color:#fff;font-size:12px;">'+fmtSats(s.sat_count)+'</div>';
+        sh+='<div style="color:#555;font-size:9px;">BLK '+blkRange+'</div>';
         sh+='<div style="color:#555;font-size:10px;">'+s.name_length+'L</div>';
         sh+='<div style="color:#555;font-size:10px;margin-top:4px;">'+s.estimated_year+'</div>';
         sh+='</div>';
       }
       document.getElementById('t-series').innerHTML=sh;
 
-      // Trace progress
+      // Next target mining progress — find first unmined series
+      var nextSeries=null;
+      for(var i=0;i<seriesData.length;i++){
+        if(seriesData[i].mined!==1){nextSeries=seriesData[i];break;}
+      }
+      if(nextSeries){
+        var blocksRemaining=nextSeries.target_block-currentBlock;
+        var estYears=(blocksRemaining*10/525960).toFixed(1);
+        var miningPct=Math.min(100,Math.round((currentBlock/nextSeries.target_block)*10000)/100);
+        var nt='<div style="display:flex;justify-content:space-between;margin-bottom:8px;">';
+        nt+='<span style="color:#555;font-size:11px;letter-spacing:2px;">NEXT TARGET: SERIES '+nextSeries.id+' MINING PROGRESS</span>';
+        nt+='<span style="color:#ffb000;font-size:13px;font-weight:bold;">'+miningPct+'%</span></div>';
+        nt+='<div style="background:#1a1a1a;border-radius:2px;height:8px;margin-bottom:12px;overflow:hidden;">';
+        nt+='<div style="background:linear-gradient(90deg,#00ff41,#ffb000);height:100%;width:'+miningPct+'%;transition:width 0.3s;"></div></div>';
+        nt+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px;">';
+        nt+='<div><span style="color:#555;">Target Block</span><div style="color:#fff;font-weight:bold;">'+nextSeries.target_block.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:#555;">Blocks Remaining</span><div style="color:#ffb000;font-weight:bold;">'+blocksRemaining.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:#555;">Est. Time</span><div style="color:#fff;">~'+estYears+' years</div></div>';
+        nt+='<div><span style="color:#555;">Sats to Unlock</span><div style="color:#fff;">'+nextSeries.sat_count.toLocaleString()+'</div></div>';
+        nt+='</div>';
+        nt+='<div style="color:#555;font-size:10px;margin-top:8px;">Range: '+nextSeries.sat_start+' → '+nextSeries.sat_end+'</div>';
+        document.getElementById('t-next-target').innerHTML=nt;
+      } else {
+        document.getElementById('t-next-target').style.display='none';
+      }
+
+      // Trace progress — enhanced with Traced/Untraced, %, Last Run, sat range
       var tr=data.trace;
       var s1=seriesData[0];
       var traced=s1.stats.total_sats;
       var total=s1.sat_count;
+      var untraced=total-traced;
       var pct=Math.round((traced/total)*10000)/100;
+      var tracedPctLabel='Traced: '+pct+'%';
+      var untracedPct=(100-pct).toFixed(2);
       var th='<div style="display:flex;justify-content:space-between;margin-bottom:8px;">';
-      th+='<span style="color:#555;font-size:11px;letter-spacing:2px;">TRACE PROGRESS</span>';
-      th+='<span style="color:'+(tr.status==='tracing'?'#00ff41':'#ffb000')+';font-size:11px;">'+tr.status.toUpperCase()+'</span></div>';
-      th+='<div style="background:#1a1a1a;border-radius:2px;height:8px;margin-bottom:12px;overflow:hidden;">';
+      th+='<span style="color:#555;font-size:11px;letter-spacing:2px;">SERIES 1 — TRACE PROGRESS</span>';
+      th+='<span style="font-size:11px;">STATUS: <span style="color:'+(tr.status==='tracing'?'#00ff41':'#ffb000')+';">'+tr.status.toUpperCase()+(tr.status==='tracing'?' ▸':'')+'</span></span></div>';
+      th+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">';
+      th+='<div style="flex:1;background:#1a1a1a;border-radius:2px;height:8px;overflow:hidden;">';
       th+='<div style="background:#00ff41;height:100%;width:'+pct+'%;transition:width 0.3s;"></div></div>';
-      th+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px;">';
-      th+='<div><span style="color:#555;">Traced Sats</span><div style="color:#fff;">'+traced.toLocaleString()+'</div></div>';
+      th+='<span style="color:#fff;font-size:13px;font-weight:bold;">'+pct+'%</span></div>';
+      th+='<div style="display:flex;gap:16px;font-size:10px;margin-bottom:12px;">';
+      th+='<span style="color:#00ff41;">● Traced: '+pct+'%</span>';
+      th+='<span style="color:#555;">● Untraced: '+untracedPct+'%</span></div>';
+      th+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;font-size:12px;">';
+      th+='<div><span style="color:#555;">Traced</span><div style="color:#00ff41;font-weight:bold;">'+traced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Untraced</span><div style="color:#ffb000;">'+untraced.toLocaleString()+'</div></div>';
       th+='<div><span style="color:#555;">Total Supply</span><div style="color:#fff;">'+total.toLocaleString()+'</div></div>';
-      th+='<div><span style="color:#555;">UTXOs Found</span><div style="color:#fff;">'+tr.total_utxos_found+'</div></div>';
-      th+='<div><span style="color:#555;">Queue</span><div style="color:#ffb000;">'+tr.queue_size+'</div></div>';
+      th+='<div><span style="color:#555;">Queue</span><div style="color:#ffb000;">'+tr.queue_size.toLocaleString()+' items</div></div>';
+      th+='<div><span style="color:#555;">Last Run</span><div style="color:#fff;">'+tr.last_run+'</div></div>';
       th+='</div>';
+      th+='<div style="color:#555;font-size:10px;margin-top:8px;">Range: '+s1.sat_start+' → '+s1.sat_end+'</div>';
       document.getElementById('t-trace').innerHTML=th;
 
-      // Stats
+      // Series 1 title
+      document.getElementById('t-series1-title').textContent='SERIES 1 — MINED ('+s1.sat_count.toLocaleString()+' SATS)';
+
+      // Stats — 4 columns plain text like original
       var st=s1.stats;
       var ssh='';
-      ssh+='<div style="border:1px solid #1a1a1a;border-radius:4px;padding:12px;background:#111;text-align:center;">';
-      ssh+='<div style="color:#555;font-size:10px;">UTXOS</div><div style="color:#00ff41;font-size:20px;font-weight:bold;">'+st.utxo_count+'</div></div>';
-      ssh+='<div style="border:1px solid #1a1a1a;border-radius:4px;padding:12px;background:#111;text-align:center;">';
-      ssh+='<div style="color:#555;font-size:10px;">WALLETS</div><div style="color:#00ff41;font-size:20px;font-weight:bold;">'+st.wallet_count+'</div></div>';
-      ssh+='<div style="border:1px solid #1a1a1a;border-radius:4px;padding:12px;background:#111;text-align:center;">';
-      ssh+='<div style="color:#555;font-size:10px;">SATS TRACKED</div><div style="color:#00ff41;font-size:20px;font-weight:bold;">'+st.total_sats.toLocaleString()+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">UTXOs</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.utxo_count+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Wallets</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.wallet_count+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Tracked Sats</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.total_sats.toLocaleString()+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Inscribed</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.inscribed_count+'</div></div>';
       document.getElementById('t-stats').innerHTML=ssh;
 
-      // Address type breakdown
+      // Address type breakdown — table format
       var utxos=s1.utxos;
-      var types={legacy:{label:'Legacy (1...)',addrs:{},utxos:0,sats:0},nested:{label:'Nested SegWit (3...)',addrs:{},utxos:0,sats:0},segwit:{label:'Native SegWit (bc1q)',addrs:{},utxos:0,sats:0},taproot:{label:'Taproot (bc1p)',addrs:{},utxos:0,sats:0}};
+      var types={legacy:{label:'Legacy',addrs:{},utxos:0,sats:0},nested:{label:'Nested SegWit',addrs:{},utxos:0,sats:0},segwit:{label:'Native SegWit',addrs:{},utxos:0,sats:0},taproot:{label:'Taproot',addrs:{},utxos:0,sats:0}};
       for(var j=0;j<utxos.length;j++){
         var a=utxos[j].address;var t;
         if(a.startsWith('bc1p'))t='taproot';
@@ -486,17 +549,20 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         else t='legacy';
         types[t].addrs[a]=1;types[t].utxos++;types[t].sats+=utxos[j].sat_count;
       }
-      var ath='';var tkeys=['legacy','nested','segwit','taproot'];
+      var tkeys=['legacy','nested','segwit','taproot'];
       var tcolors={legacy:'#ffb000',nested:'#70a0ff',segwit:'#00ff41',taproot:'#D4AF37'};
+      var ath='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+      ath+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+      ath+='<th style="padding:6px 4px;">TYPE</th><th style="padding:6px 4px;text-align:right;">WALLETS</th><th style="padding:6px 4px;text-align:right;">SATS</th></tr>';
       for(var k=0;k<tkeys.length;k++){
         var tk=tkeys[k];var tp=types[tk];var ac=Object.keys(tp.addrs).length;
-        ath+='<div style="border:1px solid #1a1a1a;border-radius:4px;padding:10px;background:#111;">';
-        ath+='<div style="color:'+tcolors[tk]+';font-size:10px;font-weight:bold;margin-bottom:6px;">'+tp.label+'</div>';
-        ath+='<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;"><span style="color:#555;">Addresses</span><span style="color:#fff;">'+ac+'</span></div>';
-        ath+='<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;"><span style="color:#555;">UTXOs</span><span style="color:#fff;">'+tp.utxos+'</span></div>';
-        ath+='<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#555;">Sats</span><span style="color:#fff;">'+tp.sats.toLocaleString()+'</span></div>';
-        ath+='</div>';
+        ath+='<tr style="border-bottom:1px solid #111;">';
+        ath+='<td style="padding:6px 4px;color:'+tcolors[tk]+';font-weight:bold;">'+tp.label+'</td>';
+        ath+='<td style="padding:6px 4px;text-align:right;color:#fff;">'+ac+'</td>';
+        ath+='<td style="padding:6px 4px;text-align:right;color:#00ff41;">'+tp.sats.toLocaleString()+'</td>';
+        ath+='</tr>';
       }
+      ath+='</table>';
       document.getElementById('t-addr-types').innerHTML=ath;
 
       // Wallet search
@@ -505,7 +571,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         var q=document.getElementById('t-search').value.trim().toLowerCase();
         var el=document.getElementById('t-search-results');
         if(!q){el.innerHTML='';return;}
-        var matches=allUtxos.filter(function(u){return u.address.toLowerCase().indexOf(q)!==-1;});
+        var matches=allUtxos.filter(function(u){return u.address.toLowerCase().indexOf(q)!==-1||u.outpoint.toLowerCase().indexOf(q)!==-1;});
         if(!matches.length){el.innerHTML='<div style="color:#555;font-size:12px;padding:8px;">No matching UTXOs found.</div>';return;}
         var totalSats=0;var addrs={};
         for(var i=0;i<matches.length;i++){totalSats+=matches[i].sat_count;addrs[matches[i].address]=1;}
@@ -515,36 +581,47 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         rh+='<span><span style="color:#555;">Addresses: </span><span style="color:#fff;">'+Object.keys(addrs).length+'</span></span>';
         rh+='<span><span style="color:#555;">Total Sats: </span><span style="color:#00ff41;">'+totalSats.toLocaleString()+'</span></span>';
         rh+='</div>';
+        rh+='<div style="overflow-x:auto;">';
         rh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
-        rh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;"><th style="padding:4px;">Address</th><th style="padding:4px;text-align:right;">Sats</th><th style="padding:4px;text-align:right;">Last Moved</th></tr>';
+        rh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;"><th style="padding:4px;">Outpoint</th><th style="padding:4px;">Address</th><th style="padding:4px;text-align:right;">Sats</th><th style="padding:4px;text-align:right;">Last Moved</th><th style="padding:4px;text-align:right;">Status</th></tr>';
         for(var i=0;i<matches.length;i++){
           var u=matches[i];
+          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
           rh+='<tr style="border-bottom:1px solid #111;">';
+          rh+='<td style="padding:4px;color:#888;">'+opShort+'</td>';
           rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a></td>';
           rh+='<td style="padding:4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
-          rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td></tr>';
+          rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
+          rh+='<td style="padding:4px;text-align:right;color:#00ff41;">LIVE</td></tr>';
         }
-        rh+='</table></div>';
+        rh+='</table></div></div>';
         el.innerHTML=rh;
       }
-      document.getElementById('t-search-btn').addEventListener('click',doSearch);
       document.getElementById('t-search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+      document.getElementById('t-search').addEventListener('input',function(){if(!this.value.trim())document.getElementById('t-search-results').innerHTML='';});
 
-      // UTXO table
-      var uh='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+      // UTXO table — OUTPOINT, ADDRESS, SATS, SAT RANGE, LAST MOVED, STATUS
+      var satBase=BigInt(s1.sat_start);
+      var uh='<div style="overflow-x:auto;">';
+      uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
       uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
-      uh+='<th style="padding:6px 4px;">Address</th><th style="padding:6px 4px;text-align:right;">Sats</th><th style="padding:6px 4px;text-align:right;">Last Moved</th></tr>';
+      uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">STATUS</th></tr>';
       for(var j=0;j<utxos.length;j++){
         var u=utxos[j];
-        var addr=u.address.substring(0,8)+'...'+u.address.substring(u.address.length-6);
+        var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
+        var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
         var moved=u.last_moved?u.last_moved.substring(0,10):'—';
+        var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
         uh+='<tr style="border-bottom:1px solid #111;">';
-        uh+='<td style="padding:5px 4px;color:#aaa;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
+        uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
+        uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
         uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
+        uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
         uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
+        uh+='<td style="padding:5px 4px;text-align:right;color:#00ff41;">LIVE</td>';
         uh+='</tr>';
       }
-      uh+='</table>';
+      uh+='</table></div>';
       document.getElementById('t-utxos').innerHTML=uh;
     })
     .catch(function(e){
