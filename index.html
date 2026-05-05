@@ -153,63 +153,41 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 }
 /* ─── Mobile responsive ─── */
 @media (max-width: 600px) {
-  /* About: inscription detail grids — stack labels */
-  #about div[style*="grid-template-columns:140px"] {
-    grid-template-columns: 100px 1fr !important;
-    gap: 6px 10px !important;
-  }
-  #about div[style*="grid-template-columns:100px"] {
-    grid-template-columns: 80px 1fr !important;
-    gap: 4px 8px !important;
-  }
+  /* About: detail grids */
+  .detail-grid { grid-template-columns: 100px 1fr !important; gap: 6px 10px !important; font-size: 12px !important; }
+  .card-detail-grid { grid-template-columns: 80px 1fr !important; gap: 4px 8px !important; font-size: 11px !important; }
   /* About: side-by-side cards — stack vertically */
-  #about div[style*="display:flex;gap:0"] {
-    flex-direction: column !important;
-  }
-  #about div[style*="width:200px"] {
-    width: 100% !important;
-    min-height: 160px !important;
-  }
-  /* About: series table rows */
-  #about div[style*="justify-content:space-between;padding:8px"] {
-    font-size: 13px !important;
-    gap: 4px !important;
-  }
-  /* Tracker: series grid — 4 on top, 3 below */
-  .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .card-row { flex-direction: column !important; }
+  .card-media { width: 100% !important; min-height: 160px !important; }
+  /* About: padding & text */
+  #about { padding: 8px !important; box-sizing: border-box; }
+  #about h1 { font-size: 22px !important; }
+  #about h2 { font-size: 15px !important; }
+  #about p { font-size: 13px !important; line-height: 1.5 !important; }
+
+  /* Tracker: series grid */
+  .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
+  .tracker-series-grid > div { padding: 6px 4px !important; }
   /* Tracker: address types — 2x2 */
   .tracker-addr-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  /* Tracker: stats grid */
-  .tracker-stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
-  /* Tracker: trace progress 4-col grid */
-  #t-trace div[style*="grid-template-columns:repeat(4"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  /* Tracker: header flex — stack on small */
-  #tracker-content > div:first-child {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 4px !important;
-  }
+  /* Tracker: stats */
+  .tracker-stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; }
+  /* Tracker: header — stack title and date */
+  #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
   /* Tracker: UTXO table — horizontal scroll */
   #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  #t-utxos table { min-width: 500px; }
-  /* Tracker: search bar */
-  #tracker-content input[type="text"] { font-size: 11px !important; padding: 6px 8px !important; }
-  /* Tracker: overall padding */
-  #tracker-content { padding: 16px 10px !important; font-size: 11px !important; }
+  #t-utxos table { min-width: 480px; }
+  /* Tracker: search + padding */
+  #tracker-content input[type="text"] { font-size: 11px !important; }
+  #tracker-content { padding: 14px 8px !important; }
+
   /* Footer */
   #footer { height: 48px !important; }
-  #footer button { font-size: 12px !important; letter-spacing: 0.5px !important; }
+  #footer button { font-size: 11px !important; letter-spacing: 0.5px !important; }
   #about, #tracker { height: calc(100% - 48px) !important; }
   .gallery.fullscreen { height: calc(100vh - 48px) !important; }
   /* Mode button */
   .mode-btn { font-size: 10px !important; padding: 4px 8px !important; }
-  /* About: reduce padding */
-  #about { padding: 12px !important; }
-  #about h1 { font-size: 24px !important; }
-  #about h2 { font-size: 16px !important; }
-  #about p { font-size: 14px !important; }
 }
 
   </style>
@@ -282,7 +260,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- Inscription details card -->
     <h2 style="color:#D4AF37;font-size:18px;margin-top:40px;">Inscription Details</h2>
     <div style="border:1px solid #222;border-radius:8px;padding:20px;margin:16px 0;background:#0a0a0a;font-size:13px;font-family:'JetBrains Mono',monospace;">
-      <div style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
         <span style="color:#555;">ID</span>
         <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" style="color:#D4AF37;text-decoration:none;word-break:break-all;">420a3e99...e9372a69i0</a>
         <span style="color:#555;">Number</span>
@@ -311,7 +289,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- Sat details card -->
     <h2 style="color:#D4AF37;font-size:18px;margin-top:40px;">The Sat</h2>
     <div style="border:1px solid #222;border-radius:8px;padding:20px;margin:16px 0;background:#0a0a0a;font-size:13px;font-family:'JetBrains Mono',monospace;">
-      <div style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
         <span style="color:#555;">Number</span>
         <a href="https://ordinals.com/sat/1425808476896869" target="_blank" style="color:#D4AF37;text-decoration:none;">1,425,808,476,896,869</a>
         <span style="color:#555;">Name</span>
@@ -331,12 +309,12 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- INK Custom #69 card -->
     <h2 style="color:#D4AF37;font-size:18px;margin-top:40px;">1st Inscription &mdash; INK Custom #69</h2>
     <div style="border:1px solid #222;border-radius:8px;overflow:hidden;margin:16px 0;background:#0a0a0a;">
-      <div style="display:flex;gap:0;">
-        <div style="width:200px;min-height:200px;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;">
+      <div class="card-row" style="display:flex;gap:0;">
+        <div class="card-media" style="width:200px;min-height:200px;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;">
           <img src="https://ordinals.com/content/8b62e3a785e48867f7aec8589bdf514535408005a6a535682db4e3387246e0e1i0" style="width:100%;height:100%;object-fit:contain;" alt="INK Custom #69" />
         </div>
         <div style="padding:16px;font-size:13px;font-family:'JetBrains Mono',monospace;">
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
+          <div class="card-detail-grid" style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
             <span style="color:#555;">Inscription</span>
             <a href="https://ordinals.com/inscription/8b62e3a785e48867f7aec8589bdf514535408005a6a535682db4e3387246e0e1i0" target="_blank" style="color:#D4AF37;text-decoration:none;">#95,856,562</a>
             <span style="color:#555;">Type</span>
@@ -357,12 +335,12 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- Parent inscription card -->
     <h2 style="color:#D4AF37;font-size:18px;margin-top:40px;">Parent Inscription &mdash; Cosmic Snapshot</h2>
     <div style="border:1px solid #222;border-radius:8px;overflow:hidden;margin:16px 0;background:#0a0a0a;">
-      <div style="display:flex;gap:0;">
-        <div style="width:200px;min-height:200px;flex-shrink:0;background:#000;">
+      <div class="card-row" style="display:flex;gap:0;">
+        <div class="card-media" style="width:200px;min-height:200px;flex-shrink:0;background:#000;">
           <iframe src="https://ordinals.com/preview/91ad667c728609d5a0d704e3b3d25f8466533f50fcb246e6553db567ddaaf2d7i5" style="width:100%;height:200px;border:none;pointer-events:none;"></iframe>
         </div>
         <div style="padding:16px;font-size:13px;font-family:'JetBrains Mono',monospace;">
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
+          <div class="card-detail-grid" style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
             <span style="color:#555;">Inscription</span>
             <a href="https://ordinals.com/inscription/91ad667c728609d5a0d704e3b3d25f8466533f50fcb246e6553db567ddaaf2d7i5" target="_blank" style="color:#D4AF37;text-decoration:none;">#76,202,706</a>
             <span style="color:#555;">Call Sign</span>
