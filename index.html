@@ -695,7 +695,7 @@ document.getElementById('btn-about').addEventListener('click',function(){ showTa
 document.getElementById('btn-tracker').addEventListener('click',function(){ showTab('tracker'); });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
 window.addEventListener('hashchange',function(){ showTab((location.hash||'').replace('#','')||'home',false); });
-(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker') showTab(t,false);})();
+(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){if(!isFullscreen)toggleMode();showTab(t,false);}})();
 
 // ─── STATE ───
 var H=893000;
