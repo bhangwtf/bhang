@@ -151,6 +151,67 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* ─── Mobile responsive ─── */
+@media (max-width: 600px) {
+  /* About: inscription detail grids — stack labels */
+  #about div[style*="grid-template-columns:140px"] {
+    grid-template-columns: 100px 1fr !important;
+    gap: 6px 10px !important;
+  }
+  #about div[style*="grid-template-columns:100px"] {
+    grid-template-columns: 80px 1fr !important;
+    gap: 4px 8px !important;
+  }
+  /* About: side-by-side cards — stack vertically */
+  #about div[style*="display:flex;gap:0"] {
+    flex-direction: column !important;
+  }
+  #about div[style*="width:200px"] {
+    width: 100% !important;
+    min-height: 160px !important;
+  }
+  /* About: series table rows */
+  #about div[style*="justify-content:space-between;padding:8px"] {
+    font-size: 13px !important;
+    gap: 4px !important;
+  }
+  /* Tracker: series grid — 4 on top, 3 below */
+  .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  /* Tracker: address types — 2x2 */
+  .tracker-addr-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Tracker: stats grid */
+  .tracker-stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+  /* Tracker: trace progress 4-col grid */
+  #t-trace div[style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  /* Tracker: header flex — stack on small */
+  #tracker-content > div:first-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+  /* Tracker: UTXO table — horizontal scroll */
+  #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #t-utxos table { min-width: 500px; }
+  /* Tracker: search bar */
+  #tracker-content input[type="text"] { font-size: 11px !important; padding: 6px 8px !important; }
+  /* Tracker: overall padding */
+  #tracker-content { padding: 16px 10px !important; font-size: 11px !important; }
+  /* Footer */
+  #footer { height: 48px !important; }
+  #footer button { font-size: 12px !important; letter-spacing: 0.5px !important; }
+  #about, #tracker { height: calc(100% - 48px) !important; }
+  .gallery.fullscreen { height: calc(100vh - 48px) !important; }
+  /* Mode button */
+  .mode-btn { font-size: 10px !important; padding: 4px 8px !important; }
+  /* About: reduce padding */
+  #about { padding: 12px !important; }
+  #about h1 { font-size: 24px !important; }
+  #about h2 { font-size: 16px !important; }
+  #about p { font-size: 14px !important; }
+}
+
   </style>
 </head>
 <body>
@@ -354,7 +415,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 
     <!-- Series overview -->
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES OVERVIEW</div>
-    <div id="t-series" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px;"></div>
+    <div id="t-series" class="tracker-series-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px;"></div>
 
     <!-- Trace progress -->
     <div id="t-trace" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
@@ -369,11 +430,11 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 
     <!-- Address type breakdown -->
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">ADDRESS TYPES</div>
-    <div id="t-addr-types" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;"></div>
+    <div id="t-addr-types" class="tracker-addr-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;"></div>
 
     <!-- UTXOs -->
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — LIVE UTXOS</div>
-    <div id="t-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;"></div>
+    <div id="t-stats" class="tracker-stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;"></div>
     <div id="t-utxos" style="font-size:12px;"></div>
   </div>
 </div>
