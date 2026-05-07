@@ -1,10 +1,10 @@
 {
-  "exported_at": "2026-05-07T12:30:11.174Z",
+  "exported_at": "2026-05-07T16:30:06.170Z",
   "trace": {
-    "status": "paused",
-    "last_run": "2026-05-07 12:25:26",
+    "status": "tracing",
+    "last_run": "2026-05-07 16:29:56",
     "total_utxos_found": 4508,
-    "queue_size": 26
+    "queue_size": 25
   },
   "series": [
     {
