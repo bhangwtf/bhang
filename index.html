@@ -600,29 +600,64 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       document.getElementById('t-search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
       document.getElementById('t-search').addEventListener('input',function(){if(!this.value.trim())document.getElementById('t-search-results').innerHTML='';});
 
-      // UTXO table — OUTPOINT, ADDRESS, SATS, SAT RANGE, LAST MOVED, STATUS
-      var satBase=BigInt(s1.sat_start);
-      var uh='<div style="overflow-x:auto;">';
-      uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
-      uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
-      uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">STATUS</th></tr>';
-      for(var j=0;j<utxos.length;j++){
-        var u=utxos[j];
-        var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
-        var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
-        var moved=u.last_moved?u.last_moved.substring(0,10):'—';
-        var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
-        uh+='<tr style="border-bottom:1px solid #111;">';
-        uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
-        uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
-        uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
-        uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
-        uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
-        uh+='<td style="padding:5px 4px;text-align:right;color:#00ff41;">LIVE</td>';
-        uh+='</tr>';
+      // UTXO table — paginated, 50 per page
+      var PAGE_SIZE=50;
+      var currentPage=1;
+      var totalPages=Math.max(1,Math.ceil(utxos.length/PAGE_SIZE));
+
+      function renderUtxoTable(){
+        var start=(currentPage-1)*PAGE_SIZE;
+        var end=Math.min(start+PAGE_SIZE,utxos.length);
+        var pageUtxos=utxos.slice(start,end);
+
+        var uh='<div style="overflow-x:auto;">';
+        uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+        uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">STATUS</th></tr>';
+        for(var j=0;j<pageUtxos.length;j++){
+          var u=pageUtxos[j];
+          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
+          var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
+          var moved=u.last_moved?u.last_moved.substring(0,10):'—';
+          var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
+          uh+='<tr style="border-bottom:1px solid #111;">';
+          uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
+          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
+          uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#00ff41;">LIVE</td>';
+          uh+='</tr>';
+        }
+        uh+='</table></div>';
+
+        if(totalPages>1){
+          uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
+          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+utxos.length.toLocaleString()+'</span>';
+          uh+='<div style="display:flex;align-items:center;gap:6px;">';
+          uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
+          uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
+          uh+='<span style="color:#fff;padding:0 8px;">'+currentPage+' / '+totalPages+'</span>';
+          uh+='<button onclick="goPage('+(currentPage+1)+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">Next ›</button>';
+          uh+='<button onclick="goPage('+totalPages+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">&raquo;</button>';
+          uh+='</div></div>';
+        }
+
+        document.getElementById('t-utxos').innerHTML=uh;
       }
-      uh+='</table></div>';
-      document.getElementById('t-utxos').innerHTML=uh;
+
+      function paginBtnStyle(disabled){
+        return 'background:none;border:1px solid '+(disabled?'#333':'#555')+';color:'+(disabled?'#333':'#aaa')+';padding:4px 8px;border-radius:3px;cursor:'+(disabled?'not-allowed':'pointer')+';font-family:inherit;font-size:11px;';
+      }
+
+      window.goPage=function(p){
+        if(p<1)p=1;if(p>totalPages)p=totalPages;
+        currentPage=p;
+        renderUtxoTable();
+        document.getElementById('t-utxos').scrollIntoView({behavior:'smooth',block:'nearest'});
+      };
+
+      renderUtxoTable();
     })
     .catch(function(e){
       document.getElementById('tracker-content').innerHTML='<p style="color:#555;padding:40px;text-align:center;">Tracker data not available. Run export script to update.</p>';
