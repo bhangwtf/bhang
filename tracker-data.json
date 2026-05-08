@@ -1,10 +1,10 @@
 {
-  "exported_at": "2026-05-08T10:30:07.114Z",
+  "exported_at": "2026-05-08T10:32:30.734Z",
   "trace": {
     "status": "tracing",
-    "last_run": "2026-05-08 10:30:01",
-    "total_utxos_found": 0,
-    "queue_size": 31
+    "last_run": "2026-05-08 10:32:28",
+    "total_utxos_found": 3,
+    "queue_size": 93
   },
   "series": [
     {
@@ -17,12 +17,34 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 0,
-        "wallet_count": 0,
-        "total_sats": 0,
+        "utxo_count": 3,
+        "wallet_count": 3,
+        "total_sats": 754187,
         "inscribed_count": 0
       },
-      "utxos": [],
+      "utxos": [
+        {
+          "outpoint": "0c371426e822e83f848f82b02cd4d3e699f98d34e884504052fc94bfc85d78b2:2",
+          "address": "1Lj2mCPJYbbC2X6oYwV6sXnE8CZ4heK5UD",
+          "sat_count": 376969,
+          "last_moved": "2023-10-07 10:05:33",
+          "first_seen": "2026-05-08 10:32:27"
+        },
+        {
+          "outpoint": "2736751fbcd4e3cfeae6255f46bfad435c312b71f1ddfa613831e22420e347f5:60",
+          "address": "1BGYi94BtfJByRZ2dC1ZExTHjraG86TGhz",
+          "sat_count": 240470,
+          "last_moved": "2023-10-01 05:29:21",
+          "first_seen": "2026-05-08 10:31:35"
+        },
+        {
+          "outpoint": "2736751fbcd4e3cfeae6255f46bfad435c312b71f1ddfa613831e22420e347f5:14",
+          "address": "1FDjcTzGr9MsAizbN9cHW1oEhZEouKG8t2",
+          "sat_count": 136748,
+          "last_moved": "2023-10-01 05:29:21",
+          "first_seen": "2026-05-08 10:31:35"
+        }
+      ],
       "inscriptions": []
     },
     {
