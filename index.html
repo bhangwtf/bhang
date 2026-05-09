@@ -175,7 +175,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   /* Tracker: next target */
   #t-next-target div[style*="grid-template-columns:repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
   /* Tracker: trace progress */
-  #t-trace div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  #t-trace div[style*="grid-template-columns:repeat(6"] { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
   /* Tracker: UTXO table — horizontal scroll */
   #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   #t-utxos table { min-width: 480px; }
@@ -516,10 +516,12 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       th+='<div style="display:flex;gap:16px;font-size:10px;margin-bottom:12px;">';
       th+='<span style="color:#00ff41;">● Traced: '+pct+'%</span>';
       th+='<span style="color:#555;">● Untraced: '+untracedPct+'%</span></div>';
-      th+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;font-size:12px;">';
+      var feeRetraced=parseInt(tr.fee_sats_retraced||'0');
+      th+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;font-size:12px;">';
       th+='<div><span style="color:#555;">Traced</span><div style="color:#00ff41;font-weight:bold;">'+traced.toLocaleString()+'</div></div>';
       th+='<div><span style="color:#555;">Untraced</span><div style="color:#ffb000;">'+untraced.toLocaleString()+'</div></div>';
       th+='<div><span style="color:#555;">Total Supply</span><div style="color:#fff;">'+total.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Fee Sats Retraced</span><div style="color:#D4AF37;">'+feeRetraced.toLocaleString()+'</div></div>';
       th+='<div><span style="color:#555;">Queue</span><div style="color:#ffb000;">'+tr.queue_size.toLocaleString()+' items</div></div>';
       th+='<div><span style="color:#555;">Last Run</span><div style="color:#fff;">'+tr.last_run+'</div></div>';
       th+='</div>';
