@@ -1,11 +1,11 @@
 {
-  "exported_at": "2026-05-10T04:30:06.272Z",
+  "exported_at": "2026-05-10T06:35:12.581Z",
   "trace": {
-    "status": "tracing",
-    "last_run": "2026-05-10 04:30:04",
+    "status": "error",
+    "last_run": "2026-05-10 06:34:42",
     "total_utxos_found": 90,
-    "fee_sats_retraced": "1201575",
-    "queue_size": 1
+    "fee_sats_retraced": "1231905",
+    "queue_size": 6
   },
   "series": [
     {
