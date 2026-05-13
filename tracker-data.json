@@ -1,11 +1,11 @@
 {
-  "exported_at": "2026-05-13T02:51:38.879Z",
+  "exported_at": "2026-05-13T04:51:28.784Z",
   "trace": {
     "status": "tracing",
-    "last_run": "2026-05-13 02:51:38",
-    "total_utxos_found": 629,
-    "fee_sats_retraced": "4238877",
-    "queue_size": 147
+    "last_run": "2026-05-13 04:51:28",
+    "total_utxos_found": 653,
+    "fee_sats_retraced": "4752273",
+    "queue_size": 163
   },
   "series": [
     {
@@ -18,9 +18,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 628,
-        "wallet_count": 520,
-        "total_sats": 273383205,
+        "utxo_count": 652,
+        "wallet_count": 540,
+        "total_sats": 275290040,
         "inscribed_count": 0
       },
       "utxos": [
@@ -634,6 +634,13 @@
           "first_seen": "2026-05-09 22:15:15"
         },
         {
+          "outpoint": "89f5dce6b9cdaac5b339127497e54a0747fe2ba0453d579cdd24d3d5e2ef755a:30",
+          "address": "3C51iPvUtSr2rRVQerZxeiXVpsoynS6bzx",
+          "sat_count": 637890,
+          "last_moved": "2023-11-21 16:53:41",
+          "first_seen": "2026-05-13 04:13:10"
+        },
+        {
           "outpoint": "baebe83da792f77f35e70f0aea218bcca6557dfa6630fed549c39281f6bbc428:0",
           "address": "bc1qk7dfaxtrhv8km9w6vqdptte79z75d5f605sy9z",
           "sat_count": 600060,
@@ -816,6 +823,13 @@
           "first_seen": "2026-05-12 05:20:26"
         },
         {
+          "outpoint": "6ad75848b20f23689143c6d7f671c8ae97b3bdf3c152de111e4049a632e2983c:0",
+          "address": "bc1q9t6yqpshslusy9f60390jxju400a8f67v72sq0",
+          "sat_count": 413452,
+          "last_moved": "2025-07-28 00:47:22",
+          "first_seen": "2026-05-13 04:45:41"
+        },
+        {
           "outpoint": "ad5dd2bd9d8931a0c48f2a2e2d8b0313d49d06c125c1dcda0f92aa99c90b7626:0",
           "address": "bc1qer54w4up6ymeeh7z48a34yahnd9v9lj20r8lgq",
           "sat_count": 406685,
@@ -977,6 +991,13 @@
           "first_seen": "2026-05-12 20:26:58"
         },
         {
+          "outpoint": "0c371426e822e83f848f82b02cd4d3e699f98d34e884504052fc94bfc85d78b2:4",
+          "address": "1BsdDaJtgFZrLfzEXvh6cD4VhtHHSHhMea",
+          "sat_count": 318240,
+          "last_moved": "2023-10-07 10:05:33",
+          "first_seen": "2026-05-13 03:41:37"
+        },
+        {
           "outpoint": "fd5588e2879b01f1c11001d05580aca03b30e338290200f80d85b67e712a4040:0",
           "address": "3M219KR5vEneNb47ewrPfWyb5jQ2DjxRP6",
           "sat_count": 307025,
@@ -1038,6 +1059,13 @@
           "sat_count": 281276,
           "last_moved": "2025-08-29 21:33:57",
           "first_seen": "2026-05-12 22:49:59"
+        },
+        {
+          "outpoint": "7c0e3d449f70c9060dd6ff02e553c8be5b6560888f22282d419c9291600a50ec:0",
+          "address": "bc1qa2eu6p5rl9255e3xz7fcgm6snn4wl5kdfh7zpt05qp5fad9dmsys0qjg0e",
+          "sat_count": 280859,
+          "last_moved": "2024-10-20 02:25:33",
+          "first_seen": "2026-05-13 03:41:06"
         },
         {
           "outpoint": "d32e64233db20ae09855989854c01879d59c4f428075e0230ab44aa62904aefd:3",
@@ -2209,11 +2237,25 @@
           "first_seen": "2026-05-10 16:01:04"
         },
         {
+          "outpoint": "089760a3f1f48c1ca185e6248fd1fa1c2c6b0f65ff9075f35b43ffcadb5959db:0",
+          "address": "bc1q2vzum2fqqmd5c2tvjnrtmx5mktjulcxdecrj08",
+          "sat_count": 62500,
+          "last_moved": "2026-02-17 22:27:40",
+          "first_seen": "2026-05-13 04:39:34"
+        },
+        {
           "outpoint": "aa2008f3a3c42e9a8f7279856156b067de8c7532183a016d79fa4c38686b4578:0",
           "address": "bc1qu52e4xk34q8as58380q3z45gr353tj3l6pydvum5g8wufp3qqmzql27p9x",
           "sat_count": 62500,
           "last_moved": "2025-05-20 07:48:49",
           "first_seen": "2026-05-12 22:52:11"
+        },
+        {
+          "outpoint": "9874e5cb21c18d89215f1ce38b3852586f0bfa2881e2cf21a235d7738b7bd71a:0",
+          "address": "bc1qv3cmclatzj0f29wq9sx2zn53e88fn430pf7g4j",
+          "sat_count": 62500,
+          "last_moved": "2026-04-29 23:45:18",
+          "first_seen": "2026-05-13 04:07:36"
         },
         {
           "outpoint": "cec5ec8ebd40ac692b26de502ba21f3a3de6a624759ddcbacfc26394d50a32d5:0",
@@ -2235,6 +2277,13 @@
           "sat_count": 59597,
           "last_moved": "2024-12-06 20:16:10",
           "first_seen": "2026-05-10 14:52:11"
+        },
+        {
+          "outpoint": "dcf30235a942216f79dae64e51290d7a1b4c4af9de0b6e577efcd669386c0dc6:0",
+          "address": "1DP3VYwN6ozHXDDaETbvNFLd86CAXfaewi",
+          "sat_count": 58694,
+          "last_moved": "2022-11-04 14:58:46",
+          "first_seen": "2026-05-13 04:17:33"
         },
         {
           "outpoint": "c279f8137ad6b14665452e2fc3d40aa2e35aae8ef295019f01e40cbb5a00e556:1",
@@ -2783,6 +2832,13 @@
           "first_seen": "2026-05-12 22:55:04"
         },
         {
+          "outpoint": "03b4a5c6e569a32b382e01454bc6643c7b47272018bb60c7f972b691c9826916:1",
+          "address": "bc1qjasf9z3h7w3jspkhtgatgpyvvzgpa2wwd2lr0eh5tx44reyn2k7sfc27a4",
+          "sat_count": 24062,
+          "last_moved": "2026-04-24 12:22:47",
+          "first_seen": "2026-05-13 03:49:43"
+        },
+        {
           "outpoint": "e1083da5a02f8e338e7f4b5d66da52d54a2c12f446eeac5e578eb3a7e4c88ab1:8",
           "address": "bc1qeg3wlgwnr8h5xqy70mstp6a3kszetpta7n6tyw",
           "sat_count": 21922,
@@ -2858,6 +2914,13 @@
           "sat_count": 19188,
           "last_moved": "2025-10-31 23:56:04",
           "first_seen": "2026-05-12 11:04:29"
+        },
+        {
+          "outpoint": "bdbc41040db2b65a3ff9b916963f3a07d6d6e61a6fb2c9236ecd32177d92af96:1",
+          "address": "bc1qd4ysezhmypwty5dnw7c8nqy5h5nxg0xqsvaefd0qn5kq32vwnwqqgv4rzr",
+          "sat_count": 18841,
+          "last_moved": "2026-04-24 13:10:57",
+          "first_seen": "2026-05-13 03:37:22"
         },
         {
           "outpoint": "c1800b0d11a34b0046f591936d1de6f428ea69e7544997b5c26d2a78d9b35b56:0",
@@ -3343,6 +3406,13 @@
           "first_seen": "2026-05-12 09:50:08"
         },
         {
+          "outpoint": "f9fe108b3905c971c50e0670feae1de145e96ff45bcbd224cf71c444393bc4bf:10",
+          "address": "36W5FYLCvAsfsxWpWBkyaVYRAQJs5ue1yA",
+          "sat_count": 5781,
+          "last_moved": "2026-01-07 01:20:00",
+          "first_seen": "2026-05-13 03:04:36"
+        },
+        {
           "outpoint": "7ee4d2a608a470b12fb831824762a377620ba8c4156fe0a0c23e6c7a35d33fbd:0",
           "address": "bc1qqpjk8rxhrqnjm48kjapvk86y44uz08rg0z78m8",
           "sat_count": 5690,
@@ -3392,6 +3462,13 @@
           "first_seen": "2026-05-11 11:10:52"
         },
         {
+          "outpoint": "7909e1fd65732d2e74ff7965168aefb031e04ba11dc0b4744aa012e144161b68:0",
+          "address": "bc1q3gfw9uwm0uw58gyv7wa6e296w4gdpja5t72j8s",
+          "sat_count": 5143,
+          "last_moved": "2024-12-13 04:36:35",
+          "first_seen": "2026-05-13 03:21:44"
+        },
+        {
           "outpoint": "38e37c677b66fc28aca03adfb8478cfe05e3ed2415962560b4a4be3aa2c08507:0",
           "address": "bc1qysj2w7xsw09datsy9mt9x50jn7qjd6qde6d66qm3ce0a4y9uzdpqcavdr0",
           "sat_count": 5000,
@@ -3411,6 +3488,13 @@
           "sat_count": 4935,
           "last_moved": "2025-02-10 07:20:13",
           "first_seen": "2026-05-11 13:09:24"
+        },
+        {
+          "outpoint": "224a556a336b1fac09a05ea0e89206eef87ee3f35796abab453e3854ce19b83a:0",
+          "address": "bc1qrmztcg6heelfr8l4tnqf28ug5te8k7z0j9pdc9",
+          "sat_count": 4795,
+          "last_moved": "2025-03-28 19:50:26",
+          "first_seen": "2026-05-13 04:38:10"
         },
         {
           "outpoint": "d76d3d6ce6f2eb61f1978bd838108791364cc8de67c80a226a92a49f7ab2d626:0",
@@ -3700,6 +3784,13 @@
           "first_seen": "2026-05-10 13:54:20"
         },
         {
+          "outpoint": "a807a647f20294171e3700a9ec6486d674b51f261949e2b8b5a645f8d1eb9e88:0",
+          "address": "33FyMfJMRnqNvQiPDvE13L9cRHaEAXQziE",
+          "sat_count": 2791,
+          "last_moved": "2026-02-27 09:49:06",
+          "first_seen": "2026-05-13 04:37:41"
+        },
+        {
           "outpoint": "491d539b8cb736876141ec798c4bed8416ac38d285c0fd8f23dc427a3b4665ae:1",
           "address": "3KeG7RzDwGaTywRfQgPCQaeyMgi7C89eQc",
           "sat_count": 2712,
@@ -3719,6 +3810,13 @@
           "sat_count": 2664,
           "last_moved": "2025-09-30 15:41:54",
           "first_seen": "2026-05-12 23:32:06"
+        },
+        {
+          "outpoint": "a79d1e5cba8cd35a8060fb7515c77b2b4c39c28ce7dbcd707ab8e34a4a48249f:0",
+          "address": "bc1qp2mlz09zme02dnspyknvv5y373p333khlhl7k2",
+          "sat_count": 2611,
+          "last_moved": "2024-12-13 04:52:21",
+          "first_seen": "2026-05-13 04:00:41"
         },
         {
           "outpoint": "2943f931d631204a773331a74f73e032a861eb689e0d94d148d38bdb8d88c577:1",
@@ -3749,6 +3847,13 @@
           "first_seen": "2026-05-12 06:05:57"
         },
         {
+          "outpoint": "6d31d70d47642e87ab197caddde802840e58b25f87634432e7c9c876092bc95f:0",
+          "address": "33SFG3s2FsrJtk2GX89L2gwbYgixt82aeb",
+          "sat_count": 2274,
+          "last_moved": "2026-04-20 14:26:25",
+          "first_seen": "2026-05-13 04:03:56"
+        },
+        {
           "outpoint": "b7c097c2dc8fac2e2ffe96a6e5d6cc4349b6622426f53a06b6e018e8ac813b9f:5",
           "address": "32WFziz9zEK8aRpGZvCmt6saXDTaBA2QSe",
           "sat_count": 2260,
@@ -3768,6 +3873,13 @@
           "sat_count": 2086,
           "last_moved": "2021-05-12 19:10:29",
           "first_seen": "2026-05-11 02:57:04"
+        },
+        {
+          "outpoint": "c4e79d964ee055297bb718a7315ecc5da6a0f45f35dd10983b99ec342d4c5e41:78",
+          "address": "3G571QWJGLnKj1VjkU3KwsQ5VuNRrJ6hQz",
+          "sat_count": 2034,
+          "last_moved": "2021-05-08 13:24:47",
+          "first_seen": "2026-05-13 03:48:07"
         },
         {
           "outpoint": "9716c08b058958369ee2942bbc63287f1910fe299caf4b29bbf1680e0c496c69:0",
@@ -4307,6 +4419,62 @@
           "sat_count": 560,
           "last_moved": "2026-03-18 09:49:08",
           "first_seen": "2026-05-12 14:11:23"
+        },
+        {
+          "outpoint": "9e429c9089f0b196b7a9f10a84b252cfb2afec01ddb90196c30db154c9f4e393:1",
+          "address": "bc1qqqh0s7sja5s7yyfuzfgsdja3gmlrk5367tuzdanlmksy862xzxkqkc6m5u",
+          "sat_count": 546,
+          "last_moved": "2026-04-14 15:56:10",
+          "first_seen": "2026-05-13 03:38:46"
+        },
+        {
+          "outpoint": "2decff571b3b9bdb0e1f0f778e0aa107f4ae906703cc64ae0ca79535fa701871:1",
+          "address": "bc1qmuspd5k09c3gf7fh6zja2ckjc3jjc96t7zewrh",
+          "sat_count": 546,
+          "last_moved": "2023-05-11 02:42:45",
+          "first_seen": "2026-05-13 03:16:15"
+        },
+        {
+          "outpoint": "48988abfc78ba0b121072a760dabc7b8856f0f8499806a99a1b0df656c97e621:5",
+          "address": "bc1qxxakl889z49s0j62upfxw7xhmzyhuzpgcv7vrmhez5hrlhnlla2qecg4mn",
+          "sat_count": 546,
+          "last_moved": "2023-05-20 11:17:50",
+          "first_seen": "2026-05-13 03:51:17"
+        },
+        {
+          "outpoint": "2e62f8890a082e61c57af945590373e24fae7a096f3d2c863f46e1fb9a2d19b8:0",
+          "address": "bc1p5t9h4jn5z0x63z34gcqr30csh9yvk6grvpjfks0af07p7jtppawsqfgf2l",
+          "sat_count": 546,
+          "last_moved": "2023-05-11 09:09:11",
+          "first_seen": "2026-05-13 03:56:19"
+        },
+        {
+          "outpoint": "23ae9f9a58df065faf7f1e507ea358932be891ebd44a7927a074adc48b6d00db:0",
+          "address": "bc1p7dzmdd3hywcrhy3p888w5wfdsjw8998xz3ls2cauluuzqzk7yexqtaj580",
+          "sat_count": 546,
+          "last_moved": "2024-02-29 01:20:58",
+          "first_seen": "2026-05-13 04:05:01"
+        },
+        {
+          "outpoint": "672808eb2ba860de7e9a5318cf8c412d6a766cee513ca097707e7bc741f13e5c:0",
+          "address": "bc1p7dzmdd3hywcrhy3p888w5wfdsjw8998xz3ls2cauluuzqzk7yexqtaj580",
+          "sat_count": 546,
+          "last_moved": "2024-02-29 03:13:17",
+          "first_seen": "2026-05-13 04:10:09"
+        },
+        {
+          "outpoint": "84b26d1f8121b0867a66ec9976e7cb0f4d4fb6e89a753d9b117faae021c96ba3:1",
+          "address": "bc1pwg5juudugyfnq0yczt2vd7p09guzqfv23ydetc5uu8gr6exvhf4swhc637",
+          "sat_count": 546,
+          "last_moved": "2023-05-07 15:21:55",
+          "first_seen": "2026-05-13 03:01:28"
+        },
+        {
+          "outpoint": "d306048425ab82f95626d159a9666aeb619f780acc92adef9f8827f0e4be6931:0",
+          "address": "bc1ppptx6jk9c674f2n05mxarxp6e6rey7jp8qwpyr3emtqe9z46um9srugjvq",
+          "sat_count": 546,
+          "last_moved": "2026-04-21 04:16:37",
+          "first_seen": "2026-05-13 03:17:43"
         },
         {
           "outpoint": "be6bc8896b4f621e4f4cadbd99c19efb2be40e0ffbe83e88a50a339e2d9986d8:29",
