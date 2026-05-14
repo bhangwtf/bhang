@@ -1,11 +1,11 @@
 {
-  "exported_at": "2026-05-14T02:39:48.133Z",
+  "exported_at": "2026-05-14T02:51:28.128Z",
   "trace": {
     "status": "tracing",
-    "last_run": "2026-05-14 02:39:33",
-    "total_utxos_found": 785,
+    "last_run": "2026-05-14 02:51:15",
+    "total_utxos_found": 786,
     "fee_sats_retraced": "4799676",
-    "queue_size": 67
+    "queue_size": 66
   },
   "series": [
     {
@@ -18,9 +18,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 784,
-        "wallet_count": 619,
-        "total_sats": 296362190,
+        "utxo_count": 785,
+        "wallet_count": 620,
+        "total_sats": 296371230,
         "inscribed_count": 0
       },
       "utxos": [
@@ -3901,6 +3901,13 @@
           "sat_count": 9266,
           "last_moved": "2021-04-27 11:33:02",
           "first_seen": "2026-05-12 20:03:30"
+        },
+        {
+          "outpoint": "9339464c44b3e29b62e787c1bf3bb325f5caebc5b5238381958abc6ac84f4463:2",
+          "address": "bc1q6f32qgj2gaummw96efg5xwpuvdggddvvt2xjuz",
+          "sat_count": 9040,
+          "last_moved": "2026-04-30 15:36:09",
+          "first_seen": "2026-05-14 02:43:31"
         },
         {
           "outpoint": "3c7a297c3068ef9850582a9e95cbad578e9e45300f37575103eb697109d242b5:0",
