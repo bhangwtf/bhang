@@ -1,8 +1,8 @@
 {
-  "exported_at": "2026-05-15T03:46:40.980Z",
+  "exported_at": "2026-05-15T04:39:54.003Z",
   "trace": {
-    "status": "error",
-    "last_run": "2026-05-15 01:21:36",
+    "status": "tracing",
+    "last_run": "2026-05-15 04:39:33",
     "total_utxos_found": 843,
     "fee_sats_retraced": "4799676",
     "queue_size": 12
