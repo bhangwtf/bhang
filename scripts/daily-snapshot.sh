@@ -5,6 +5,9 @@
 TRACKER_DIR="/c/Users/akhil/Main/Test Track"
 SITE_DIR="/c/Users/akhil/Main/bhang.wtf"
 
+# Ensure Node/npm is in PATH for Task Scheduler
+export PATH="/c/Program Files/nodejs:$PATH"
+
 # Check internet connectivity
 curl -s --max-time 5 https://github.com > /dev/null 2>&1 || { echo "No internet, skipping."; exit 0; }
 
