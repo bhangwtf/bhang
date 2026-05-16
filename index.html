@@ -686,6 +686,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   var reconnectDelay=5000;
   var maxFeedItems=50;
   var initialized=false;
+  var snapshotBlockHeight=0;
 
   // Wait for tracker data to load, then build lookup maps
   function waitForData(){
@@ -694,6 +695,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       .then(function(data){
         var series1=data.series[0];
         if(!series1||!series1.utxos)return;
+        snapshotBlockHeight=data.snapshot_block_height||0;
         for(var i=0;i<series1.utxos.length;i++){
           var u=series1.utxos[i];
           outpointMap[u.outpoint]=u;
@@ -702,8 +704,122 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         }
         initialized=true;
         addFeedItem('Loaded '+series1.utxos.length+' UTXOs across '+Object.keys(addressSet).length+' addresses','info');
-        connectWs();
+        if(snapshotBlockHeight>0){
+          addFeedItem('Snapshot at block '+snapshotBlockHeight.toLocaleString()+' — catching up...','info');
+          catchUpBlocks();
+        } else {
+          connectWs();
+        }
       }).catch(function(){});
+  }
+
+  // Catch up: scan all blocks between snapshot and current tip
+  function catchUpBlocks(){
+    setStatus('CATCHING UP','#ffb000');
+    fetch('https://mempool.space/api/blocks/tip/height')
+      .then(function(r){return r.text();})
+      .then(function(h){
+        var currentHeight=parseInt(h,10);
+        var gap=currentHeight-snapshotBlockHeight;
+        if(gap<=0){
+          addFeedItem('Snapshot is current — no catch-up needed','info');
+          connectWs();
+          return;
+        }
+        addFeedItem('Scanning '+gap+' missed block'+(gap===1?'':'s')+' ('+snapshotBlockHeight+' → '+currentHeight+')','info');
+        // Fetch block hashes starting from snapshot+1
+        // mempool.space: GET /api/blocks/:startHeight returns 15 blocks descending
+        var blocksToScan=[];
+        var fetchStart=currentHeight;
+
+        function fetchBlockBatch(){
+          fetch('https://mempool.space/api/blocks/'+fetchStart)
+            .then(function(r){return r.json();})
+            .then(function(blocks){
+              for(var i=0;i<blocks.length;i++){
+                if(blocks[i].height>snapshotBlockHeight){
+                  blocksToScan.push({hash:blocks[i].id,height:blocks[i].height,tx_count:blocks[i].tx_count});
+                }
+              }
+              var lowest=blocks[blocks.length-1].height;
+              if(lowest>snapshotBlockHeight+1&&blocks.length===15){
+                fetchStart=lowest;
+                fetchBlockBatch();
+              } else {
+                // Sort ascending and scan
+                blocksToScan.sort(function(a,b){return a.height-b.height;});
+                scanCatchUpQueue(blocksToScan,0);
+              }
+            }).catch(function(e){
+              addFeedItem('Catch-up fetch error: '+e,'error');
+              connectWs();
+            });
+        }
+        fetchBlockBatch();
+      }).catch(function(e){
+        addFeedItem('Could not fetch tip height: '+e,'error');
+        connectWs();
+      });
+  }
+
+  function scanCatchUpQueue(blocks,idx){
+    if(idx>=blocks.length){
+      var totalMoved=0;
+      addFeedItem('Catch-up complete — '+blocks.length+' blocks scanned','info');
+      connectWs();
+      return;
+    }
+    var blk=blocks[idx];
+    setStatus('CATCHING UP ('+Math.round((idx/blocks.length)*100)+'%)','#ffb000');
+    scanBlockAsync(blk.hash,blk.height,function(){
+      scanCatchUpQueue(blocks,idx+1);
+    });
+  }
+
+  // Async version of scanBlock with callback
+  function scanBlockAsync(blockHash,blockHeight,onDone){
+    var page=0;
+    var movementsFound=0;
+
+    function fetchPage(){
+      var url='https://mempool.space/api/block/'+blockHash+'/txs/'+page*25;
+      fetch(url)
+        .then(function(r){return r.json();})
+        .then(function(txs){
+          if(!txs||!txs.length){finish();return;}
+          for(var i=0;i<txs.length;i++){
+            var tx=txs[i];
+            for(var j=0;j<tx.vin.length;j++){
+              var inp=tx.vin[j];
+              var spentOutpoint=inp.txid+':'+inp.vout;
+              if(outpointMap[spentOutpoint]){
+                var u=outpointMap[spentOutpoint];
+                movementsFound++;
+                addFeedItem(
+                  'CATCH-UP BLK '+blockHeight+': '+u.sat_count.toLocaleString()+' sats moved from '+
+                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4),
+                  'movement'
+                );
+                traceFifo(tx,j,u,blockHeight);
+              }
+            }
+          }
+          if(txs.length===25){page++;fetchPage();}
+          else finish();
+        }).catch(function(e){
+          addFeedItem('Error scanning block '+blockHeight+': '+e,'error');
+          if(onDone)onDone();
+        });
+    }
+
+    function finish(){
+      if(movementsFound>0){
+        addFeedItem('Block '+blockHeight.toLocaleString()+': '+movementsFound+' movement'+(movementsFound===1?'':'s')+' found','movement');
+      }
+      if(onDone)onDone();
+    }
+
+    fetchPage();
   }
 
   function addFeedItem(msg,type){
