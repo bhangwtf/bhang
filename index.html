@@ -417,6 +417,12 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">ADDRESS TYPES</div>
     <div id="t-addr-types" style="margin-bottom:24px;"></div>
 
+    <!-- Live feed -->
+    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">LIVE FEED <span id="t-live-status" style="color:#333;font-size:10px;">● CONNECTING</span></div>
+    <div id="t-live-feed" style="border:1px solid #1a1a1a;border-radius:4px;padding:12px;margin-bottom:24px;background:#111;max-height:200px;overflow-y:auto;font-size:11px;">
+      <div style="color:#555;">Waiting for new blocks...</div>
+    </div>
+
     <!-- UTXOs -->
     <div id="t-series1-title" style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — MINED (308,915,776 SATS)</div>
     <div id="t-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;font-size:12px;"></div>
@@ -664,6 +670,239 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     .catch(function(e){
       document.getElementById('tracker-content').innerHTML='<p style="color:#555;padding:40px;text-align:center;">Tracker data not available. Run export script to update.</p>';
     });
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Live Block Scanner — watches for UTXO movements via mempool.space WebSocket
+// ═══════════════════════════════════════════════════════════════
+(function liveScanner(){
+  var outpointMap={};   // outpoint → utxo data (with sat ranges)
+  var addressSet={};    // address → [outpoints]
+  var ws=null;
+  var feedEl=null;
+  var statusEl=null;
+  var reconnectDelay=5000;
+  var maxFeedItems=50;
+  var initialized=false;
+
+  // Wait for tracker data to load, then build lookup maps
+  function waitForData(){
+    fetch('/tracker-data.json')
+      .then(function(r){return r.json();})
+      .then(function(data){
+        var series1=data.series[0];
+        if(!series1||!series1.utxos)return;
+        for(var i=0;i<series1.utxos.length;i++){
+          var u=series1.utxos[i];
+          outpointMap[u.outpoint]=u;
+          if(!addressSet[u.address])addressSet[u.address]=[];
+          addressSet[u.address].push(u.outpoint);
+        }
+        initialized=true;
+        addFeedItem('Loaded '+series1.utxos.length+' UTXOs across '+Object.keys(addressSet).length+' addresses','info');
+        connectWs();
+      }).catch(function(){});
+  }
+
+  function addFeedItem(msg,type){
+    feedEl=document.getElementById('t-live-feed');
+    if(!feedEl)return;
+    var colors={info:'#555',block:'#00ff41',movement:'#D4AF37',error:'#ff4444'};
+    var icons={info:'○',block:'◆',movement:'⚡',error:'✕'};
+    var now=new Date();
+    var ts=now.toLocaleTimeString();
+    var div=document.createElement('div');
+    div.style.cssText='padding:3px 0;border-bottom:1px solid #0a0a0a;';
+    div.innerHTML='<span style="color:#333;">'+ts+'</span> <span style="color:'+(colors[type]||'#555')+';">'+(icons[type]||'○')+' '+msg+'</span>';
+    // Remove "waiting" placeholder
+    if(feedEl.children.length===1&&feedEl.children[0].textContent.indexOf('Waiting')!==-1){
+      feedEl.innerHTML='';
+    }
+    feedEl.insertBefore(div,feedEl.firstChild);
+    while(feedEl.children.length>maxFeedItems)feedEl.removeChild(feedEl.lastChild);
+  }
+
+  function setStatus(text,color){
+    statusEl=document.getElementById('t-live-status');
+    if(statusEl)statusEl.innerHTML='<span style="color:'+color+';">● '+text+'</span>';
+  }
+
+  function connectWs(){
+    if(ws&&(ws.readyState===0||ws.readyState===1))return;
+    setStatus('CONNECTING','#ffb000');
+
+    ws=new WebSocket('wss://mempool.space/api/v1/ws');
+
+    ws.onopen=function(){
+      setStatus('LIVE','#00ff41');
+      addFeedItem('Connected to mempool.space WebSocket','info');
+      ws.send(JSON.stringify({action:'want',data:['blocks']}));
+    };
+
+    ws.onmessage=function(evt){
+      try{
+        var msg=JSON.parse(evt.data);
+        if(msg.block){
+          var blk=msg.block;
+          addFeedItem('Block '+blk.height.toLocaleString()+' — '+blk.tx_count+' txs','block');
+          scanBlock(blk.id,blk.height);
+        }
+      }catch(e){}
+    };
+
+    ws.onclose=function(){
+      setStatus('OFFLINE','#ff4444');
+      addFeedItem('WebSocket disconnected — reconnecting in '+Math.round(reconnectDelay/1000)+'s','error');
+      setTimeout(connectWs,reconnectDelay);
+      reconnectDelay=Math.min(reconnectDelay*1.5,60000);
+    };
+
+    ws.onerror=function(){
+      ws.close();
+    };
+  }
+
+  function scanBlock(blockHash,blockHeight){
+    // Fetch block TXs in pages of 25
+    var page=0;
+    var movementsFound=0;
+
+    function fetchPage(){
+      var url='https://mempool.space/api/block/'+blockHash+'/txs/'+page*25;
+      fetch(url)
+        .then(function(r){return r.json();})
+        .then(function(txs){
+          if(!txs||!txs.length)return finish();
+
+          for(var i=0;i<txs.length;i++){
+            var tx=txs[i];
+            // Check each input — does it spend one of our outpoints?
+            for(var j=0;j<tx.vin.length;j++){
+              var inp=tx.vin[j];
+              var spentOutpoint=inp.txid+':'+inp.vout;
+              if(outpointMap[spentOutpoint]){
+                var u=outpointMap[spentOutpoint];
+                movementsFound++;
+                addFeedItem(
+                  'MOVEMENT: '+u.sat_count.toLocaleString()+' sats moved from '+
+                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4)+
+                  ' — tracing FIFO →',
+                  'movement'
+                );
+                // Run client-side FIFO trace
+                traceFifo(tx,j,u,blockHeight);
+              }
+            }
+          }
+
+          if(txs.length===25){page++;fetchPage();}
+          else finish();
+        }).catch(function(e){
+          addFeedItem('Error scanning block '+blockHeight+': '+e,'error');
+        });
+    }
+
+    function finish(){
+      if(movementsFound===0){
+        addFeedItem('Block '+blockHeight.toLocaleString()+' scanned — no BHANG movements','info');
+      }
+    }
+
+    fetchPage();
+  }
+
+  // Client-side FIFO sat range tracer
+  function traceFifo(tx,inputIndex,trackedUtxo,blockHeight){
+    var satStart=BigInt(trackedUtxo.sat_range_start);
+    var satEnd=BigInt(trackedUtxo.sat_range_end);
+    var inputOffset=BigInt(trackedUtxo.input_offset);
+    var rangeSize=satEnd-satStart+1n;
+
+    // Stream offset: sum of all input values before this input + our offset within the input
+    var streamOffset=0n;
+    for(var i=0;i<inputIndex;i++){
+      streamOffset+=BigInt(tx.vin[i].prevout.value);
+    }
+    var streamPosition=streamOffset+inputOffset;
+
+    // Map tracked sats to outputs via FIFO
+    var outOffset=0n;
+    var mappedCount=0n;
+    var destinations=[];
+
+    for(var v=0;v<tx.vout.length;v++){
+      var outSize=BigInt(tx.vout[v].value);
+      var outStart=outOffset;
+      var outEnd=outOffset+outSize-1n;
+      outOffset+=outSize;
+
+      var intStart=streamPosition>outStart?streamPosition:outStart;
+      var intEnd=(streamPosition+rangeSize-1n)<outEnd?(streamPosition+rangeSize-1n):outEnd;
+      if(intStart>intEnd)continue;
+
+      var newInputOffset=intStart-outStart;
+      var newSatStart=satStart+(intStart-streamPosition);
+      var newSatEnd=satStart+(intEnd-streamPosition);
+      var count=newSatEnd-newSatStart+1n;
+      mappedCount+=count;
+
+      var newOutpoint=tx.txid+':'+v;
+      var newAddr=tx.vout[v].scriptpubkey_address||'unknown';
+
+      destinations.push({
+        outpoint:newOutpoint,
+        address:newAddr,
+        sat_range_start:newSatStart.toString(),
+        sat_range_end:newSatEnd.toString(),
+        sat_count:Number(count),
+        input_offset:newInputOffset.toString()
+      });
+
+      addFeedItem(
+        '→ '+Number(count).toLocaleString()+' sats → '+
+        newAddr.substring(0,8)+'…'+newAddr.substring(newAddr.length-4)+
+        ' ('+newOutpoint.substring(0,8)+'…:'+v+')',
+        'movement'
+      );
+    }
+
+    // Check for fee sats
+    var totalOutputValue=outOffset;
+    if(streamPosition+rangeSize>totalOutputValue){
+      var feeSats=Number((streamPosition+rangeSize)-totalOutputValue);
+      addFeedItem(
+        '→ '+feeSats.toLocaleString()+' sats went to miner fees (block '+blockHeight+' coinbase) — will be traced on next server refresh',
+        'info'
+      );
+    }
+
+    if(mappedCount!==rangeSize){
+      addFeedItem('WARNING: Mapped '+mappedCount.toString()+' of '+rangeSize.toString()+' sats — accounting mismatch!','error');
+    }
+
+    // Update local state: remove old outpoint, add new ones
+    var oldOp=trackedUtxo.outpoint;
+    var oldAddr=trackedUtxo.address;
+    delete outpointMap[oldOp];
+    if(addressSet[oldAddr]){
+      addressSet[oldAddr]=addressSet[oldAddr].filter(function(op){return op!==oldOp;});
+      if(!addressSet[oldAddr].length)delete addressSet[oldAddr];
+    }
+
+    for(var d=0;d<destinations.length;d++){
+      var dest=destinations[d];
+      dest.last_moved=new Date().toISOString().substring(0,19).replace('T',' ');
+      dest.first_seen=trackedUtxo.first_seen;
+      outpointMap[dest.outpoint]=dest;
+      if(!addressSet[dest.address])addressSet[dest.address]=[];
+      addressSet[dest.address].push(dest.outpoint);
+    }
+  }
+
+  // Start
+  waitForData();
 })();
 </script>
 
