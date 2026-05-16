@@ -13,7 +13,8 @@ curl -s --max-time 5 https://github.com > /dev/null 2>&1 || { echo "No internet,
 
 cd "$TRACKER_DIR" || exit 0
 
-# Export snapshot (writes to bhang.wtf/tracker-data.json)
+# Refresh UTXOs for movements, then export snapshot
+npx tsx scripts/index-sats.ts refresh 2>/dev/null || { echo "Refresh failed, skipping."; exit 0; }
 npx tsx scripts/export-snapshot.ts 2>/dev/null || { echo "Export failed, skipping."; exit 0; }
 
 cd "$SITE_DIR" || exit 0
