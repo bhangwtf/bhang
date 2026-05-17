@@ -426,6 +426,24 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- UTXOs -->
     <div id="t-series1-title" style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — MINED (308,915,776 SATS)</div>
     <div id="t-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;font-size:12px;"></div>
+
+    <!-- Rare Sats Legend -->
+    <div id="t-rare-sats" style="border:1px solid #222;border-radius:6px;padding:12px 14px;margin-bottom:16px;background:#0a0a0a;">
+      <div style="color:#555;font-size:10px;letter-spacing:2px;margin-bottom:8px;">RARE SATS IN COLLECTION</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:11px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:#70a0ff22;border:1px solid #70a0ff55;color:#70a0ff;">◆ UNCOMMON</span>
+          <span style="color:#888;">1 sat</span>
+          <span style="color:#555;">— First sat of block 579,125</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:#ff70d022;border:1px solid #ff70d055;color:#ff70d0;">⟐ PALINDROME</span>
+          <span style="color:#888;">2 sats</span>
+          <span style="color:#555;">— Sat numbers read same forwards/backwards</span>
+        </div>
+      </div>
+    </div>
+
     <div id="t-utxos" style="font-size:12px;"></div>
   </div>
 </div>
@@ -548,6 +566,32 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 
       // Address type breakdown — table format
       var utxos=s1.utxos;
+
+      // ─── Rare Sat Detection ───
+      // Special sats within BHANG Series 1 range
+      var SPECIAL_SATS = [
+        { sat: '1773906250000000', type: 'uncommon', label: 'Uncommon', symbol: '◆', color: '#70a0ff', name: 'bhanggsozvd', desc: 'First sat of block 579,125' },
+        { sat: '1773906116093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangrzprys', desc: 'Sat number reads same forwards/backwards' },
+        { sat: '1773906226093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangisxebm', desc: 'Sat number reads same forwards/backwards' }
+      ];
+
+      // Check if a UTXO contains any special sat
+      function getUtxoRarity(u) {
+        var start = BigInt(u.sat_range_start);
+        var end = BigInt(u.sat_range_end);
+        var tags = [];
+        for (var i = 0; i < SPECIAL_SATS.length; i++) {
+          var ss = BigInt(SPECIAL_SATS[i].sat);
+          if (ss >= start && ss <= end) {
+            tags.push(SPECIAL_SATS[i]);
+          }
+        }
+        return tags;
+      }
+
+      function rarityBadge(tag) {
+        return '<span title="' + tag.label + ': ' + tag.desc + ' (' + tag.name + ')" style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:bold;background:' + tag.color + '22;border:1px solid ' + tag.color + '55;color:' + tag.color + ';cursor:help;vertical-align:middle;">' + tag.symbol + ' ' + tag.label.toUpperCase() + '</span>';
+      }
       var types={legacy:{label:'Legacy',addrs:{},utxos:0,sats:0},nested:{label:'Nested SegWit',addrs:{},utxos:0,sats:0},segwit:{label:'Native SegWit',addrs:{},utxos:0,sats:0},taproot:{label:'Taproot',addrs:{},utxos:0,sats:0}};
       for(var j=0;j<utxos.length;j++){
         var a=utxos[j].address;var t;
@@ -595,12 +639,16 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         for(var i=0;i<matches.length;i++){
           var u=matches[i];
           var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
-          rh+='<tr style="border-bottom:1px solid #111;">';
+          var tags=getUtxoRarity(u);
+          rh+='<tr style="border-bottom:1px solid #111;'+(tags.length?'border-left:2px solid '+tags[0].color+';':'')+'">';
           rh+='<td style="padding:4px;color:#888;">'+opShort+'</td>';
           rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a></td>';
           rh+='<td style="padding:4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
-          rh+='<td style="padding:4px;text-align:right;color:#00ff41;">LIVE</td></tr>';
+          rh+='<td style="padding:4px;text-align:right;white-space:nowrap;">';
+          if(tags.length){for(var t=0;t<tags.length;t++){rh+=rarityBadge(tags[t]);}}
+          else{rh+='<span style="color:#00ff41;">LIVE</span>';}
+          rh+='</td></tr>';
         }
         rh+='</table></div></div>';
         el.innerHTML=rh;
@@ -621,20 +669,25 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         var uh='<div style="overflow-x:auto;">';
         uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
         uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
-        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">STATUS</th></tr>';
+        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
         for(var j=0;j<pageUtxos.length;j++){
           var u=pageUtxos[j];
           var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
           var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
           var moved=u.last_moved?u.last_moved.substring(0,10):'—';
           var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
-          uh+='<tr style="border-bottom:1px solid #111;">';
+          var tags=getUtxoRarity(u);
+          var rowBorder=tags.length?'border-left:2px solid '+tags[0].color+';':'';
+          uh+='<tr style="border-bottom:1px solid #111;'+rowBorder+'">';
           uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
           uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
-          uh+='<td style="padding:5px 4px;text-align:right;color:#00ff41;">LIVE</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">';
+          if(tags.length){for(var t=0;t<tags.length;t++){uh+=rarityBadge(tags[t]);}}
+          else{uh+='<span style="color:#00ff41;">LIVE</span>';}
+          uh+='</td>';
           uh+='</tr>';
         }
         uh+='</table></div>';
