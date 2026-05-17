@@ -568,15 +568,18 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       var utxos=s1.utxos;
 
       // ─── Rare Sat Detection ───
-      // Special sats within BHANG Series 1 range
+      // Rarity is pre-computed in tracker-data.json by the export script.
+      // Fallback client-side detection for backwards compatibility with older snapshots.
       var SPECIAL_SATS = [
         { sat: '1773906250000000', type: 'uncommon', label: 'Uncommon', symbol: '◆', color: '#70a0ff', name: 'bhanggsozvd', desc: 'First sat of block 579,125' },
         { sat: '1773906116093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangrzprys', desc: 'Sat number reads same forwards/backwards' },
         { sat: '1773906226093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangisxebm', desc: 'Sat number reads same forwards/backwards' }
       ];
 
-      // Check if a UTXO contains any special sat
       function getUtxoRarity(u) {
+        // Use pre-computed rarity from export if available
+        if (u.rarity) return u.rarity;
+        // Fallback: compute client-side
         var start = BigInt(u.sat_range_start);
         var end = BigInt(u.sat_range_end);
         var tags = [];
