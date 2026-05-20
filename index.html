@@ -406,6 +406,9 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <!-- Trace progress -->
     <div id="t-trace" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
 
+    <!-- Sat conservation -->
+    <div id="t-conservation" style="margin-bottom:24px;"></div>
+
     <!-- Wallet search -->
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
       <span style="color:#555;font-size:11px;letter-spacing:2px;white-space:nowrap;">SEARCH</span>
@@ -444,6 +447,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       </div>
     </div>
 
+    <div id="t-utxo-filter" style="display:flex;gap:8px;margin-bottom:12px;"></div>
     <div id="t-utxos" style="font-size:12px;"></div>
   </div>
 </div>
@@ -551,6 +555,29 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       th+='</div>';
       th+='<div style="color:#555;font-size:10px;margin-top:8px;">Range: '+s1.sat_start+' → '+s1.sat_end+'</div>';
       document.getElementById('t-trace').innerHTML=th;
+
+      // Sat conservation banner — every BHANG sat must be located or queued
+      var cons=data.conservation||{
+        target:s1.sat_count,
+        accounted:s1.stats.total_sats,
+        live_sats:s1.stats.total_sats,
+        queued_sats:0,
+        gap:s1.sat_count-s1.stats.total_sats,
+        duplicate:0
+      };
+      var consOk=(cons.gap===0&&cons.duplicate===0);
+      var consCol=consOk?'#00ff41':'#ff4444';
+      var ch='<div style="border:1px solid '+(consOk?'#1a3a1a':'#3a1a1a')+';border-radius:4px;padding:14px 16px;background:'+(consOk?'#0a140a':'#140a0a')+';">';
+      ch+='<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+      ch+='<span style="color:#555;font-size:11px;letter-spacing:2px;">SAT CONSERVATION</span>';
+      ch+='<span style="color:'+consCol+';font-size:12px;font-weight:bold;">'+(consOk?'✓ 0 SATS LOST':'⚠ '+Math.abs(cons.gap).toLocaleString()+' SATS UNACCOUNTED')+'</span></div>';
+      ch+='<div style="color:#fff;font-size:18px;font-weight:bold;margin:8px 0 6px;">'+cons.accounted.toLocaleString()+' <span style="color:#555;font-size:13px;font-weight:normal;">/ '+cons.target.toLocaleString()+' sats accounted</span></div>';
+      ch+='<div style="display:flex;gap:16px;font-size:10px;color:#555;flex-wrap:wrap;">';
+      ch+='<span>In live UTXOs: <span style="color:#aaa;">'+cons.live_sats.toLocaleString()+'</span></span>';
+      ch+='<span>In trace queue: <span style="color:#aaa;">'+cons.queued_sats.toLocaleString()+'</span></span>';
+      ch+='<span>Duplicates: <span style="color:#aaa;">'+cons.duplicate.toLocaleString()+'</span></span>';
+      ch+='</div></div>';
+      document.getElementById('t-conservation').innerHTML=ch;
 
       // Series 1 title
       document.getElementById('t-series1-title').textContent='SERIES 1 — MINED ('+s1.sat_count.toLocaleString()+' SATS)';
@@ -666,15 +693,39 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       document.getElementById('t-search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
       document.getElementById('t-search').addEventListener('input',function(){if(!this.value.trim())document.getElementById('t-search-results').innerHTML='';});
 
-      // UTXO table — paginated, 50 per page
+      // UTXO table — paginated, 50 per page, filterable (All DB / Labelled)
       var PAGE_SIZE=50;
       var currentPage=1;
-      var totalPages=Math.max(1,Math.ceil(utxos.length/PAGE_SIZE));
+      var totalPages=1;
+      var utxoFilter='all';
+      var labelledUtxos=utxos.filter(function(u){return u.wallet_label;});
+
+      function activeUtxoList(){return utxoFilter==='labelled'?labelledUtxos:utxos;}
+
+      function renderUtxoFilter(){
+        var el=document.getElementById('t-utxo-filter');
+        if(!el)return;
+        function fbtn(key,label){
+          var on=utxoFilter===key;
+          return '<button onclick="setUtxoFilter(\''+key+'\')" style="background:'+(on?'#D4AF37':'none')+';border:1px solid '+(on?'#D4AF37':'#333')+';color:'+(on?'#000':'#aaa')+';padding:5px 14px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:bold;letter-spacing:1px;">'+label+'</button>';
+        }
+        el.innerHTML=fbtn('all','ALL DB ('+utxos.length+')')+fbtn('labelled','LABELLED ('+labelledUtxos.length+')');
+      }
+
+      window.setUtxoFilter=function(f){
+        if(utxoFilter===f)return;
+        utxoFilter=f;currentPage=1;
+        renderUtxoFilter();renderUtxoTable();
+      };
 
       function renderUtxoTable(){
+        var list=activeUtxoList();
+        totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+        if(currentPage>totalPages)currentPage=totalPages;
+        if(!list.length){document.getElementById('t-utxos').innerHTML='<div style="color:#555;font-size:12px;padding:16px;text-align:center;">No UTXOs in this view.</div>';return;}
         var start=(currentPage-1)*PAGE_SIZE;
-        var end=Math.min(start+PAGE_SIZE,utxos.length);
-        var pageUtxos=utxos.slice(start,end);
+        var end=Math.min(start+PAGE_SIZE,list.length);
+        var pageUtxos=list.slice(start,end);
 
         var uh='<div style="overflow-x:auto;">';
         uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
@@ -704,7 +755,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 
         if(totalPages>1){
           uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
-          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+utxos.length.toLocaleString()+'</span>';
+          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+list.length.toLocaleString()+'</span>';
           uh+='<div style="display:flex;align-items:center;gap:6px;">';
           uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
           uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
@@ -728,6 +779,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         document.getElementById('t-utxos').scrollIntoView({behavior:'smooth',block:'nearest'});
       };
 
+      renderUtxoFilter();
       renderUtxoTable();
     })
     .catch(function(e){
