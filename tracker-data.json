@@ -1,10 +1,10 @@
 {
-  "exported_at": "2026-05-20T08:35:19.523Z",
+  "exported_at": "2026-05-20T08:57:01.795Z",
   "snapshot_block_height": 950215,
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-20 08:35:16",
-    "total_utxos_found": 921,
+    "last_run": "2026-05-20 08:56:59",
+    "total_utxos_found": 922,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -5276,14 +5276,14 @@
           "first_seen": "2026-05-12 23:54:00"
         },
         {
-          "outpoint": "4764aea26fbcfad26a19c576ec5f4a387fef87e6eca0770b28bf906968becc9e:0",
+          "outpoint": "c2c4ffefb1454714af4d0e084f1cf13ee8130782ac9c24f0bf624ad547bb6ce6:1",
           "address": "33Ese6S6Q1b5X8WZZdQkkh17GTKjk5br6U",
           "sat_range_start": "1773906305558994",
           "sat_range_end": "1773906305578181",
           "sat_count": 19188,
           "input_offset": "12156963556",
-          "last_moved": "2025-10-31 23:56:04",
-          "first_seen": "2026-05-12 11:04:29"
+          "last_moved": null,
+          "first_seen": "2026-05-20 08:56:58"
         },
         {
           "outpoint": "bdbc41040db2b65a3ff9b916963f3a07d6d6e61a6fb2c9236ecd32177d92af96:1",
