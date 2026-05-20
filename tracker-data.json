@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-20T08:57:01.795Z",
-  "snapshot_block_height": 950215,
+  "exported_at": "2026-05-20T09:38:36.421Z",
+  "snapshot_block_height": 950217,
   "trace": {
     "status": "complete",
     "last_run": "2026-05-20 08:56:59",
@@ -3623,7 +3623,11 @@
           "sat_count": 79000,
           "input_offset": "58151209",
           "last_moved": "2026-05-19 18:10:22",
-          "first_seen": "2026-05-19 20:35:24"
+          "first_seen": "2026-05-19 20:35:24",
+          "wallet_label": {
+            "label": "Unrecognised hot wallet",
+            "kind": "hot-wallet"
+          }
         },
         {
           "outpoint": "b7d5478a5f05ebb8f0ecadcd142d0568cbf82e60ce0b07c89e18d3acf53e2c35:30",
@@ -4453,7 +4457,11 @@
           "sat_count": 41568,
           "input_offset": "991994775351",
           "last_moved": null,
-          "first_seen": "2026-05-20 08:35:13"
+          "first_seen": "2026-05-20 08:35:13",
+          "wallet_label": {
+            "label": "Coinbase",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "a265fe3c6455953f6c089fcb3f5e1c602e9e075564230f94a5f6df8198e6dcd8:0",

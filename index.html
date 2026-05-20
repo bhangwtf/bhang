@@ -595,6 +595,13 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       function rarityBadge(tag) {
         return '<span title="' + tag.label + ': ' + tag.desc + ' (' + tag.name + ')" style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:bold;background:' + tag.color + '22;border:1px solid ' + tag.color + '55;color:' + tag.color + ';cursor:help;vertical-align:middle;">' + tag.symbol + ' ' + tag.label.toUpperCase() + '</span>';
       }
+
+      // Identified-wallet badge — set from wallet_label in tracker-data.json (export script)
+      function walletBadge(wl) {
+        if (!wl) return '';
+        var c = wl.kind === 'exchange' ? '#3b8eea' : wl.kind === 'hot-wallet' ? '#ff9500' : '#888';
+        return '<span title="Identified wallet: ' + wl.label + '" style="display:inline-block;margin-left:5px;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:' + c + '22;border:1px solid ' + c + '55;color:' + c + ';vertical-align:middle;white-space:nowrap;">' + wl.label + '</span>';
+      }
       var types={legacy:{label:'Legacy',addrs:{},utxos:0,sats:0},nested:{label:'Nested SegWit',addrs:{},utxos:0,sats:0},segwit:{label:'Native SegWit',addrs:{},utxos:0,sats:0},taproot:{label:'Taproot',addrs:{},utxos:0,sats:0}};
       for(var j=0;j<utxos.length;j++){
         var a=utxos[j].address;var t;
@@ -645,7 +652,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
           var tags=getUtxoRarity(u);
           rh+='<tr style="border-bottom:1px solid #111;'+(tags.length?'border-left:2px solid '+tags[0].color+';':'')+'">';
           rh+='<td style="padding:4px;color:#888;">'+opShort+'</td>';
-          rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a></td>';
+          rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a>'+walletBadge(u.wallet_label)+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
           rh+='<td style="padding:4px;text-align:right;white-space:nowrap;">';
@@ -683,7 +690,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
           var rowBorder=tags.length?'border-left:2px solid '+tags[0].color+';':'';
           uh+='<tr style="border-bottom:1px solid #111;'+rowBorder+'">';
           uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
-          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a></td>';
+          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(u.wallet_label)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
