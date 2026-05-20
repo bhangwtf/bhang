@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-20T14:56:42.847Z",
-  "snapshot_block_height": 950252,
+  "exported_at": "2026-05-20T17:01:48.327Z",
+  "snapshot_block_height": 950264,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-20 14:56:38",
-    "total_utxos_found": 926,
+    "last_run": "2026-05-20 17:01:45",
+    "total_utxos_found": 928,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -4512,14 +4512,14 @@
           "first_seen": "2026-05-12 20:07:38"
         },
         {
-          "outpoint": "f179f41bf738bed2a10751f359b612a65c0bfb2bdf4e0a18191c9f0074728bb4:2",
+          "outpoint": "d34441a56dfcec316eb1f206babdd330b2fcef5331c1d1e739fe2fa0095e0d31:2",
           "address": "bc1qatjx2qc8vxz39m0qdz303z8et2pgmc74xz8km3",
           "sat_range_start": "1773906176990206",
           "sat_range_end": "1773906177030514",
           "sat_count": 40309,
-          "input_offset": "440956602557",
-          "last_moved": "2026-05-19 16:26:40",
-          "first_seen": "2026-05-19 16:35:14"
+          "input_offset": "439653592428",
+          "last_moved": "2026-05-20 16:37:47",
+          "first_seen": "2026-05-20 17:01:44"
         },
         {
           "outpoint": "ce20f87ab2933ec78123e1cebccf29aec0accdedef4335ddd9cd7495dcede3ef:7",
@@ -5292,14 +5292,14 @@
           "first_seen": "2026-05-12 23:54:00"
         },
         {
-          "outpoint": "c2c4ffefb1454714af4d0e084f1cf13ee8130782ac9c24f0bf624ad547bb6ce6:1",
+          "outpoint": "06f446c261f1269f3912c0be15924ecd025c4e8aeab786136957863a37bf1c43:1",
           "address": "33Ese6S6Q1b5X8WZZdQkkh17GTKjk5br6U",
           "sat_range_start": "1773906305558994",
           "sat_range_end": "1773906305578181",
           "sat_count": 19188,
-          "input_offset": "12156963556",
-          "last_moved": "2026-05-20 08:58:35",
-          "first_seen": "2026-05-20 08:56:58"
+          "input_offset": "2156963556",
+          "last_moved": "2026-05-20 16:14:54",
+          "first_seen": "2026-05-20 17:01:45"
         },
         {
           "outpoint": "bdbc41040db2b65a3ff9b916963f3a07d6d6e61a6fb2c9236ecd32177d92af96:1",
