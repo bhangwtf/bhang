@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-22T13:48:07.373Z",
-  "snapshot_block_height": 950517,
+  "exported_at": "2026-05-22T14:15:00.207Z",
+  "snapshot_block_height": 950523,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -5189,7 +5189,11 @@
           "sat_count": 21636,
           "input_offset": "640708664",
           "last_moved": "2021-04-02 22:36:06",
-          "first_seen": "2026-05-09 16:16:31"
+          "first_seen": "2026-05-09 16:16:31",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "d472ac3d3c7d390f0b400c61cfcbfb21825d56bedca0a6eccc389700caec6959:0",
@@ -5329,7 +5333,11 @@
           "sat_count": 18748,
           "input_offset": "652658613",
           "last_moved": "2021-02-22 03:58:33",
-          "first_seen": "2026-05-11 19:30:02"
+          "first_seen": "2026-05-11 19:30:02",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "91c91d787b1fced877be9c27928835b43340aa7f1645d7e89bf0bc080537d485:6",
@@ -5359,7 +5367,11 @@
           "sat_count": 18737,
           "input_offset": "652111198",
           "last_moved": "2021-02-21 16:07:39",
-          "first_seen": "2026-05-11 19:12:09"
+          "first_seen": "2026-05-11 19:12:09",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "465cb2af627450d9eb501f5cb977669784854d29f91d79444d6905da761d4c4b:0",
@@ -5399,7 +5411,11 @@
           "sat_count": 18525,
           "input_offset": "652677361",
           "last_moved": "2021-02-22 03:58:33",
-          "first_seen": "2026-05-11 19:35:57"
+          "first_seen": "2026-05-11 19:35:57",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "8860478aa519e5614f081d1ea72d1fd345080bec82cdf793c7e28d59225e70cf:3",
@@ -5659,7 +5675,11 @@
           "sat_count": 14074,
           "input_offset": "727689454",
           "last_moved": "2021-02-12 12:40:49",
-          "first_seen": "2026-05-12 17:40:40"
+          "first_seen": "2026-05-12 17:40:40",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "d45837043a7f9e7c49764f1d1eadbd8b5cb2832e7ba8b1dc152fde5f93c639b1:106",
@@ -5739,7 +5759,11 @@
           "sat_count": 12645,
           "input_offset": "742772772",
           "last_moved": "2021-04-18 08:02:40",
-          "first_seen": "2026-05-12 02:30:53"
+          "first_seen": "2026-05-12 02:30:53",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "13989a6a639d7cb70467b1f494f3795534ad3944e728c5313a1dc870cc4c03ff:0",
@@ -7729,7 +7753,11 @@
           "sat_count": 1032,
           "input_offset": "657099089",
           "last_moved": "2021-04-15 18:22:57",
-          "first_seen": "2026-05-12 02:13:30"
+          "first_seen": "2026-05-12 02:13:30",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "348335f17e62dcfb417daabcf90d6e958ebe3e332bef616b5d8ed53e6aa4f654:1",
@@ -8019,7 +8047,11 @@
           "sat_count": 678,
           "input_offset": "649446269",
           "last_moved": "2020-06-20 00:55:44",
-          "first_seen": "2026-05-12 02:33:03"
+          "first_seen": "2026-05-12 02:33:03",
+          "wallet_label": {
+            "label": "Binance Pool",
+            "kind": "mining-pool"
+          }
         },
         {
           "outpoint": "58fe7b81036f6c0de3bbec6dacb2e28583e23a511b268102460f8fcdacea579a:0",
