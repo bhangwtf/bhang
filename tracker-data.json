@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-22T02:14:45.976Z",
-  "snapshot_block_height": 950441,
+  "exported_at": "2026-05-22T02:43:52.653Z",
+  "snapshot_block_height": 950447,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-22 02:14:42",
+    "last_run": "2026-05-22 02:43:22",
     "total_utxos_found": 946,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
@@ -4464,7 +4464,7 @@
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
           "input_offset": "990132702840",
-          "last_moved": null,
+          "last_moved": "2026-05-22 02:15:42",
           "first_seen": "2026-05-22 02:14:42",
           "wallet_label": {
             "label": "Coinbase",
