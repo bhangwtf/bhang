@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-22T17:33:28.378Z",
-  "snapshot_block_height": 950544,
+  "exported_at": "2026-05-22T18:38:32.476Z",
+  "snapshot_block_height": 950551,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-22 17:33:26",
+    "last_run": "2026-05-22 18:38:30",
     "total_utxos_found": 955,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
@@ -3630,7 +3630,7 @@
           "sat_range_end": "1773906053910463",
           "sat_count": 79000,
           "input_offset": "50892566",
-          "last_moved": null,
+          "last_moved": "2026-05-22 17:36:51",
           "first_seen": "2026-05-22 17:33:26",
           "wallet_label": {
             "label": "Unrecognised hot wallet",
