@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-22T08:42:26.836Z",
-  "snapshot_block_height": 950482,
+  "exported_at": "2026-05-22T10:42:28.265Z",
+  "snapshot_block_height": 950496,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-22 08:42:23",
-    "total_utxos_found": 947,
+    "last_run": "2026-05-22 10:42:25",
+    "total_utxos_found": 948,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -2514,14 +2514,14 @@
           "first_seen": "2026-05-12 08:43:22"
         },
         {
-          "outpoint": "08af6f92b7e3f164dfd2b585d56438d9d45a9881fc4bfc5c29ba48e7a6cb13a8:1",
+          "outpoint": "93840eeaa9fe16a245414b3656401256e2599977390df8237f0a8b870fd6c67e:1",
           "address": "3LbLR4uiq7RFrWgDKHfdgktAC88qtwY2Li",
           "sat_range_start": "1773906224768948",
           "sat_range_end": "1773906224932159",
           "sat_count": 163212,
-          "input_offset": "44865879316",
-          "last_moved": "2026-05-21 08:07:27",
-          "first_seen": "2026-05-21 09:10:01"
+          "input_offset": "41871879316",
+          "last_moved": "2026-05-22 10:04:54",
+          "first_seen": "2026-05-22 10:42:25"
         },
         {
           "outpoint": "4df7fa126e9e6d6bc3c701404bce1014581432d0ad1605bab69558b21c3e95b9:1",
