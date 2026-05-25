@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-25T12:35:25.994Z",
-  "snapshot_block_height": 950953,
+  "exported_at": "2026-05-25T14:35:43.176Z",
+  "snapshot_block_height": 950965,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-25 12:35:22",
-    "total_utxos_found": 984,
+    "last_run": "2026-05-25 14:35:37",
+    "total_utxos_found": 986,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -4454,14 +4454,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "dfc32358024652748c95c0c2bb69d16fd7422593239d197850c767c4c8401719:1",
+          "outpoint": "4626fd81db8041c0b023e8054fa3bff8cb5a9718bb282e240a765e9fca0fc296:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "990688484158",
-          "last_moved": "2026-05-25 08:28:44",
-          "first_seen": "2026-05-25 12:35:22",
+          "input_offset": "990698641809",
+          "last_moved": "2026-05-25 14:18:47",
+          "first_seen": "2026-05-25 14:35:35",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -6612,14 +6612,14 @@
           "first_seen": "2026-05-13 06:07:14"
         },
         {
-          "outpoint": "1fae83809fbd9c43a88059dfd4055c79fc816231794790eb55a757aa966264ae:1",
+          "outpoint": "225c74cffbf365fe65f23a796a860e498e0fdb59a64c0769404260036b7e52cc:1",
           "address": "3BHXygmhNMaCcNn76S8DLdnZ5ucPtNtWGb",
           "sat_range_start": "1773906054548354",
           "sat_range_end": "1773906054552791",
           "sat_count": 4438,
-          "input_offset": "137710580483",
-          "last_moved": "2026-05-24 10:40:00",
-          "first_seen": "2026-05-24 10:49:54"
+          "input_offset": "120054570483",
+          "last_moved": "2026-05-25 13:00:45",
+          "first_seen": "2026-05-25 14:35:37"
         },
         {
           "outpoint": "07003848b53f53f9aab8181ce4c17e41f1d64ce22f77acd4f0940658bab83b7a:1",
