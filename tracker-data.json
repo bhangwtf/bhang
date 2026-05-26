@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-26T02:35:20.782Z",
-  "snapshot_block_height": 951063,
+  "exported_at": "2026-05-26T04:35:16.687Z",
+  "snapshot_block_height": 951074,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-26 02:35:18",
+    "last_run": "2026-05-26 04:35:13",
     "total_utxos_found": 987,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
