@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-27T09:49:18.669Z",
-  "snapshot_block_height": 951235,
+  "exported_at": "2026-05-27T10:42:07.220Z",
+  "snapshot_block_height": 951238,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-27 09:49:15",
-    "total_utxos_found": 1007,
+    "last_run": "2026-05-27 10:42:04",
+    "total_utxos_found": 1009,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -28,7 +28,7 @@
       "mined": 1,
       "stats": {
         "utxo_count": 857,
-        "wallet_count": 677,
+        "wallet_count": 676,
         "total_sats": 308915776,
         "inscribed_count": 0
       },
@@ -2514,14 +2514,14 @@
           "first_seen": "2026-05-12 08:43:22"
         },
         {
-          "outpoint": "4b7e1321adc7b561a8d2a0b37f4849af2b198fb6acc3e0b5f91d5f50eca63ca1:1",
+          "outpoint": "963082757c5c96efee84a2321c8926844d42f2a54466d1fe914b7020407edac0:1",
           "address": "3LbLR4uiq7RFrWgDKHfdgktAC88qtwY2Li",
           "sat_range_start": "1773906224768948",
           "sat_range_end": "1773906224932159",
           "sat_count": 163212,
-          "input_offset": "38199239316",
-          "last_moved": "2026-05-25 09:05:24",
-          "first_seen": "2026-05-25 12:35:21"
+          "input_offset": "36003639316",
+          "last_moved": null,
+          "first_seen": "2026-05-27 10:42:03"
         },
         {
           "outpoint": "4df7fa126e9e6d6bc3c701404bce1014581432d0ad1605bab69558b21c3e95b9:1",
@@ -4528,14 +4528,14 @@
           "first_seen": "2026-05-12 09:33:19"
         },
         {
-          "outpoint": "27e667989969195d454ac611ab23b6360569c7931730bf89d21ca397d381426d:7",
-          "address": "bc1qgcgc5f0f5fth60ycqh6ufdehdds39cc3rajs5j",
+          "outpoint": "91a5cb05c5647387c48deb4b286cf2745e1a19a155b6e5e85c979165246243f3:0",
+          "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906200517110",
           "sat_range_end": "1773906200557109",
           "sat_count": 40000,
           "input_offset": "335991019",
-          "last_moved": "2026-05-27 07:32:12",
-          "first_seen": "2026-05-27 09:49:11"
+          "last_moved": "2026-05-27 10:25:53",
+          "first_seen": "2026-05-27 10:42:04"
         },
         {
           "outpoint": "a986a0d59bae6f02706c63f03565615a0656d7e97e6166bb3225a20f8e3eb923:0",
