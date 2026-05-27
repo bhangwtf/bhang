@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-27T04:35:24.027Z",
-  "snapshot_block_height": 951212,
+  "exported_at": "2026-05-27T06:43:32.348Z",
+  "snapshot_block_height": 951222,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-27 04:35:20",
-    "total_utxos_found": 1002,
+    "last_run": "2026-05-27 06:43:26",
+    "total_utxos_found": 1004,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
   },
@@ -3884,14 +3884,14 @@
           "first_seen": "2026-05-11 10:37:29"
         },
         {
-          "outpoint": "89d9b56e15c2772d956f0703d9897783fe908bdf7f904fcfc56ec871d2fe28a1:4",
-          "address": "12XZMdaAGmcHf4ocFSqpd8jFd1WH7RHUPs",
+          "outpoint": "ee36da59da1ec7cbc6e528db2f077c9cf543021f23118e1eff1e2312ef99403a:12",
+          "address": "1GrwDkr33gT6LuumniYjKEGjTLhsL5kmqC",
           "sat_range_start": "1773906047767609",
           "sat_range_end": "1773906047832312",
           "sat_count": 64704,
-          "input_offset": "156160893",
-          "last_moved": "2026-05-27 04:05:19",
-          "first_seen": "2026-05-27 04:35:20"
+          "input_offset": "7886403",
+          "last_moved": "2026-05-27 06:28:21",
+          "first_seen": "2026-05-27 06:43:26"
         },
         {
           "outpoint": "466854535d404d2b273d7dd7a7160211597cdb2f3554b8a7e5d598a0b6de3712:0",
@@ -4454,14 +4454,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "dda8e7e2dabe668aadde5de11e4645bc9ee6e6b2b11e43a8d44a090fe8a70179:1",
+          "outpoint": "18152188de2a26104f3390b00d595503d5730eafaff910a93f980054ac08db1e:1",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "988975217760",
-          "last_moved": "2026-05-27 04:25:17",
-          "first_seen": "2026-05-27 04:35:18",
+          "input_offset": "988438966924",
+          "last_moved": "2026-05-27 06:22:48",
+          "first_seen": "2026-05-27 06:43:25",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
