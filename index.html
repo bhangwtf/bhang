@@ -699,8 +699,13 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       var totalPages=1;
       var utxoFilter='all';
       var labelledUtxos=utxos.filter(function(u){return u.wallet_label;});
+      var multiRangeWallets=(s1.multi_range_wallets)||[];
 
-      function activeUtxoList(){return utxoFilter==='labelled'?labelledUtxos:utxos;}
+      function activeUtxoList(){
+        if(utxoFilter==='labelled')return labelledUtxos;
+        if(utxoFilter==='multi')return multiRangeWallets;
+        return utxos;
+      }
 
       function renderUtxoFilter(){
         var el=document.getElementById('t-utxo-filter');
@@ -709,7 +714,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
           var on=utxoFilter===key;
           return '<button onclick="setUtxoFilter(\''+key+'\')" style="background:'+(on?'#D4AF37':'none')+';border:1px solid '+(on?'#D4AF37':'#333')+';color:'+(on?'#000':'#aaa')+';padding:5px 14px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:bold;letter-spacing:1px;">'+label+'</button>';
         }
-        el.innerHTML=fbtn('all','ALL DB ('+utxos.length+')')+fbtn('labelled','LABELLED ('+labelledUtxos.length+')');
+        el.innerHTML=fbtn('all','ALL DB ('+utxos.length+')')+fbtn('labelled','LABELLED ('+labelledUtxos.length+')')+fbtn('multi','MULTI-UTXO ('+multiRangeWallets.length+')');
       }
 
       window.setUtxoFilter=function(f){
@@ -719,6 +724,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       };
 
       function renderUtxoTable(){
+        if(utxoFilter==='multi'){renderMultiWalletsTable();return;}
         var list=activeUtxoList();
         totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
         if(currentPage>totalPages)currentPage=totalPages;
@@ -756,6 +762,57 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
         if(totalPages>1){
           uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
           uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+list.length.toLocaleString()+'</span>';
+          uh+='<div style="display:flex;align-items:center;gap:6px;">';
+          uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
+          uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
+          uh+='<span style="color:#fff;padding:0 8px;">'+currentPage+' / '+totalPages+'</span>';
+          uh+='<button onclick="goPage('+(currentPage+1)+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">Next ›</button>';
+          uh+='<button onclick="goPage('+totalPages+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">&raquo;</button>';
+          uh+='</div></div>';
+        }
+
+        document.getElementById('t-utxos').innerHTML=uh;
+      }
+
+      // Multi-UTXO view — one row per wallet (address) that holds 2+ BHANG sat
+      // ranges, sorted by tracked BHANG sats desc. Shows the wallet's full
+      // current BTC balance (from mempool.space, captured at export time).
+      function renderMultiWalletsTable(){
+        var list=multiRangeWallets;
+        totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+        if(currentPage>totalPages)currentPage=totalPages;
+        if(!list.length){document.getElementById('t-utxos').innerHTML='<div style="color:#555;font-size:12px;padding:16px;text-align:center;">No multi-UTXO wallets in this snapshot.</div>';return;}
+        var start=(currentPage-1)*PAGE_SIZE;
+        var end=Math.min(start+PAGE_SIZE,list.length);
+        var page=list.slice(start,end);
+
+        var uh='<div style="overflow-x:auto;">';
+        uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+        uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+        uh+='<th style="padding:6px 4px;">#</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">RANGES</th><th style="padding:6px 4px;text-align:right;">UTXOS</th><th style="padding:6px 4px;text-align:right;">BHANG SATS ▾</th><th style="padding:6px 4px;text-align:right;">TOTAL BTC BALANCE</th></tr>';
+        for(var j=0;j<page.length;j++){
+          var w=page[j];
+          var addr=w.address.substring(0,12)+'...'+w.address.substring(w.address.length-6);
+          var bal;
+          if(w.btc_balance_sats===null||w.btc_balance_sats===undefined){
+            bal='<span style="color:#555;">—</span>';
+          }else{
+            bal='<span style="color:#fff;">'+(w.btc_balance_sats/1e8).toLocaleString(undefined,{maximumFractionDigits:8})+'</span> <span style="color:#888;font-size:10px;">BTC</span>';
+          }
+          uh+='<tr style="border-bottom:1px solid #111;">';
+          uh+='<td style="padding:5px 4px;color:#555;">'+(start+j+1)+'</td>';
+          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+w.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(w.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+w.range_count+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+w.outpoint_count+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+Number(w.bhang_sats).toLocaleString()+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">'+bal+'</td>';
+          uh+='</tr>';
+        }
+        uh+='</table></div>';
+
+        if(totalPages>1){
+          uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
+          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+list.length.toLocaleString()+' wallets</span>';
           uh+='<div style="display:flex;align-items:center;gap:6px;">';
           uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
           uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
