@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-05-28T13:53:59.542Z",
-  "snapshot_block_height": 951415,
+  "exported_at": "2026-05-28T15:04:11.798Z",
+  "snapshot_block_height": 951419,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-05-28 12:44:16",
+    "last_run": "2026-05-28 15:03:54",
     "total_utxos_found": 1022,
     "fee_sats_retraced": "4807027",
     "queue_size": 0
@@ -531,7 +531,11 @@
           "sat_count": 1370826,
           "input_offset": "518972458589",
           "last_moved": "2026-05-05 15:02:43",
-          "first_seen": "2026-05-11 12:57:23"
+          "first_seen": "2026-05-11 12:57:23",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "e9fe63459bf33b081352a1e875faf3f82bea84c0b74d4e936a4d711825cf4fab:0",
@@ -1291,7 +1295,11 @@
           "sat_count": 468830,
           "input_offset": "94275160205",
           "last_moved": "2023-05-24 20:29:28",
-          "first_seen": "2026-05-12 06:12:42"
+          "first_seen": "2026-05-12 06:12:42",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "9ebf6b16fcf26b9e13b76ea7965da2ef403a14ef7664dc9a08195cbf223a319f:0",
@@ -1481,7 +1489,11 @@
           "sat_count": 387793,
           "input_offset": "96003931963",
           "last_moved": "2021-04-25 16:07:13",
-          "first_seen": "2026-05-09 17:08:15"
+          "first_seen": "2026-05-09 17:08:15",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "7b7456795b19e11736620427a14d66f486404aecaa3e9ee61d162fc719c9f0a5:0",
@@ -1621,7 +1633,11 @@
           "sat_count": 355503,
           "input_offset": "46434621645",
           "last_moved": "2021-05-12 19:07:39",
-          "first_seen": "2026-05-13 18:53:23"
+          "first_seen": "2026-05-13 18:53:23",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "bf6e829692e4bd99d55a5d45a8dc5ba8846222500a8a97b5eaa81ac36f3a6387:20",
@@ -1895,7 +1911,11 @@
           "sat_count": 273875,
           "input_offset": "133133463477",
           "last_moved": "2021-04-25 15:37:13",
-          "first_seen": "2026-05-14 18:25:49"
+          "first_seen": "2026-05-14 18:25:49",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "ddedce11ea8f04e330ad2cec6aac12df69e31244c72fb03c035b056c4e6afe86:0",
@@ -2119,7 +2139,11 @@
           "sat_count": 199073,
           "input_offset": "94274102514",
           "last_moved": "2023-05-24 20:29:28",
-          "first_seen": "2026-05-12 06:18:21"
+          "first_seen": "2026-05-12 06:18:21",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "d94f79483b2ed1dd286a4afa41325e7fd76106ef64bfaf408ac7cb66c88fe977:0",
@@ -2129,7 +2153,11 @@
           "sat_count": 197108,
           "input_offset": "87451829832",
           "last_moved": "2021-02-12 01:24:03",
-          "first_seen": "2026-05-12 04:31:40"
+          "first_seen": "2026-05-12 04:31:40",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "e24b8eff2c3a15c4823c3709300e97b7a24310c4b453216165c1273ca1168561:3",
@@ -2189,7 +2217,11 @@
           "sat_count": 189358,
           "input_offset": "986716661719",
           "last_moved": "2024-06-06 12:40:29",
-          "first_seen": "2026-05-12 03:05:27"
+          "first_seen": "2026-05-12 03:05:27",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "810b391af95f96c7d76709a7b6a086c1f38a961d308e8d6676e242522b8dc93b:6",
@@ -2589,7 +2621,11 @@
           "sat_count": 151039,
           "input_offset": "190727196307",
           "last_moved": "2021-05-20 12:03:50",
-          "first_seen": "2026-05-09 21:27:11"
+          "first_seen": "2026-05-09 21:27:11",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "ff10ba1b68c6addb1bd2a18a35f54d3414c8473f9b5ec2ca8ef6b4207ba55bdc:0",
@@ -2853,7 +2889,11 @@
           "sat_count": 126500,
           "input_offset": "95636535676",
           "last_moved": "2021-02-12 01:24:03",
-          "first_seen": "2026-05-09 17:32:03"
+          "first_seen": "2026-05-09 17:32:03",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "dd30815cf4903a77cecc008326f0885aaa80c7a81d84056b797f992428cf8980:1",
@@ -2903,7 +2943,11 @@
           "sat_count": 121689,
           "input_offset": "46434499956",
           "last_moved": "2021-05-12 19:07:39",
-          "first_seen": "2026-05-13 18:53:19"
+          "first_seen": "2026-05-13 18:53:19",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "7910fdb3063ddd617eee659bfba1852f2e68be80e4e772590be3bcfe2ac944a4:1",
@@ -3113,7 +3157,11 @@
           "sat_count": 105857,
           "input_offset": "169653680407",
           "last_moved": "2021-01-14 06:03:29",
-          "first_seen": "2026-05-11 18:55:34"
+          "first_seen": "2026-05-11 18:55:34",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "66130821b7d7ad085e8999f3d5ae4d1463b22d0afb789f2b4fdafc14836f9ed5:0",
@@ -3243,7 +3291,11 @@
           "sat_count": 97683,
           "input_offset": "48946664901",
           "last_moved": "2021-03-05 12:50:42",
-          "first_seen": "2026-05-09 16:38:01"
+          "first_seen": "2026-05-09 16:38:01",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "0f15d623cfac7e025c7d3d9e411d17faf8ec5668071e57be911beaf5655cd3d0:1",
@@ -3413,7 +3465,11 @@
           "sat_count": 89055,
           "input_offset": "83472133510",
           "last_moved": "2021-02-12 01:24:03",
-          "first_seen": "2026-05-09 16:25:22"
+          "first_seen": "2026-05-09 16:25:22",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "2010a55c9f88f8bba2bc2c1433e79527a902a222a4a6d594983a644019a27d5d:1",
@@ -4705,7 +4761,11 @@
           "sat_count": 36521,
           "input_offset": "29508627326",
           "last_moved": "2021-02-12 01:24:03",
-          "first_seen": "2026-05-12 05:26:18"
+          "first_seen": "2026-05-12 05:26:18",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "e174f50d2f5f532323e3406f50d2ca767b0e708875dd6e491c037470ffac4d6e:0",
@@ -5083,7 +5143,11 @@
           "sat_count": 27921,
           "input_offset": "1681955402778",
           "last_moved": "2024-10-21 13:30:16",
-          "first_seen": "2026-05-11 09:10:30"
+          "first_seen": "2026-05-11 09:10:30",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "4943b3cf40e6603a62bbbdd10b95857c64a0c70d4423a5e58645ccf7baa79814:0",
@@ -5459,7 +5523,11 @@
           "sat_count": 18512,
           "input_offset": "84849797548",
           "last_moved": "2021-05-04 20:43:20",
-          "first_seen": "2026-05-12 01:49:58"
+          "first_seen": "2026-05-12 01:49:58",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "2ef934c8f9aa7e30c15708105c706e0b48c65c60d42383e24569da52a262c488:0",
@@ -5653,7 +5721,11 @@
           "sat_count": 15120,
           "input_offset": "55853428374",
           "last_moved": "2021-02-12 00:17:13",
-          "first_seen": "2026-05-09 16:31:10"
+          "first_seen": "2026-05-09 16:31:10",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "f0971d4793a6cfff6ef01ea03b3babe1023435b1044d3004a2e14ece100e279c:1",
@@ -5861,7 +5933,11 @@
           "sat_count": 11843,
           "input_offset": "55840694154",
           "last_moved": "2021-02-12 00:17:13",
-          "first_seen": "2026-05-09 16:31:01"
+          "first_seen": "2026-05-09 16:31:01",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "2c325f4098dd9415bf7854a6290c09c6859d47e35d94a817951cc3ab46e780b8:0",
@@ -6367,7 +6443,11 @@
           "sat_count": 6575,
           "input_offset": "55865060388",
           "last_moved": "2021-02-12 00:17:13",
-          "first_seen": "2026-05-09 16:30:50"
+          "first_seen": "2026-05-09 16:30:50",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "4fb40b389844919ca047f700b3f7c81608518e6e09ad42caea6580d136d1af74:0",
@@ -6387,7 +6467,11 @@
           "sat_count": 6246,
           "input_offset": "55865073209",
           "last_moved": "2021-02-12 00:17:13",
-          "first_seen": "2026-05-09 16:31:50"
+          "first_seen": "2026-05-09 16:31:50",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "96e4212ef6c4f47f002f6c7cd2db3c8d438a93ca790e4bf80ae188213ad8932d:1",
@@ -6807,7 +6891,11 @@
           "sat_count": 4068,
           "input_offset": "32167610321",
           "last_moved": "2026-04-30 13:56:10",
-          "first_seen": "2026-05-11 17:01:23"
+          "first_seen": "2026-05-11 17:01:23",
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "add6c342b36d31a1237db41b6f0aac1b14ed9165d294b634ac87dca8429261b8:1",
@@ -7391,7 +7479,11 @@
           "sat_count": 2086,
           "input_offset": "133776506677",
           "last_moved": "2021-05-12 19:10:29",
-          "first_seen": "2026-05-11 02:57:04"
+          "first_seen": "2026-05-11 02:57:04",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "c4e79d964ee055297bb718a7315ecc5da6a0f45f35dd10983b99ec342d4c5e41:78",
@@ -7541,7 +7633,11 @@
           "sat_count": 1660,
           "input_offset": "76531860990",
           "last_moved": "2021-02-12 01:24:03",
-          "first_seen": "2026-05-12 18:15:55"
+          "first_seen": "2026-05-12 18:15:55",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "7d48005b20de5f4d12ccd01ec76993d9100eb8d2de782fa463408c0c89ad74cb:0",
@@ -7743,7 +7839,11 @@
           "sat_count": 1177,
           "input_offset": "11107724382",
           "last_moved": "2021-06-24 21:25:18",
-          "first_seen": "2026-05-12 06:53:43"
+          "first_seen": "2026-05-12 06:53:43",
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "outpoint": "ab8d0646dc9dbf761aeed54113083f39452fad4ef43f06ca01e8d6812fb5954c:1",
@@ -8802,7 +8902,11 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 2260076,
-          "btc_balance_sats": 14006298531919
+          "btc_balance_sats": 14006298531919,
+          "wallet_label": {
+            "label": "Robinhood Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "address": "bc1qkst3lsvyxnmg686h8ywkjnv2k00s5cd9pa4fs0",
@@ -8823,7 +8927,11 @@
           "range_count": 19,
           "outpoint_count": 14,
           "bhang_sats": 2005842,
-          "btc_balance_sats": 24859758474105
+          "btc_balance_sats": 24859758474105,
+          "wallet_label": {
+            "label": "Binance Cold Wallet",
+            "kind": "exchange"
+          }
         },
         {
           "address": "17gwo8AveuUKKeoM8RXnjnvb2VGVrd1QQg",
@@ -8967,7 +9075,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 283636,
-          "btc_balance_sats": 2168622764288
+          "btc_balance_sats": 2239572157979
         },
         {
           "address": "1Ay8vMC7R1UbyCCZRVULMV7iQpHSAbguJP",
@@ -8981,7 +9089,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3214515429771
+          "btc_balance_sats": 3214944795964
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
