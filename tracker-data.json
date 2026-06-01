@@ -1,5 +1,5 @@
 {
-  "exported_at": "2026-06-01T10:33:16.450Z",
+  "exported_at": "2026-06-01T18:31:45.042Z",
   "snapshot_block_height": 0,
   "conservation": {
     "target": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-06-01 10:33:13",
+    "last_run": "2026-06-01 18:31:40",
     "total_utxos_found": 23,
     "fee_sats_retraced": "0",
     "queue_size": 0
