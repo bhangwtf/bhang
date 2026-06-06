@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-06-06T14:36:04.909Z",
-  "snapshot_block_height": 952620,
+  "exported_at": "2026-06-06T18:36:25.690Z",
+  "snapshot_block_height": 952638,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-06-06 14:35:30",
-    "total_utxos_found": 107,
+    "last_run": "2026-06-06 18:35:45",
+    "total_utxos_found": 108,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -4530,14 +4530,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "4db47c00beb9cb876d08aa18a4adf0c294786247f27c754dd71d90c6181ccc82:0",
+          "outpoint": "712cba916dd0d7618857e6d9aaa7b74bbb155c5eab2889eae0c72b0a02528033:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "988680742418",
-          "last_moved": "2026-06-06 00:19:22",
-          "first_seen": "2026-06-06 02:35:13",
+          "input_offset": "990107569775",
+          "last_moved": "2026-06-06 18:12:11",
+          "first_seen": "2026-06-06 18:35:45",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -8927,7 +8927,7 @@
           "range_count": 19,
           "outpoint_count": 14,
           "bhang_sats": 2005842,
-          "btc_balance_sats": 24859758475651,
+          "btc_balance_sats": 24859759051607,
           "wallet_label": {
             "label": "Binance Cold Wallet",
             "kind": "exchange"
@@ -9429,14 +9429,14 @@
           "range_count": 2,
           "outpoint_count": 1,
           "bhang_sats": 1356,
-          "btc_balance_sats": null
+          "btc_balance_sats": 103487644709
         },
         {
           "address": "bc1p7dzmdd3hywcrhy3p888w5wfdsjw8998xz3ls2cauluuzqzk7yexqtaj580",
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 1092,
-          "btc_balance_sats": null
+          "btc_balance_sats": 75894
         }
       ],
       "inscriptions": []
