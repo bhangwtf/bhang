@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-06-17T06:36:31.625Z",
-  "snapshot_block_height": 954059,
+  "exported_at": "2026-06-17T12:42:40.728Z",
+  "snapshot_block_height": 954094,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-06-17 06:35:19",
-    "total_utxos_found": 225,
+    "last_run": "2026-06-17 12:41:59",
+    "total_utxos_found": 228,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -3964,14 +3964,14 @@
           "first_seen": "2026-05-11 10:37:29"
         },
         {
-          "outpoint": "00e4518419e45448ab0db8823b123546330a66ff1723b66fe43a6c13347ab48d:8",
-          "address": "bc1qrt7rkpswpgmcag7txzf6ps9mvepwgndshqdx6d",
+          "outpoint": "3fcd70ae29bb5855bb79da61331e3ca5e8de44c5afa4d7e8f057ad22bedc09e8:6",
+          "address": "bc1q0snfmya0lkajc0uuxd7elg20m7tywuehdqp922",
           "sat_range_start": "1773906047767609",
           "sat_range_end": "1773906047832312",
           "sat_count": 64704,
-          "input_offset": "221658515",
-          "last_moved": "2026-06-16 21:17:08",
-          "first_seen": "2026-06-17 02:32:08"
+          "input_offset": "82285644",
+          "last_moved": "2026-06-17 08:30:17",
+          "first_seen": "2026-06-17 12:41:58"
         },
         {
           "outpoint": "466854535d404d2b273d7dd7a7160211597cdb2f3554b8a7e5d598a0b6de3712:0",
@@ -4534,14 +4534,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "b8fe9a959605bcf3ec1599e4140a681b168f754d71244a20771c44d21419445d:1",
+          "outpoint": "777cc74a69bbd247f6756c55f48578101986501d633f260abd95b5a786658045:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "994590061790",
-          "last_moved": "2026-06-17 04:15:20",
-          "first_seen": "2026-06-17 06:35:18",
+          "input_offset": "995433965612",
+          "last_moved": "2026-06-17 08:23:23",
+          "first_seen": "2026-06-17 12:41:58",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -8464,14 +8464,14 @@
           "first_seen": "2026-06-16 02:33:13"
         },
         {
-          "outpoint": "724f2d5de32679cb9337a26ceafcc8bd4ad167e5e9305ba9c616b6cf16077c54:0",
-          "address": "bc1q4l09wdt2zm9t428kjuxfgldtvr4xq8x86pt556",
+          "outpoint": "eb02907e387f3daa4303d76c146fd04b235167b915cdfbbc4730828e5a61eed7:0",
+          "address": "bc1qx7qx525tlfy5fu54neajqnag329v8vvelv3unm",
           "sat_range_start": "1773906036473357",
           "sat_range_end": "1773906036473920",
           "sat_count": 564,
-          "input_offset": "1269037583",
-          "last_moved": "2026-05-10 14:33:23",
-          "first_seen": "2026-05-12 23:17:23"
+          "input_offset": "9128746331",
+          "last_moved": "2026-06-17 08:30:17",
+          "first_seen": "2026-06-17 12:41:59"
         },
         {
           "outpoint": "b08441dd7870382e79014f686f602d0e7f128b3574fdbb8eb63f88291bd62507:3",
@@ -9016,7 +9016,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4248964810225
+          "btc_balance_sats": 4250052929641
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9079,14 +9079,14 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7368699539696
+          "btc_balance_sats": 7388699539696
         },
         {
           "address": "3FuhQLprN9s9MR3bZzR5da7mw75fuahsaU",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3173473909055
+          "btc_balance_sats": 3175684838012
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
