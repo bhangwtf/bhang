@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-07-11T03:10:17.760Z",
-  "snapshot_block_height": 957513,
+  "exported_at": "2026-07-11T07:11:49.435Z",
+  "snapshot_block_height": 957534,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-07-11 03:09:44",
-    "total_utxos_found": 233,
+    "last_run": "2026-07-11 07:11:02",
+    "total_utxos_found": 234,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -4530,14 +4530,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "3b03f77f161255a965a6dd02a66f63532e06de4c5cf3280304e95ef3e5de2147:1",
+          "outpoint": "c98695da2881909a5526c84618b1618064c19e33a1906febc753497adfae17e2:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
           "input_offset": "998188590888",
-          "last_moved": "2026-07-11 02:26:26",
-          "first_seen": "2026-07-11 03:09:36",
+          "last_moved": "2026-07-11 04:45:23",
+          "first_seen": "2026-07-11 07:11:02",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -8830,7 +8830,7 @@
           "sat_range_end": "1773906055179468",
           "sat_count": 256,
           "input_offset": "123735853307",
-          "last_moved": null,
+          "last_moved": "2026-07-11 03:12:36",
           "first_seen": "2026-07-11 03:09:39"
         },
         {
@@ -9095,14 +9095,14 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7343341749876
+          "btc_balance_sats": 7343341764806
         },
         {
           "address": "3FuhQLprN9s9MR3bZzR5da7mw75fuahsaU",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3275369402286
+          "btc_balance_sats": 3275837748598
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
