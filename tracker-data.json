@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-07-18T18:42:37.746Z",
-  "snapshot_block_height": 958596,
+  "exported_at": "2026-07-18T22:36:10.950Z",
+  "snapshot_block_height": 958619,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-07-18 18:41:52",
-    "total_utxos_found": 349,
+    "last_run": "2026-07-18 22:35:32",
+    "total_utxos_found": 351,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -3442,14 +3442,14 @@
           "first_seen": "2026-05-12 08:41:58"
         },
         {
-          "outpoint": "f352f2e5d45270a1a699cef748eca29f27bec3a0e31fd7e24a29baf45ccfb4d7:20",
-          "address": "bc1qyujwck58tevdq0zltw0hhf2ljdnw2er3fxh2m4",
+          "outpoint": "52dc365d6456130b8515c5950c4be13f6a93f03a1d8e1ea3638fa7c1507fd8c1:0",
+          "address": "bc1qddn257w0m3exk4pf4hptnnnz9pedsp230evwt4",
           "sat_range_start": "1773906177727944",
           "sat_range_end": "1773906177817493",
           "sat_count": 89550,
-          "input_offset": "230577006",
-          "last_moved": "2025-10-20 12:52:36",
-          "first_seen": "2026-05-13 09:00:31"
+          "input_offset": "429839724",
+          "last_moved": "2026-07-18 21:00:10",
+          "first_seen": "2026-07-18 22:35:31"
         },
         {
           "outpoint": "dac6be08aad15a9a85fae51bd6e1fc0277c100bb05df862c2119538b1c4845af:0",
@@ -7782,14 +7782,14 @@
           }
         },
         {
-          "outpoint": "83f1fb4198cc91b57a084664f7679ea65a04af80d3bdb97ad440d578b480cc3f:0",
-          "address": "bc1qn2cpj0hrl37wqh5q94kwrlhtj2lx8ahtw7ef5rg35tswxsqtvufqfmmrq2",
+          "outpoint": "290b3ef46da01950cba7d4617e37618f3f76659b7f716868a03da94958414eca:0",
+          "address": "bc1qk2jypmly2um8nu7zp6e76mw9m0hsmrz453xx7qe29mygtqffq6zs0j5qe0",
           "sat_range_start": "1773906144200120",
           "sat_range_end": "1773906144201456",
           "sat_count": 1337,
-          "input_offset": "996222363",
-          "last_moved": "2026-07-17 19:06:36",
-          "first_seen": "2026-07-18 02:36:39"
+          "input_offset": "4461222363",
+          "last_moved": "2026-07-18 21:03:51",
+          "first_seen": "2026-07-18 22:35:32"
         },
         {
           "outpoint": "add0d2a0bdb2b7739eb2b9cf6f0008095e5c1ee013beee2a9de45d9c19907d74:0",
