@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-07-18T14:35:50.894Z",
-  "snapshot_block_height": 958563,
+  "exported_at": "2026-07-18T18:42:37.746Z",
+  "snapshot_block_height": 958596,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-07-18 14:35:14",
-    "total_utxos_found": 347,
+    "last_run": "2026-07-18 18:41:52",
+    "total_utxos_found": 349,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -2682,14 +2682,14 @@
           "first_seen": "2026-05-14 08:30:15"
         },
         {
-          "outpoint": "1c598920c0ecf1b22bbfef1347070582c0978c6d5ca59d9160af80729e99345f:1",
+          "outpoint": "faf4c2cba99c97b1048dfa087842931f04581e81e60b13e06121080bac77ba3f:2",
           "address": "bc1q76cs4yw5u2k5ss6gn7r69rk6hlvuhtzxgcx4xf",
           "sat_range_start": "1773906170263963",
           "sat_range_end": "1773906170406808",
           "sat_count": 142846,
-          "input_offset": "28339920",
-          "last_moved": "2026-07-18 14:04:04",
-          "first_seen": "2026-07-18 14:35:13"
+          "input_offset": "27715076",
+          "last_moved": "2026-07-18 16:04:36",
+          "first_seen": "2026-07-18 18:41:51"
         },
         {
           "outpoint": "0e27a7de2edf532287ac792a30c0d26773a5ae22ecb1326f052d8129195d5a6d:1",
@@ -4530,14 +4530,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "f736bee223bd5152d1eda19d1d288d5ad312d35a0d9ad55917accb3eb9d4734c:0",
+          "outpoint": "0e7090d615ab6628cb9b4482cd8e7bafd7a16306292c41affd5b6ecc6d5acba1:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
           "input_offset": "997942410694",
-          "last_moved": "2026-07-18 14:22:01",
-          "first_seen": "2026-07-18 14:35:14",
+          "last_moved": "2026-07-18 16:21:31",
+          "first_seen": "2026-07-18 18:41:52",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
