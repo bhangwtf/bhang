@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-07-18T02:37:27.418Z",
-  "snapshot_block_height": 958478,
+  "exported_at": "2026-07-18T07:14:59.142Z",
+  "snapshot_block_height": 958514,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-07-18 02:36:43",
-    "total_utxos_found": 340,
+    "last_run": "2026-07-18 07:13:59",
+    "total_utxos_found": 341,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -4530,14 +4530,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "8f424ccdc28fbb65362d73e4d9b115fb9c06107ce1edd586a3d71bc359161c4a:0",
+          "outpoint": "55366457811d38b0218d475fe52d0b9f56c4e676ad3a2004c8bb1c75714c7002:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "996928511887",
-          "last_moved": "2026-07-17 18:27:58",
-          "first_seen": "2026-07-18 02:36:43",
+          "input_offset": "997942410694",
+          "last_moved": "2026-07-18 04:13:26",
+          "first_seen": "2026-07-18 07:13:59",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -9102,7 +9102,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3101640474716
+          "btc_balance_sats": 3101837883584
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
