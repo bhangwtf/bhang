@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-07-27T02:36:42.573Z",
-  "snapshot_block_height": 959775,
+  "exported_at": "2026-07-27T06:35:29.046Z",
+  "snapshot_block_height": 959794,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-07-27 02:36:15",
-    "total_utxos_found": 435,
+    "last_run": "2026-07-27 06:35:07",
+    "total_utxos_found": 437,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -4530,14 +4530,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "7ba75d30de288dbc46b6aad49ec91979f7573037177562bc8592c9c0bbc5563b:0",
+          "outpoint": "54e7123e720d4eeeb89ce2fc574dc43827a767bb7d2b2a07404e2dd89053c7bf:1",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "997822809375",
-          "last_moved": "2026-07-27 02:15:19",
-          "first_seen": "2026-07-27 02:36:15",
+          "input_offset": "997644151700",
+          "last_moved": "2026-07-27 04:19:15",
+          "first_seen": "2026-07-27 06:34:53",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -6728,14 +6728,14 @@
           "first_seen": "2026-05-12 08:30:33"
         },
         {
-          "outpoint": "497f74c483d47bbe8af93c1bec0c46cb87481ee78353d724010da2d7ef719e25:0",
+          "outpoint": "75da6869c6390599d2acb8e0f193af8206c192844ebddecbc06e6af9199d4ca1:6",
           "address": "bc1q4vxcxw7mpg9dcryqu0kav8awrn7qk5e6wgs3hg",
           "sat_range_start": "1773906052336736",
           "sat_range_end": "1773906052341275",
           "sat_count": 4540,
-          "input_offset": "16589989845",
+          "input_offset": "16550345807",
           "last_moved": null,
-          "first_seen": "2026-07-27 02:36:01"
+          "first_seen": "2026-07-27 06:35:07"
         },
         {
           "outpoint": "40ad97b0cb92f547cf103f399df444fef9db26b60d7ce3eae254c3c5661b7d2f:1",
@@ -9218,7 +9218,7 @@
           "range_count": 8,
           "outpoint_count": 7,
           "bhang_sats": 106075,
-          "btc_balance_sats": 3164340209685,
+          "btc_balance_sats": null,
           "wallet_label": {
             "label": "Binance Pool",
             "kind": "mining-pool"
