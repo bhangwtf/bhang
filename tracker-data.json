@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-08-04T07:23:33.807Z",
-  "snapshot_block_height": 960977,
+  "exported_at": "2026-08-04T10:49:49.576Z",
+  "snapshot_block_height": 960999,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-08-04 07:23:12",
-    "total_utxos_found": 600,
+    "last_run": "2026-08-04 10:49:26",
+    "total_utxos_found": 603,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -3062,7 +3062,7 @@
           "sat_range_end": "1773906164348497",
           "sat_count": 115667,
           "input_offset": "26389206619",
-          "last_moved": null,
+          "last_moved": "2026-08-04 08:01:37",
           "first_seen": "2026-08-04 07:22:50"
         },
         {
@@ -4542,14 +4542,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "53b08c595138e5d4c40b0fd65aa7960fedce73f21a64dafbaba214b1d3d08ea6:1",
+          "outpoint": "1012f6c6598971808fcb037bfa75eba974a9f646fc2dc4bfa89b5a91453cbd5b:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
           "input_offset": "1003761122865",
-          "last_moved": "2026-08-04 02:30:11",
-          "first_seen": "2026-08-04 02:35:45",
+          "last_moved": "2026-08-04 08:19:00",
+          "first_seen": "2026-08-04 10:49:13",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -5656,7 +5656,7 @@
           "sat_range_end": "1773906164232830",
           "sat_count": 17243,
           "input_offset": "26389189376",
-          "last_moved": null,
+          "last_moved": "2026-08-04 08:01:37",
           "first_seen": "2026-08-04 07:22:51"
         },
         {
@@ -5744,14 +5744,14 @@
           }
         },
         {
-          "outpoint": "c83a66e5ced355c9032777ba93378dbced2f84e6a028e2e632d7cac56823c476:1",
+          "outpoint": "0dc2a453fd1f530e0913db4bfc976a8a487531961297edda7445e8b44a7bd0be:1",
           "address": "3Pfx38ux5RxKSPKW9t5Dz2KS4BbDW92CMA",
           "sat_range_start": "1773906159342990",
           "sat_range_end": "1773906159358053",
           "sat_count": 15064,
-          "input_offset": "18796463907",
-          "last_moved": "2026-07-31 11:47:54",
-          "first_seen": "2026-07-31 12:54:58"
+          "input_offset": "18196463907",
+          "last_moved": "2026-08-04 09:46:22",
+          "first_seen": "2026-08-04 10:49:14"
         },
         {
           "outpoint": "7a2ba8fe3cc9c1549a8c409b78c333e5a32bc418253521f7cf6212997e077c4f:1",
@@ -6740,14 +6740,14 @@
           "first_seen": "2026-05-12 08:30:33"
         },
         {
-          "outpoint": "5d7d6899372c20d16d1791fdc1cbb9ffb30171c3d1d4c1a4e1b03f9a9f3cc334:5",
+          "outpoint": "8c1124aaebfbcfb1adf93f1b2659261991ddf3c777ac58338bc2af7997cb22ce:5",
           "address": "bc1q4vxcxw7mpg9dcryqu0kav8awrn7qk5e6wgs3hg",
           "sat_range_start": "1773906052336736",
           "sat_range_end": "1773906052341275",
           "sat_count": 4540,
-          "input_offset": "7662312670",
+          "input_offset": "7635951804",
           "last_moved": null,
-          "first_seen": "2026-08-04 07:23:12"
+          "first_seen": "2026-08-04 10:49:26"
         },
         {
           "outpoint": "40ad97b0cb92f547cf103f399df444fef9db26b60d7ce3eae254c3c5661b7d2f:1",
@@ -9226,7 +9226,7 @@
           "range_count": 8,
           "outpoint_count": 7,
           "bhang_sats": 106075,
-          "btc_balance_sats": null,
+          "btc_balance_sats": 3164340210231,
           "wallet_label": {
             "label": "Binance Pool",
             "kind": "mining-pool"
