@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-08-07T22:36:40.623Z",
-  "snapshot_block_height": 961499,
+  "exported_at": "2026-08-08T02:35:37.425Z",
+  "snapshot_block_height": 961517,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-08-07 22:36:18",
-    "total_utxos_found": 681,
+    "last_run": "2026-08-08 02:35:15",
+    "total_utxos_found": 683,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -562,7 +562,7 @@
           "sat_range_end": "1773906184865717",
           "sat_count": 1344690,
           "input_offset": "40191715879",
-          "last_moved": null,
+          "last_moved": "2026-08-07 22:37:53",
           "first_seen": "2026-08-07 22:35:24"
         },
         {
@@ -4542,14 +4542,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "134db03dd67707a05a2ddc51e4161941c125eafb5f0eaa27388dfeb8c16474ce:0",
+          "outpoint": "eaeb57d2a644cee4bfee4055f9ab683bc7158208b753de310d032c8c6825bcf8:1",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "1005274288970",
-          "last_moved": "2026-08-07 06:21:43",
-          "first_seen": "2026-08-07 06:35:02",
+          "input_offset": "1005754046625",
+          "last_moved": "2026-08-08 00:33:15",
+          "first_seen": "2026-08-08 02:34:52",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -6740,14 +6740,14 @@
           "first_seen": "2026-05-12 08:30:33"
         },
         {
-          "outpoint": "b69399234b8e00cf466ea5112abb9a1794b192946e0249173fdc5decad32092f:10",
+          "outpoint": "dfbd35b406859eb864c787e929e1ee70b028508ac3eff0931650dd344b0a9388:10",
           "address": "bc1q4vxcxw7mpg9dcryqu0kav8awrn7qk5e6wgs3hg",
           "sat_range_start": "1773906052336736",
           "sat_range_end": "1773906052341275",
           "sat_count": 4540,
-          "input_offset": "2413009353",
+          "input_offset": "2227839571",
           "last_moved": null,
-          "first_seen": "2026-08-07 22:36:18"
+          "first_seen": "2026-08-08 02:35:15"
         },
         {
           "outpoint": "40ad97b0cb92f547cf103f399df444fef9db26b60d7ce3eae254c3c5661b7d2f:1",
