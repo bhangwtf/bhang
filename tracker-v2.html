@@ -105,7 +105,7 @@
   td.right, th.right { text-align: right; }
   .gold { color: #d4af37; text-decoration: none; }
   .gold:hover { text-decoration: underline; }
-  .badge { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; color: #888; background: #888222; border: 1px solid #888555; }
+  .badge { display: inline-block; margin-left: 5px; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; vertical-align: middle; white-space: nowrap; }
   .live { color: #00ff41; }
   .rare { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; }
   .pager { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11px; color: #555; }
@@ -185,6 +185,17 @@
     if (addr.length <= head + tail + 3) return addr;
     return addr.slice(0, head) + '…' + addr.slice(-tail);
   }
+  function labelText(wl){
+    if (!wl) return '';
+    return typeof wl === 'string' ? wl : (wl.label || '');
+  }
+  function walletBadge(wl){
+    var label = labelText(wl);
+    if (!label) return '';
+    var kind = wl && wl.kind;
+    var c = kind === 'exchange' ? '#3b8eea' : kind === 'hot-wallet' ? '#ff9500' : '#D4AF37';
+    return '<span class="badge" title="Identified wallet: ' + esc(label) + '" style="color:' + c + ';background:' + c + '22;border:1px solid ' + c + '55;">' + esc(label) + '</span>';
+  }
   function esc(s){
     return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];
@@ -215,7 +226,7 @@
 
   function hopTile(hop){
     var on = selectedHop && selectedHop.id === hop.id ? ' on' : '';
-    var lab = hop.walletLabel ? '<div class="lab">' + esc(hop.walletLabel) + '</div>' : '';
+    var lab = labelText(hop.walletLabel) ? '<div class="lab">' + walletBadge(hop.walletLabel) + '</div>' : '';
     return '<button type="button" class="hop ' + esc(hop.kind) + on + '" data-hop="' + esc(hop.id) + '">' +
       '<div class="top">' + amt(hop.satCount, hop.seriesId || 1) + '<span class="kind">' + esc(hop.kind) + '</span></div>' +
       '<div class="addr">→ ' + esc(trunc(hop.toAddress)) + '</div>' + lab + '</button>';
@@ -300,7 +311,7 @@
   }
 
   function labelled(){
-    return (data.utxos || []).filter(function(u){ return u.walletLabel; });
+    return (data.utxos || []).filter(function(u){ return labelText(u.walletLabel); });
   }
 
   function renderFilters(){
@@ -332,7 +343,7 @@
       if (u.satnameRangeEnd && u.satnameRangeEnd !== u.satnameRangeStart) {
         names += ' <span class="dim">→</span> ' + esc(trunc(u.satnameRangeEnd, 8, 4));
       }
-      var badge = u.walletLabel ? '<span class="badge">' + esc(u.walletLabel) + '</span>' : '';
+      var badge = walletBadge(u.walletLabel);
       var edge = (u.rarity && u.rarity[0]) ? 'border-left:2px solid ' + u.rarity[0].color : '';
       return '<tr style="' + edge + '"><td class="dim">' + esc(String(u.outpoint).slice(0, 12)) + '…:' + esc(vout) + '</td>' +
         '<td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(u.address) + '" target="_blank" rel="noopener">' + esc(trunc(u.address, 12, 6)) + '</a>' + badge + '</td>' +
@@ -348,7 +359,7 @@
     if (searchQ) {
       return (data.utxos || []).filter(function(u){
         return u.address.toLowerCase().indexOf(searchQ) !== -1 || u.outpoint.toLowerCase().indexOf(searchQ) !== -1 ||
-          (u.walletLabel && u.walletLabel.toLowerCase().indexOf(searchQ) !== -1);
+          (labelText(u.walletLabel).toLowerCase().indexOf(searchQ) !== -1);
       });
     }
     if (filter === 'labelled') return labelled();
@@ -369,7 +380,7 @@
       html += '<div class="table-wrap"><table><thead><tr><th>#</th><th>Address</th><th class="right">Ranges</th><th class="right">UTXOs</th><th class="right">BHANG ' + glyph() + '</th></tr></thead><tbody>';
       var start = (page - 1) * pageSize;
       rows.slice(start, start + pageSize).forEach(function(w, i){
-        var badge = w.walletLabel ? '<span class="badge">' + esc(w.walletLabel) + '</span>' : '';
+        var badge = walletBadge(w.walletLabel);
         html += '<tr><td class="dim">' + (start + i + 1) + '</td><td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(w.address) + '" target="_blank" rel="noopener">' + esc(trunc(w.address, 12, 6)) + '</a>' + badge + '</td>' +
           '<td class="right">' + fmt(w.rangeCount) + '</td><td class="right">' + fmt(w.utxoCount) + '</td><td class="right"><span class="s1" style="font-weight:bold;">' + fmt(w.bhangSats) + '</span></td></tr>';
       });
@@ -434,7 +445,7 @@
     });
     selectedHop = found;
     document.getElementById('v2-hop').textContent = found
-      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress + (found.walletLabel ? ' · ' + found.walletLabel : ''))
+      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress + (labelText(found.walletLabel) ? ' · ' + labelText(found.walletLabel) : ''))
       : 'Select a hop tile to inspect movement details.';
     renderCards();
   });
