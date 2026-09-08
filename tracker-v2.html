@@ -267,30 +267,164 @@
       '<div class="miner' + (miner ? '' : ' empty') + '" title="' + (miner || 'Miner unknown') + '">' + (miner || '…') + '</div></div>';
   }
 
-  function pastBlocks(){
-    return (data.blocks || []).filter(function(b){
-      if (b.isGenesis || b.isSeriesMining) return true;
-      if (!year) return true;
-      return yearOf(b.blockTime) === year;
-    }).sort(function(a, b){ return b.height - a.height; });
-  }
+  var chainMeta = null;
+  var tailCards = [];
+  var chunkCards = {};
+  var hopByHeight = {};
+  var chunkWait = {};
+  var paintFrame = 0;
+  var GAP = 8;
+  var OVERSCAN = 900;
 
-  function renderCards(){
+  function cardW(b){
+    if (b.isGenesis) return 100;
+    if (b.isSeriesMining) return 140;
+    return 120;
+  }
+  function minerName(card){
+    if (card.minerName) return card.minerName;
+    if (chainMeta && card.minerId) return chainMeta.miners[card.minerId] || '';
+    return '';
+  }
+  function decorate(card){
+    var hops = hopByHeight[card.height];
+    if (hops) card.hops = hops;
+    if (!card.hops) card.hops = card.hops || [];
+    card.minerName = minerName(card);
+    return card;
+  }
+  function segments(){
+    var list = [];
+    var x = 0;
+    function push(cards, width){
+      list.push({ cards: cards, width: width, x: x });
+      x += width;
+    }
+    var tailW = 0;
+    tailCards.forEach(function(c){ tailW += cardW(c) + GAP; });
+    push(tailCards, tailW);
+    var chunks = (chainMeta && chainMeta.chunks) || [];
+    for (var i = chunks.length - 1; i >= 0; i--) {
+      var ch = chunks[i];
+      push(chunkCards[ch.file] || null, ch.width || 0);
+      list[list.length - 1].file = ch.file;
+      list[list.length - 1].chunk = ch;
+    }
+    return { list: list, total: x };
+  }
+  function decodeChunk(buf){
+    var rec = (chainMeta && chainMeta.recordBytes) || 20;
+    var cards = [];
+    var view = new DataView(buf);
+    for (var i = buf.byteLength - rec; i >= 0; i -= rec) {
+      var flags = view.getUint8(i + 10);
+      cards.push({
+        height: view.getUint32(i, true),
+        blockTime: new Date(view.getUint32(i + 4, true) * 1000).toISOString(),
+        hopCount: view.getUint16(i + 8, true),
+        isGenesis: (flags & 1) !== 0,
+        isSeriesMining: (flags & 2) !== 0,
+        seriesId: view.getUint8(i + 11),
+        minerId: view.getUint16(i + 12, true),
+        satTotal: view.getUint32(i + 16, true),
+        hops: null
+      });
+    }
+    return cards;
+  }
+  function ensureChunk(file){
+    if (!file || chunkCards[file] || chunkWait[file]) return;
+    chunkWait[file] = fetch('/tracker-v2/chunks/' + file)
+      .then(function(r){ if (!r.ok) throw new Error('chunk'); return r.arrayBuffer(); })
+      .then(function(buf){
+        chunkCards[file] = decodeChunk(buf);
+        return fetch('/tracker-v2/hops/' + file.replace(/\.bin$/, '.json'));
+      })
+      .then(function(r){ return r.ok ? r.json() : {}; })
+      .then(function(hops){
+        Object.keys(hops || {}).forEach(function(k){ hopByHeight[k] = hops[k]; });
+        schedulePaint(false);
+      })
+      .catch(function(){ chunkCards[file] = []; })
+      .finally(function(){ delete chunkWait[file]; });
+  }
+  function visiblePast(){
+    var chain = document.getElementById('v2-cards');
+    var past = document.getElementById('v2-past');
+    if (!chain || !past) return { left: 0, right: 1400 };
+    var local = chain.scrollLeft - past.offsetLeft;
+    return { left: local - OVERSCAN, right: local + chain.clientWidth + OVERSCAN };
+  }
+  function cardsInView(seg, view){
+    if (!seg.cards) {
+      if (seg.x + seg.width < view.left || seg.x > view.right) return { html: '', width: seg.width, need: seg.file };
+      if (seg.file) ensureChunk(seg.file);
+      return { html: '', width: seg.width, need: seg.file };
+    }
+    var html = '';
+    var x = seg.x;
+    var drawn = 0;
+    for (var i = 0; i < seg.cards.length; i++) {
+      var card = decorate(seg.cards[i]);
+      var w = cardW(card) + GAP;
+      if (x + w >= view.left && x <= view.right) {
+        html += '<div style="width:' + w + 'px;flex:0 0 auto;">' + blockCard(card) + '</div>';
+        drawn += 1;
+      }
+      x += w;
+    }
+    return { html: html, width: seg.width, drawn: drawn };
+  }
+  function schedulePaint(reset){
+    if (paintFrame) cancelAnimationFrame(paintFrame);
+    paintFrame = requestAnimationFrame(function(){ paintFrame = 0; renderCards(reset); });
+  }
+  function renderCards(reset){
     var upcoming = data.upcoming || [];
-    var cards = pastBlocks();
     var tip = data.snapshotBlockHeight ? fmt(data.snapshotBlockHeight) : '—';
+    var view = visiblePast();
+    var map = segments();
+    var leftPad = 0;
+    var rightPad = 0;
+    var body = '';
+    map.list.forEach(function(seg){
+      if (!seg.cards) {
+        if (seg.x + seg.width < view.left) leftPad += seg.width;
+        else if (seg.x > view.right) rightPad += seg.width;
+        else {
+          leftPad += Math.max(0, view.left - seg.x);
+          rightPad += Math.max(0, seg.x + seg.width - view.right);
+          if (seg.file) ensureChunk(seg.file);
+        }
+        return;
+      }
+      var x = seg.x;
+      for (var i = 0; i < seg.cards.length; i++) {
+        var card = decorate(seg.cards[i]);
+        var w = cardW(card) + GAP;
+        if (x + w < view.left) leftPad += w;
+        else if (x > view.right) rightPad += w;
+        else body += '<div style="width:' + w + 'px;flex:0 0 auto;">' + blockCard(card) + '</div>';
+        x += w;
+      }
+    });
     var html = '<div class="chain-sheet">';
     html += '<div class="chain-labs"><span class="future" id="lab-future">Future</span><span class="present" id="lab-present">Present</span></div>';
     html += '<div class="chain-row">';
     html += '<div id="v2-spacer" style="width:0;flex:0 0 auto;"></div>';
     html += '<div id="v2-future" style="display:flex;gap:8px;flex:0 0 auto;">' + upcoming.map(futureCard).join('') + '</div>';
     html += '<div class="now" id="v2-now"><div class="line"></div><div class="mark"><b>NOW</b><span>' + tip + '</span></div><div class="line"></div></div>';
-    html += '<div id="v2-past" style="display:flex;gap:8px;flex:0 0 auto;">' + cards.map(blockCard).join('') + '</div>';
+    html += '<div id="v2-past" style="display:flex;flex:0 0 auto;">';
+    html += '<div style="width:' + leftPad + 'px;flex:0 0 auto;"></div>' + body;
+    html += '<div style="width:' + rightPad + 'px;flex:0 0 auto;"></div></div>';
     html += '<div class="origin">origin</div></div></div>';
-    document.getElementById('v2-cards').innerHTML = html;
+    var chain = document.getElementById('v2-cards');
+    var keep = chain ? chain.scrollLeft : 0;
+    chain.innerHTML = html;
+    if (!reset) chain.scrollLeft = keep;
     var futureLab = document.getElementById('lab-future');
     if (futureLab) futureLab.style.display = upcoming.length ? '' : 'none';
-    layoutChain(true);
+    layoutChain(!!reset);
   }
 
   function layoutChain(reset){
@@ -308,6 +442,33 @@
     if (presentLab) presentLab.style.left = (presentCenter - presentLab.offsetWidth / 2) + 'px';
     if (futureLab) futureLab.style.left = Math.max(8, presentCenter / 2 - futureLab.offsetWidth / 2) + 'px';
     if (reset) chain.scrollLeft = 0;
+  }
+
+  function scrollToHeight(height){
+    var map = segments();
+    var px = 0;
+    for (var s = 0; s < map.list.length; s++) {
+      var seg = map.list[s];
+      if (seg.cards) {
+        for (var i = 0; i < seg.cards.length; i++) {
+          if (seg.cards[i].height <= height) {
+            var chain = document.getElementById('v2-cards');
+            var past = document.getElementById('v2-past');
+            if (chain && past) chain.scrollTo({ left: past.offsetLeft + px - 24, behavior: 'smooth' });
+            return;
+          }
+          px += cardW(seg.cards[i]) + GAP;
+        }
+      } else if (seg.chunk && height <= seg.chunk.maxHeight && height >= seg.chunk.minHeight) {
+        ensureChunk(seg.file);
+        var chain2 = document.getElementById('v2-cards');
+        var past2 = document.getElementById('v2-past');
+        if (chain2 && past2) chain2.scrollTo({ left: past2.offsetLeft + seg.x, behavior: 'smooth' });
+        return;
+      } else {
+        px = seg.x + seg.width;
+      }
+    }
   }
 
   function labelled(){
@@ -403,22 +564,29 @@
     if (next) next.onclick = function(){ if (page < pages) { page++; renderResults(); } };
   }
 
-  fetch('/tracker-v2.json')
-    .then(function(r){ if (!r.ok) throw new Error('missing'); return r.json(); })
-    .then(function(json){
-      data = json;
-      document.getElementById('v2-updated').textContent = when(json.exportedAt);
+  Promise.all([
+    fetch('/tracker-v2.json').then(function(r){ if (!r.ok) throw new Error('missing'); return r.json(); }),
+    fetch('/tracker-v2/meta.json').then(function(r){ if (!r.ok) throw new Error('meta'); return r.json(); }),
+    fetch('/tracker-v2/tail.json').then(function(r){ if (!r.ok) throw new Error('tail'); return r.json(); })
+  ])
+    .then(function(parts){
+      data = parts[0];
+      chainMeta = parts[1];
+      tailCards = (parts[2].cards || []).slice();
+      tailCards.forEach(function(card){
+        if (card.hops) hopByHeight[card.height] = card.hops;
+      });
+      document.getElementById('v2-updated').textContent = when(data.exportedAt);
       document.getElementById('v2-counts').textContent =
-        fmt(json.stats.utxoCount) + ' UTXOs · ' + fmt(json.stats.walletCount) + ' wallets';
-      var cards = (json.blocks || []).filter(function(b){ return !b.isGenesis; }).length;
+        fmt(data.stats.utxoCount) + ' UTXOs · ' + fmt(data.stats.walletCount) + ' wallets';
       document.getElementById('v2-window').textContent =
-        fmt(cards) + ' / ' + fmt(json.overview.totalBlocks || cards) + ' blocks · ' +
-        fmt(json.overview.totalHops) + ' hops · recent window · present';
+        fmt(chainMeta.totalBlocks) + ' blocks · ' +
+        fmt(data.overview.totalHops) + ' hops · full map · present';
       document.getElementById('v2-hold-stat').innerHTML =
-        fmt(json.stats.utxoCount) + ' UTXOs · ' + fmt(json.stats.walletCount) + ' wallets · ' +
-        '<span class="s1">' + compact(json.stats.totalSats) + '</span> tracked';
+        fmt(data.stats.utxoCount) + ' UTXOs · ' + fmt(data.stats.walletCount) + ' wallets · ' +
+        '<span class="s1">' + compact(data.stats.totalSats) + '</span> tracked';
       renderYears();
-      renderCards();
+      renderCards(true);
       renderFilters();
       renderResults();
     })
@@ -433,22 +601,34 @@
     var next = btn.getAttribute('data-year');
     year = year === next ? null : next;
     renderYears();
-    renderCards();
+    if (year) {
+      var bucket = (data.overview.buckets || []).filter(function(b){ return b.id === year; })[0];
+      if (bucket) scrollToHeight(bucket.endHeight);
+    } else {
+      document.getElementById('jump-present').click();
+    }
+    schedulePaint(false);
   });
   document.getElementById('v2-cards').addEventListener('click', function(e){
     var btn = e.target.closest('.hop');
     if (!btn || !data) return;
     var id = btn.getAttribute('data-hop');
     var found = null;
-    (data.blocks || []).some(function(b){
-      return (b.hops || []).some(function(h){ if (h.id === id) { found = h; found.blockHeight = b.height; return true; } return false; });
+    Object.keys(hopByHeight).some(function(h){
+      return (hopByHeight[h] || []).some(function(hop){
+        if (hop.id === id) { found = hop; found.blockHeight = Number(h); return true; }
+        return false;
+      });
     });
     selectedHop = found;
     document.getElementById('v2-hop').textContent = found
       ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress + (labelText(found.walletLabel) ? ' · ' + labelText(found.walletLabel) : ''))
       : 'Select a hop tile to inspect movement details.';
-    renderCards();
+    schedulePaint(false);
   });
+  document.getElementById('v2-cards').addEventListener('scroll', function(){
+    schedulePaint(false);
+  }, { passive: true });
   document.getElementById('jump-present').onclick = function(){
     var chain = document.getElementById('v2-cards');
     if (chain) chain.scrollTo({ left: 0, behavior: 'smooth' });
@@ -484,7 +664,7 @@
   document.getElementById('v2-search').addEventListener('keydown', function(e){
     if (e.key === 'Enter') document.getElementById('v2-go').click();
   });
-  window.addEventListener('resize', function(){ layoutChain(false); });
+  window.addEventListener('resize', function(){ schedulePaint(false); });
 })();
 </script>
 </body>

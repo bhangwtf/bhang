@@ -64,7 +64,9 @@ v1_changed=0
 v2_changed=0
 if ! git diff --quiet tracker-data.json 2>/dev/null; then v1_changed=1; fi
 if [ -f tracker-v2.json ] && ! git diff --quiet -- tracker-v2.json 2>/dev/null; then v2_changed=1; fi
+if [ -d tracker-v2 ] && ! git diff --quiet -- tracker-v2 2>/dev/null; then v2_changed=1; fi
 if [ -f tracker-v2.json ] && ! git ls-files --error-unmatch tracker-v2.json >/dev/null 2>&1; then v2_changed=1; fi
+if [ -d tracker-v2 ] && [ -n "$(git status --porcelain -- tracker-v2)" ]; then v2_changed=1; fi
 
 if [ "$v1_changed" -eq 0 ] && [ "$v2_changed" -eq 0 ]; then
   log "SKIP: tracker snapshots unchanged since last push. exit 0."
@@ -73,6 +75,7 @@ fi
 
 git add tracker-data.json
 if [ -f tracker-v2.json ]; then git add tracker-v2.json; fi
+if [ -d tracker-v2 ]; then git add tracker-v2; fi
 git commit -m "tracker snapshot $(date +%Y-%m-%dT%H:%M)"
 
 log "step 3/3: push — uploading to github.com/bhangwtf/bhang"
