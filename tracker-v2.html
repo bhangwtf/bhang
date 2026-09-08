@@ -273,6 +273,7 @@
   var hopByHeight = {};
   var chunkWait = {};
   var paintFrame = 0;
+  var holdScroll = false;
   var GAP = 8;
   var OVERSCAN = 900;
 
@@ -348,11 +349,20 @@
       .catch(function(){ chunkCards[file] = []; })
       .finally(function(){ delete chunkWait[file]; });
   }
+  function pastOriginX(){
+    var spacer = document.getElementById('v2-spacer');
+    var future = document.getElementById('v2-future');
+    var now = document.getElementById('v2-now');
+    var x = 0;
+    if (spacer) x += spacer.offsetWidth;
+    if (future) x += future.offsetWidth;
+    if (now) x += now.offsetWidth;
+    return x;
+  }
   function visiblePast(){
     var chain = document.getElementById('v2-cards');
-    var past = document.getElementById('v2-past');
-    if (!chain || !past) return { left: 0, right: 1400 };
-    var local = chain.scrollLeft - past.offsetLeft;
+    if (!chain) return { left: 0, right: 1400 };
+    var local = chain.scrollLeft - pastOriginX();
     return { left: local - OVERSCAN, right: local + chain.clientWidth + OVERSCAN };
   }
   function cardsInView(seg, view){
@@ -376,8 +386,35 @@
     return { html: html, width: seg.width, drawn: drawn };
   }
   function schedulePaint(reset){
+    if (holdScroll) return;
     if (paintFrame) cancelAnimationFrame(paintFrame);
     paintFrame = requestAnimationFrame(function(){ paintFrame = 0; renderCards(reset); });
+  }
+  function maxScroll(chain){
+    return Math.max(0, chain.scrollWidth - chain.clientWidth);
+  }
+  function jumpPresent(){
+    if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
+    holdScroll = true;
+    var chain = document.getElementById('v2-cards');
+    if (!chain) { holdScroll = false; return; }
+    chain.scrollLeft = 0;
+    renderCards(true);
+    chain.scrollLeft = 0;
+    holdScroll = false;
+  }
+  function jumpOrigin(){
+    if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
+    holdScroll = true;
+    var chain = document.getElementById('v2-cards');
+    if (!chain) { holdScroll = false; return; }
+    var chunks = (chainMeta && chainMeta.chunks) || [];
+    if (chunks.length) ensureChunk(chunks[0].file);
+    var map = segments();
+    chain.scrollLeft = pastOriginX() + map.total;
+    renderCards(false);
+    chain.scrollLeft = maxScroll(chain);
+    holdScroll = false;
   }
   function renderCards(reset){
     var upcoming = data.upcoming || [];
@@ -392,8 +429,12 @@
         if (seg.x + seg.width < view.left) leftPad += seg.width;
         else if (seg.x > view.right) rightPad += seg.width;
         else {
-          leftPad += Math.max(0, view.left - seg.x);
-          rightPad += Math.max(0, seg.x + seg.width - view.right);
+          var before = Math.max(0, Math.min(seg.width, view.left - seg.x));
+          var after = Math.max(0, seg.x + seg.width - Math.max(view.right, seg.x));
+          var mid = Math.max(0, seg.width - before - after);
+          leftPad += before;
+          if (mid) body += '<div style="width:' + mid + 'px;flex:0 0 auto;"></div>';
+          rightPad += after;
           if (seg.file) ensureChunk(seg.file);
         }
         return;
@@ -629,15 +670,8 @@
   document.getElementById('v2-cards').addEventListener('scroll', function(){
     schedulePaint(false);
   }, { passive: true });
-  document.getElementById('jump-present').onclick = function(){
-    var chain = document.getElementById('v2-cards');
-    if (chain) chain.scrollTo({ left: 0, behavior: 'smooth' });
-  };
-  document.getElementById('jump-origin').onclick = function(){
-    var chain = document.getElementById('v2-cards');
-    if (!chain) return;
-    chain.scrollTo({ left: chain.scrollWidth, behavior: 'smooth' });
-  };
+  document.getElementById('jump-present').onclick = jumpPresent;
+  document.getElementById('jump-origin').onclick = jumpOrigin;
   document.getElementById('v2-filters').addEventListener('click', function(e){
     var btn = e.target.closest('button');
     if (!btn || !data) return;
