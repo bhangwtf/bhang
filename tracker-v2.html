@@ -9,19 +9,39 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #000; color: #ccc; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
   a { color: #00ff41; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 48px; }
   .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; }
   .tog { display: inline-flex; border: 1px solid #222; border-radius: 4px; overflow: hidden; font-size: 11px; }
   .tog a { padding: 3px 8px; text-decoration: none; color: #666; }
   .tog a.on { background: #00ff4122; color: #00ff41; }
   .meta { color: #555; font-size: 11px; }
-  .years { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .years button, .chip { border: 1px solid #222; background: #111; color: #888; border-radius: 4px; padding: 6px 8px; font: inherit; font-size: 11px; cursor: pointer; }
-  .years button.on { border-color: #00ff4155; color: #00ff41; }
-  .cards { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
-  .card { min-width: 180px; max-width: 220px; border: 1px solid #1a1a1a; background: #0c0c0c; border-radius: 6px; padding: 10px; flex: 0 0 auto; }
-  .card .h { color: #fff; font-weight: bold; font-size: 12px; }
-  .card .s { color: #555; font-size: 10px; margin-top: 6px; }
+  .years { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; }
+  .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid #222; background: #111; color: #ccc; border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
+  .years button.on { border-color: #00ff4188; background: #00ff4118; box-shadow: 0 0 18px rgba(0,255,65,.2); }
+  .years .yl { font-size: 12px; font-weight: bold; }
+  .years .ys { margin-top: 4px; font-size: 10px; color: #666; }
+  .years button.on .yl, .years button.on .ys { color: #00ff41; }
+  .chain-box { border: 1px solid #1a1a1a; border-radius: 12px; background: #070707; padding: 12px 8px 16px; }
+  .chain { display: flex; align-items: stretch; gap: 8px; overflow-x: auto; min-height: 240px; padding: 8px 4px 4px; }
+  .now { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 64px; }
+  .now .line { width: 1px; height: 72px; border-left: 1px dashed #00ff4166; }
+  .now .mark { margin: 8px 0; padding: 6px 8px; border: 1px solid #00ff4144; background: #00ff410c; border-radius: 4px; text-align: center; }
+  .now .mark b { display: block; color: #00ff41; font-size: 10px; }
+  .card { flex: 0 0 auto; width: 120px; min-height: 280px; display: flex; flex-direction: column; border: 1px solid #222; background: #0c0c0c; border-radius: 8px; }
+  .card.genesis { width: 100px; border-color: #ffffff44; }
+  .card.mint { width: 140px; border-color: #d4af3766; background: #d4af370f; }
+  .card .head { padding: 8px 8px 6px; border-bottom: 1px solid #1a1a1a; }
+  .card .h { color: #fff; font-weight: bold; font-size: 10px; }
+  .card .sub { margin-top: 2px; color: #666; font-size: 9px; }
+  .hops { padding: 8px; display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+  .hop { width: 100%; text-align: left; border: 1px solid #222; background: #111; border-radius: 4px; padding: 6px; color: inherit; font: inherit; cursor: pointer; }
+  .hop.mint { border-color: #d4af3788; background: #d4af3718; }
+  .hop.fee { border-color: #ffb00066; background: #ffb00010; }
+  .hop.on { box-shadow: 0 0 0 1px #00ff41; }
+  .hop .top { display: flex; justify-content: space-between; gap: 4px; font-size: 10px; }
+  .hop .addr { margin-top: 4px; color: #777; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .origin { flex: 0 0 auto; align-self: center; writing-mode: vertical-rl; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
   .search { display: flex; align-items: center; gap: 12px; margin: 28px 0 12px; }
   .search input { flex: 1; background: #111; border: 1px solid #1a1a1a; border-radius: 4px; padding: 8px 12px; color: #fff; font: inherit; font-size: 12px; outline: none; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -50,7 +70,10 @@
     <div id="v2-years" class="years"></div>
 
     <div class="dim" style="font-size:11px;letter-spacing:2px;margin-bottom:8px;">CHAIN</div>
-    <div id="v2-cards" class="cards"></div>
+    <div class="chain-box">
+      <div id="v2-cards" class="chain"></div>
+    </div>
+    <div id="v2-hop" class="dim" style="font-size:11px;margin-top:10px;min-height:16px;"></div>
 
     <div class="search">
       <span class="dim" style="font-size:11px;letter-spacing:2px;">DB</span>
@@ -61,9 +84,26 @@
 <script>
 (function(){
   var data = null;
-  var year = 'all';
+  var year = null;
+  var selectedHop = null;
 
   function fmt(n){ return Number(n || 0).toLocaleString('en-US'); }
+  function compact(n){
+    n = Number(n || 0);
+    if (n >= 1000000) return (n / 1000000).toFixed(2) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return fmt(n);
+  }
+  function trunc(addr){
+    if (!addr) return '';
+    if (addr.length <= 13) return addr;
+    return addr.slice(0, 6) + '…' + addr.slice(-4);
+  }
+  function esc(s){
+    return String(s || '').replace(/[&<>"]/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];
+    });
+  }
   function when(iso){
     var d = new Date(iso);
     return isNaN(d.getTime()) ? '' : d.toLocaleString();
@@ -71,29 +111,53 @@
   function yearOf(t){ return (t || '').slice(0, 4); }
 
   function renderYears(){
-    var html = '<button type="button" data-year="all" class="' + (year === 'all' ? 'on' : '') + '">All</button>';
+    var html = '';
     (data.overview.buckets || []).forEach(function(b){
       html += '<button type="button" data-year="' + b.id + '" class="' + (year === b.id ? 'on' : '') + '">' +
-        b.label + ' · ' + fmt(b.hopCount) + '</button>';
+        '<div class="yl">' + esc(b.label) + '</div>' +
+        '<div class="ys">' + fmt(b.blockCount) + ' blocks</div>' +
+        '<div class="ys">' + fmt(b.hopCount) + ' hops</div></button>';
     });
     document.getElementById('v2-years').innerHTML = html;
   }
 
+  function hopTile(hop){
+    var on = selectedHop && selectedHop.id === hop.id ? ' on' : '';
+    return '<button type="button" class="hop ' + esc(hop.kind) + on + '" data-hop="' + esc(hop.id) + '">' +
+      '<div class="top"><span>' + compact(hop.satCount) + '</span><span class="dim">' + esc(hop.kind) + '</span></div>' +
+      '<div class="addr">→ ' + esc(trunc(hop.toAddress)) + '</div></button>';
+  }
+
   function renderCards(){
     var cards = (data.blocks || []).filter(function(b){
-      if (b.isGenesis) return true;
-      if (year === 'all') return true;
+      if (b.isGenesis || b.isSeriesMining) return true;
+      if (!year) return true;
       return yearOf(b.blockTime) === year;
     }).sort(function(a, b){ return b.height - a.height; });
-    document.getElementById('v2-cards').innerHTML = cards.map(function(b){
-      var title = b.isGenesis ? 'Genesis' : ('#' + fmt(b.height));
-      var miner = b.minerName ? b.minerName : '';
-      return '<div class="card"><div class="h">' + title + '</div><div class="s">' +
-        (b.blockTime ? when(b.blockTime) : '') + '<br>' +
-        fmt(b.hopCount) + ' hops · ' + fmt(b.satTotal) + ' sats' +
-        (miner ? '<br>' + miner : '') +
-        '</div></div>';
-    }).join('') || '<div class="dim">No cards in this year window.</div>';
+
+    var tip = data.snapshotBlockHeight ? fmt(data.snapshotBlockHeight) : '—';
+    var html = '<div class="now"><div class="line"></div><div class="mark"><b>NOW</b><span>' + tip + '</span></div><div class="line"></div></div>';
+    html += cards.map(function(b){
+      var cls = 'card' + (b.isGenesis ? ' genesis' : '') + (b.isSeriesMining ? ' mint' : '');
+      var title = b.isGenesis ? 'GENESIS' : (b.isSeriesMining ? 'S1 mint' : '#' + fmt(b.height));
+      var sub = b.isGenesis ? 'Bitcoin origin' : (fmt(b.hopCount) + ' hop' + (b.hopCount === 1 ? '' : 's'));
+      var sats = b.satTotal > 0 ? '<div class="sub">' + compact(b.satTotal) + ' sats</div>' : '';
+      var body = '';
+      if (b.isGenesis) {
+        body = '<div class="hops" style="align-items:center;justify-content:center;color:#555;font-size:22px;">⬡</div>';
+      } else {
+        var hops = b.hops || [];
+        body = '<div class="hops">' + (hops.length ? hops.map(hopTile).join('') : '<div class="dim" style="font-size:9px;">…</div>') + '</div>';
+      }
+      var miner = b.minerName && String(b.minerName).toLowerCase() !== 'unknown' ? esc(b.minerName) : '…';
+      var link = b.isGenesis ? '' : ' <a href="https://mempool.space/block/' + b.height + '" target="_blank" rel="noopener" style="color:#555;text-decoration:none;">↗</a>';
+      return '<div class="' + cls + '"><div class="head"><div class="h">' + title + link + '</div>' +
+        (b.isSeriesMining ? '<div class="h">#' + fmt(b.height) + '</div>' : '') +
+        '<div class="sub">' + sub + '</div>' + sats + '</div>' + body +
+        '<div class="miner" title="' + miner + '">' + miner + '</div></div>';
+    }).join('');
+    html += '<div class="origin">origin</div>';
+    document.getElementById('v2-cards').innerHTML = html;
   }
 
   function renderResults(){
@@ -136,8 +200,23 @@
   document.getElementById('v2-years').addEventListener('click', function(e){
     var btn = e.target.closest('button');
     if (!btn || !data) return;
-    year = btn.getAttribute('data-year');
+    var next = btn.getAttribute('data-year');
+    year = year === next ? null : next;
     renderYears();
+    renderCards();
+  });
+  document.getElementById('v2-cards').addEventListener('click', function(e){
+    var btn = e.target.closest('.hop');
+    if (!btn || !data) return;
+    var id = btn.getAttribute('data-hop');
+    var found = null;
+    (data.blocks || []).some(function(b){
+      return (b.hops || []).some(function(h){ if (h.id === id) { found = h; return true; } return false; });
+    });
+    selectedHop = found;
+    document.getElementById('v2-hop').textContent = found
+      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress)
+      : '';
     renderCards();
   });
   document.getElementById('v2-search').addEventListener('input', function(){
