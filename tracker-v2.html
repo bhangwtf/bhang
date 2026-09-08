@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHANG TRACKER V2</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; color: #ccc; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+  a { color: #00ff41; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; }
+  .tog { display: inline-flex; border: 1px solid #222; border-radius: 4px; overflow: hidden; font-size: 11px; }
+  .tog a { padding: 3px 8px; text-decoration: none; color: #666; }
+  .tog a.on { background: #00ff4122; color: #00ff41; }
+  .meta { color: #555; font-size: 11px; }
+  .years { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .years button, .chip { border: 1px solid #222; background: #111; color: #888; border-radius: 4px; padding: 6px 8px; font: inherit; font-size: 11px; cursor: pointer; }
+  .years button.on { border-color: #00ff4155; color: #00ff41; }
+  .cards { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+  .card { min-width: 180px; max-width: 220px; border: 1px solid #1a1a1a; background: #0c0c0c; border-radius: 6px; padding: 10px; flex: 0 0 auto; }
+  .card .h { color: #fff; font-weight: bold; font-size: 12px; }
+  .card .s { color: #555; font-size: 10px; margin-top: 6px; }
+  .search { display: flex; align-items: center; gap: 12px; margin: 28px 0 12px; }
+  .search input { flex: 1; background: #111; border: 1px solid #1a1a1a; border-radius: 4px; padding: 8px 12px; color: #fff; font: inherit; font-size: 12px; outline: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #161616; }
+  th { color: #555; font-size: 10px; letter-spacing: 1px; font-weight: normal; }
+  .dim { color: #555; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hdr">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
+        <span class="tog">
+          <a href="/#tracker">V1</a>
+          <a class="on" href="/tracker-v2.html">V2</a>
+        </span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="v2-counts" class="meta"></span>
+        <div id="v2-updated" class="meta"></div>
+      </div>
+    </div>
+
+    <div class="dim" style="font-size:11px;letter-spacing:2px;margin-bottom:8px;">YEAR HOPS</div>
+    <div id="v2-years" class="years"></div>
+
+    <div class="dim" style="font-size:11px;letter-spacing:2px;margin-bottom:8px;">CHAIN</div>
+    <div id="v2-cards" class="cards"></div>
+
+    <div class="search">
+      <span class="dim" style="font-size:11px;letter-spacing:2px;">DB</span>
+      <input id="v2-search" type="text" placeholder="Enter wallet address or outpoint…" />
+    </div>
+    <div id="v2-results"></div>
+  </div>
+<script>
+(function(){
+  var data = null;
+  var year = 'all';
+
+  function fmt(n){ return Number(n || 0).toLocaleString('en-US'); }
+  function when(iso){
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? '' : d.toLocaleString();
+  }
+  function yearOf(t){ return (t || '').slice(0, 4); }
+
+  function renderYears(){
+    var html = '<button type="button" data-year="all" class="' + (year === 'all' ? 'on' : '') + '">All</button>';
+    (data.overview.buckets || []).forEach(function(b){
+      html += '<button type="button" data-year="' + b.id + '" class="' + (year === b.id ? 'on' : '') + '">' +
+        b.label + ' · ' + fmt(b.hopCount) + '</button>';
+    });
+    document.getElementById('v2-years').innerHTML = html;
+  }
+
+  function renderCards(){
+    var cards = (data.blocks || []).filter(function(b){
+      if (b.isGenesis) return true;
+      if (year === 'all') return true;
+      return yearOf(b.blockTime) === year;
+    }).sort(function(a, b){ return b.height - a.height; });
+    document.getElementById('v2-cards').innerHTML = cards.map(function(b){
+      var title = b.isGenesis ? 'Genesis' : ('#' + fmt(b.height));
+      var miner = b.minerName ? b.minerName : '';
+      return '<div class="card"><div class="h">' + title + '</div><div class="s">' +
+        (b.blockTime ? when(b.blockTime) : '') + '<br>' +
+        fmt(b.hopCount) + ' hops · ' + fmt(b.satTotal) + ' sats' +
+        (miner ? '<br>' + miner : '') +
+        '</div></div>';
+    }).join('') || '<div class="dim">No cards in this year window.</div>';
+  }
+
+  function renderResults(){
+    var q = (document.getElementById('v2-search').value || '').trim().toLowerCase();
+    var rows = data.utxos || [];
+    if (q) {
+      rows = rows.filter(function(u){
+        return u.address.toLowerCase().indexOf(q) !== -1 || u.outpoint.toLowerCase().indexOf(q) !== -1;
+      });
+    } else {
+      rows = rows.slice().sort(function(a, b){ return b.satCount - a.satCount; }).slice(0, 40);
+    }
+    var html = '<div class="dim" style="font-size:11px;margin-bottom:8px;">' +
+      (q ? fmt(rows.length) + ' matches' : 'Largest live ranges') + '</div>';
+    html += '<table><thead><tr><th>ADDRESS</th><th>SATS</th><th>OUTPOINT</th></tr></thead><tbody>';
+    rows.forEach(function(u){
+      html += '<tr><td>' + u.address + '</td><td>' + fmt(u.satCount) + '</td><td class="dim">' +
+        u.outpoint.slice(0, 10) + '…:' + u.outpoint.split(':')[1] + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('v2-results').innerHTML = html;
+  }
+
+  fetch('/tracker-v2.json')
+    .then(function(r){ if (!r.ok) throw new Error('missing'); return r.json(); })
+    .then(function(json){
+      data = json;
+      document.getElementById('v2-updated').textContent = when(json.exportedAt);
+      document.getElementById('v2-counts').textContent =
+        fmt(json.stats.utxoCount) + ' UTXOs · ' + fmt(json.stats.walletCount) + ' wallets';
+      renderYears();
+      renderCards();
+      renderResults();
+    })
+    .catch(function(){
+      document.getElementById('v2-results').innerHTML =
+        '<p class="dim">V2 snapshot is not published yet. V1 is unchanged.</p>';
+    });
+
+  document.getElementById('v2-years').addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if (!btn || !data) return;
+    year = btn.getAttribute('data-year');
+    renderYears();
+    renderCards();
+  });
+  document.getElementById('v2-search').addEventListener('input', function(){
+    if (data) renderResults();
+  });
+})();
+</script>
+</body>
+</html>

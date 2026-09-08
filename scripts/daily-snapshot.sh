@@ -52,14 +52,27 @@ if ! npx tsx scripts/export-snapshot.ts; then
   exit 1
 fi
 
+# V2 is optional. A failure here must not block the V1 snapshot push.
+log "optional: export tracker-v2.json"
+if ! npx tsx scripts/export-tracker-v2-site.ts; then
+  log "WARN: v2 site export failed. V1 snapshot continues."
+fi
+
 cd "$SITE_DIR" || { log "FAIL: site dir not found ($SITE_DIR). exit 1."; exit 1; }
 
-if git diff --quiet tracker-data.json 2>/dev/null; then
-  log "SKIP: tracker-data.json unchanged since last push. exit 0."
+v1_changed=0
+v2_changed=0
+if ! git diff --quiet tracker-data.json 2>/dev/null; then v1_changed=1; fi
+if [ -f tracker-v2.json ] && ! git diff --quiet -- tracker-v2.json 2>/dev/null; then v2_changed=1; fi
+if [ -f tracker-v2.json ] && ! git ls-files --error-unmatch tracker-v2.json >/dev/null 2>&1; then v2_changed=1; fi
+
+if [ "$v1_changed" -eq 0 ] && [ "$v2_changed" -eq 0 ]; then
+  log "SKIP: tracker snapshots unchanged since last push. exit 0."
   exit 0
 fi
 
 git add tracker-data.json
+if [ -f tracker-v2.json ]; then git add tracker-v2.json; fi
 git commit -m "tracker snapshot $(date +%Y-%m-%dT%H:%M)"
 
 log "step 3/3: push — uploading to github.com/bhangwtf/bhang"
