@@ -24,6 +24,8 @@
   .jumps .stat { margin-left: auto; color: #555; font-size: 10px; }
   .main { padding: 16px 16px 8px; }
   .years-row { display: flex; align-items: stretch; gap: 8px; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; height: 0; width: 0; }
   .years { display: flex; gap: 8px; overflow-x: auto; flex: 1; }
   .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid #1a1a1a; background: #11111199; color: #ccc; border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
   .years button.on { border-color: #00ff41b3; background: #00ff411a; box-shadow: 0 0 18px rgba(0,255,65,.28); }
@@ -32,12 +34,15 @@
   .years .yh { font-size: 10px; color: #00ff41cc; }
   .years button.on .yl, .years button.on .yh { color: #00ff41; }
   .to-origin { flex: 0 0 auto; align-self: center; padding: 0 8px; color: #555; font-size: 10px; }
-  .chain-box { margin-top: 16px; border: 1px solid #1a1a1a99; border-radius: 12px; background: #11111133; padding: 16px 12px 16px; }
-  .chain-labels { display: flex; gap: 16px; height: 16px; padding: 0 8px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
-  .chain-labels .future, .chain-labels .past { color: #ffb000; }
-  .chain-labels .present { color: #00ff41; }
-  .chain { overflow-x: auto; overflow-y: hidden; height: 340px; }
-  .chain-row { display: flex; align-items: flex-start; gap: 8px; height: 320px; width: max-content; padding: 8px 16px 8px 0; }
+  .chain-box { position: relative; margin-top: 16px; border: 1px solid #1a1a1a99; border-radius: 12px; background: #11111133; padding: 16px; }
+  .past-lab { position: absolute; left: 75%; top: 16px; transform: translateX(-50%); z-index: 2; pointer-events: none; color: #ffb000; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+  .chain { overflow-x: auto; overflow-y: hidden; }
+  .chain-sheet { display: inline-block; width: max-content; }
+  .chain-labs { position: relative; height: 24px; }
+  .chain-labs span { position: absolute; top: 0; white-space: nowrap; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; pointer-events: none; }
+  .chain-labs .future { color: #ffb000; }
+  .chain-labs .present { color: #00ff41; }
+  .chain-row { display: flex; align-items: center; gap: 8px; min-height: 240px; padding-right: 16px; }
   .now { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; min-width: 56px; margin: 0 4px; }
   .now .line { width: 1px; height: 80px; border-left: 1px dashed #00ff4173; }
   .now .mark { margin: 8px 0; padding: 6px 8px; border: 1px solid #00ff414d; background: #00ff410d; border-radius: 4px; text-align: center; }
@@ -51,7 +56,7 @@
   .soon .bar { margin-top: 6px; height: 4px; border-radius: 99px; background: #1a1a1a; overflow: hidden; }
   .soon .bar i { display: block; height: 100%; background: #ffb000cc; }
   .soon .pct { margin-top: 4px; color: #ffb000; font-size: 8px; font-weight: bold; }
-  .card { flex: 0 0 auto; width: 120px; height: 300px; display: flex; flex-direction: column; border: 1px solid #1a1a1a; background: #111111f2; border-radius: 8px; }
+  .card { flex: 0 0 auto; width: 120px; min-height: 240px; display: flex; flex-direction: column; border: 1px solid #1a1a1a; background: #111111f2; border-radius: 8px; }
   .card.genesis { width: 100px; border-color: #ffffff4d; background: #ffffff08; }
   .card.mint { width: 140px; border-color: #d4af3799; background: #d4af370f; box-shadow: 0 0 24px rgba(212,175,55,.15); }
   .card.fee { border-color: #ffb0004d; }
@@ -75,11 +80,11 @@
   .hop .lab { margin-top: 4px; color: #00ff41; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a80; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .miner.empty { color: #555; font-weight: 500; }
-  .origin { flex: 0 0 auto; align-self: center; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+  .origin { flex: 0 0 auto; align-self: center; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; writing-mode: vertical-rl; }
   .satg { width: 9px; height: 12px; display: inline-block; vertical-align: -1px; }
   .s1 { color: #00ff41; } .s2 { color: #00e8ff; } .s3 { color: #ff66cc; }
   .s4 { color: #ffb000; } .s5 { color: #ff7744; } .s6 { color: #b88cff; } .s7 { color: #ffee58; }
-  .hint { text-align: center; color: #555; font-size: 12px; margin: 14px 0 8px; min-height: 18px; }
+  .hint { border-top: 1px solid #1a1a1a; background: #11111166; text-align: center; color: #555; font-size: 14px; padding: 16px 24px; }
   .holders { border-top: 1px solid #1a1a1a; background: #11111133; padding: 16px 16px 24px; }
   .holders h2 { color: #00ff41; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: normal; }
   .holders-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -132,19 +137,15 @@
 
     <div class="main">
       <div class="years-row">
-        <div id="v2-years" class="years"></div>
+        <div id="v2-years" class="years scrollbar-none"></div>
         <div class="to-origin">→ origin</div>
       </div>
       <div class="chain-box">
-        <div class="chain-labels">
-          <span class="future" id="lab-future">Future</span>
-          <span class="present" id="lab-present">Present</span>
-          <span class="past">Past</span>
-        </div>
-        <div id="v2-cards" class="chain"></div>
+        <span class="past-lab">Past</span>
+        <div id="v2-cards" class="chain scrollbar-none"></div>
       </div>
-      <div id="v2-hop" class="hint">Select a hop tile to inspect movement details.</div>
     </div>
+    <div id="v2-hop" class="hint">Select a hop tile to inspect movement details.</div>
 
     <section class="holders">
       <div class="holders-top">
@@ -267,14 +268,17 @@
     var upcoming = data.upcoming || [];
     var cards = pastBlocks();
     var tip = data.snapshotBlockHeight ? fmt(data.snapshotBlockHeight) : '—';
-    var html = '<div class="chain-row">';
+    var html = '<div class="chain-sheet">';
+    html += '<div class="chain-labs"><span class="future" id="lab-future">Future</span><span class="present" id="lab-present">Present</span></div>';
+    html += '<div class="chain-row">';
     html += '<div id="v2-spacer" style="width:0;flex:0 0 auto;"></div>';
     html += '<div id="v2-future" style="display:flex;gap:8px;flex:0 0 auto;">' + upcoming.map(futureCard).join('') + '</div>';
     html += '<div class="now" id="v2-now"><div class="line"></div><div class="mark"><b>NOW</b><span>' + tip + '</span></div><div class="line"></div></div>';
     html += '<div id="v2-past" style="display:flex;gap:8px;flex:0 0 auto;">' + cards.map(blockCard).join('') + '</div>';
-    html += '<div class="origin">origin</div></div>';
+    html += '<div class="origin">origin</div></div></div>';
     document.getElementById('v2-cards').innerHTML = html;
-    document.getElementById('lab-future').style.display = upcoming.length ? '' : 'none';
+    var futureLab = document.getElementById('lab-future');
+    if (futureLab) futureLab.style.display = upcoming.length ? '' : 'none';
     layoutChain(true);
   }
 
@@ -282,11 +286,16 @@
     var chain = document.getElementById('v2-cards');
     var spacer = document.getElementById('v2-spacer');
     var now = document.getElementById('v2-now');
+    var futureLab = document.getElementById('lab-future');
+    var presentLab = document.getElementById('lab-present');
     if (!chain || !spacer || !now) return;
     spacer.style.width = '0px';
     var centerBefore = now.offsetLeft + now.offsetWidth / 2;
     var pad = Math.max(0, chain.clientWidth / 2 - centerBefore);
     spacer.style.width = pad + 'px';
+    var presentCenter = now.offsetLeft + now.offsetWidth / 2;
+    if (presentLab) presentLab.style.left = (presentCenter - presentLab.offsetWidth / 2) + 'px';
+    if (futureLab) futureLab.style.left = Math.max(8, presentCenter / 2 - futureLab.offsetWidth / 2) + 'px';
     if (reset) chain.scrollLeft = 0;
   }
 
