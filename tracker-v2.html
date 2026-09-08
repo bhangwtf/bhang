@@ -7,51 +7,111 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #000; color: #ccc; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+  body { background: #0a0a0a; color: #ccc; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
   a { color: #00ff41; }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 48px; }
-  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; }
+  .page { padding: 0 0 48px; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; }
   .tog { display: inline-flex; border: 1px solid #222; border-radius: 4px; overflow: hidden; font-size: 11px; }
   .tog a { padding: 3px 8px; text-decoration: none; color: #666; }
   .tog a.on { background: #00ff4122; color: #00ff41; }
   .meta { color: #555; font-size: 11px; }
-  .years { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; }
-  .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid #222; background: #111; color: #ccc; border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
-  .years button.on { border-color: #00ff4188; background: #00ff4118; box-shadow: 0 0 18px rgba(0,255,65,.2); }
-  .years .yl { font-size: 12px; font-weight: bold; }
-  .years .ys { margin-top: 4px; font-size: 10px; color: #666; }
-  .years button.on .yl, .years button.on .ys { color: #00ff41; }
-  .chain-box { border: 1px solid #1a1a1a; border-radius: 12px; background: #070707; padding: 12px 8px 16px; }
-  .chain { display: flex; align-items: stretch; gap: 8px; overflow-x: auto; min-height: 240px; padding: 8px 4px 4px; }
-  .now { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 64px; }
-  .now .line { width: 1px; height: 72px; border-left: 1px dashed #00ff4166; }
-  .now .mark { margin: 8px 0; padding: 6px 8px; border: 1px solid #00ff4144; background: #00ff410c; border-radius: 4px; text-align: center; }
+  .jumps { display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-bottom: 1px solid #1a1a1a; background: #11111180; flex-wrap: wrap; }
+  .jumps button { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 4px; background: transparent; cursor: pointer; }
+  .jumps .present { border: 1px solid #00ff4166; color: #00ff41; }
+  .jumps .present:hover { background: #00ff4114; }
+  .jumps .originbtn { border: 1px solid #d4af3766; color: #d4af37; }
+  .jumps .originbtn:hover { background: #d4af3714; }
+  .jumps .stat { margin-left: auto; color: #555; font-size: 10px; }
+  .main { padding: 16px 16px 8px; }
+  .years-row { display: flex; align-items: stretch; gap: 8px; }
+  .years { display: flex; gap: 8px; overflow-x: auto; flex: 1; }
+  .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid #1a1a1a; background: #11111199; color: #ccc; border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
+  .years button.on { border-color: #00ff41b3; background: #00ff411a; box-shadow: 0 0 18px rgba(0,255,65,.28); }
+  .years .yl { font-size: 12px; font-weight: bold; color: #fff; }
+  .years .ys { margin-top: 4px; font-size: 10px; color: #555; }
+  .years .yh { font-size: 10px; color: #00ff41cc; }
+  .years button.on .yl, .years button.on .yh { color: #00ff41; }
+  .to-origin { flex: 0 0 auto; align-self: center; padding: 0 8px; color: #555; font-size: 10px; }
+  .chain-box { margin-top: 16px; border: 1px solid #1a1a1a99; border-radius: 12px; background: #11111133; padding: 16px 12px 16px; }
+  .chain-labels { position: relative; height: 16px; }
+  .chain-labels span { position: absolute; top: 0; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+  .chain-labels .future { color: #ffb000; }
+  .chain-labels .present { color: #00ff41; }
+  .chain-labels .past { color: #ffb000; left: 75%; transform: translateX(-50%); }
+  .chain { overflow-x: auto; overflow-y: hidden; }
+  .chain-row { display: flex; align-items: center; gap: 8px; min-height: 220px; width: max-content; padding-right: 16px; }
+  .now { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; min-width: 56px; margin: 0 4px; }
+  .now .line { width: 1px; height: 80px; border-left: 1px dashed #00ff4173; }
+  .now .mark { margin: 8px 0; padding: 6px 8px; border: 1px solid #00ff414d; background: #00ff410d; border-radius: 4px; text-align: center; }
   .now .mark b { display: block; color: #00ff41; font-size: 10px; }
-  .card { flex: 0 0 auto; width: 120px; min-height: 280px; display: flex; flex-direction: column; border: 1px solid #222; background: #0c0c0c; border-radius: 8px; }
-  .card.genesis { width: 100px; border-color: #ffffff44; }
-  .card.mint { width: 140px; border-color: #d4af3766; background: #d4af370f; }
-  .card .head { padding: 8px 8px 6px; border-bottom: 1px solid #1a1a1a; }
-  .card .h { color: #fff; font-weight: bold; font-size: 10px; }
-  .card .sub { margin-top: 2px; color: #666; font-size: 9px; }
+  .now .mark span { color: #fff; font-size: 11px; font-weight: bold; }
+  .soon { flex: 0 0 auto; width: 84px; min-height: 104px; display: flex; flex-direction: column; border: 1px dashed #d4af3773; background: #d4af370d; border-radius: 6px; padding: 8px; }
+  .soon .k { font-size: 8px; font-weight: bold; letter-spacing: .4px; color: #d4af37; text-transform: uppercase; }
+  .soon .n { margin-top: 4px; color: #fff; font-size: 9px; font-weight: bold; }
+  .soon .amt { margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 10px; font-weight: 500; }
+  .soon .yr { margin-top: 6px; color: #ffb000; font-size: 10px; font-weight: bold; }
+  .soon .bar { margin-top: 6px; height: 4px; border-radius: 99px; background: #1a1a1a; overflow: hidden; }
+  .soon .bar i { display: block; height: 100%; background: #ffb000cc; }
+  .soon .pct { margin-top: 4px; color: #ffb000; font-size: 8px; font-weight: bold; }
+  .card { flex: 0 0 auto; width: 120px; min-height: 240px; display: flex; flex-direction: column; border: 1px solid #1a1a1a; background: #111111f2; border-radius: 8px; }
+  .card.genesis { width: 100px; border-color: #ffffff4d; background: #ffffff08; }
+  .card.mint { width: 140px; border-color: #d4af3799; background: #d4af370f; box-shadow: 0 0 24px rgba(212,175,55,.15); }
+  .card.fee { border-color: #ffb0004d; }
+  .card.on { box-shadow: 0 0 22px rgba(0,255,65,.22); border-color: #00ff4180; }
+  .card .head { padding: 8px 8px 6px; border-bottom: 1px solid #1a1a1a99; }
+  .card .row { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+  .card .h { color: #fff; font-weight: bold; font-size: 10px; letter-spacing: .3px; }
+  .card .mintlab { font-size: 8px; font-weight: bold; letter-spacing: .4px; color: #d4af37; text-transform: uppercase; }
+  .card .sub { margin-top: 2px; color: #555; font-size: 9px; }
+  .card .yr { margin-top: 2px; color: #ffb000; font-size: 10px; font-weight: bold; }
+  .card .mined { margin-top: 2px; color: #00ff41; font-size: 8px; font-weight: bold; text-transform: uppercase; }
+  .satline { margin-top: 2px; display: flex; align-items: center; gap: 2px; font-size: 10px; font-weight: 500; }
   .hops { padding: 8px; display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
-  .hop { width: 100%; text-align: left; border: 1px solid #222; background: #111; border-radius: 4px; padding: 6px; color: inherit; font: inherit; cursor: pointer; }
-  .hop.mint { border-color: #d4af3788; background: #d4af3718; }
-  .hop.fee { border-color: #ffb00066; background: #ffb00010; }
+  .hop { width: 100%; text-align: left; border: 1px solid #1a1a1a; background: #111; border-radius: 4px; padding: 6px; color: inherit; font: inherit; cursor: pointer; }
+  .hop.mint { border-color: #d4af3780; background: #d4af371a; }
+  .hop.fee { border-color: #ffb00066; background: #ffb0000d; }
   .hop.on { box-shadow: 0 0 0 1px #00ff41; }
-  .hop .top { display: flex; justify-content: space-between; gap: 4px; font-size: 10px; }
-  .hop .addr { margin-top: 4px; color: #777; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hop .top { display: flex; align-items: center; justify-content: space-between; gap: 4px; font-size: 10px; }
+  .hop .kind { color: #555; font-size: 9px; text-transform: uppercase; }
+  .hop .addr { margin-top: 4px; color: #555; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hop .lab { margin-top: 4px; color: #00ff41; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a80; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .miner.empty { color: #555; font-weight: 500; }
   .origin { flex: 0 0 auto; align-self: center; writing-mode: vertical-rl; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
-  .search { display: flex; align-items: center; gap: 12px; margin: 28px 0 12px; }
-  .search input { flex: 1; background: #111; border: 1px solid #1a1a1a; border-radius: 4px; padding: 8px 12px; color: #fff; font: inherit; font-size: 12px; outline: none; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #161616; }
-  th { color: #555; font-size: 10px; letter-spacing: 1px; font-weight: normal; }
+  .satg { width: 9px; height: 12px; display: inline-block; vertical-align: -1px; }
+  .s1 { color: #00ff41; } .s2 { color: #00e8ff; } .s3 { color: #ff66cc; }
+  .s4 { color: #ffb000; } .s5 { color: #ff7744; } .s6 { color: #b88cff; } .s7 { color: #ffee58; }
+  .hint { text-align: center; color: #555; font-size: 12px; margin: 14px 0 8px; min-height: 18px; }
+  .holders { border-top: 1px solid #1a1a1a; background: #11111133; padding: 16px 16px 24px; }
+  .holders h2 { color: #00ff41; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: normal; }
+  .holders-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .search { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .search input { flex: 1; min-width: 240px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 4px; padding: 8px 12px; color: #fff; font: inherit; font-size: 13px; outline: none; }
+  .search input:focus { border-color: #00ff4199; }
+  .search button { font: inherit; font-size: 12px; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+  .search .go { border: 1px solid #00ff4166; background: transparent; color: #00ff41; }
+  .search .go:hover { background: #00ff4114; }
+  .search .clear { border: 1px solid #1a1a1a; background: transparent; color: #555; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filters button { font: inherit; font-size: 11px; font-weight: bold; letter-spacing: .3px; padding: 6px 14px; border-radius: 4px; cursor: pointer; border: 1px solid #1a1a1a; background: transparent; color: #555; }
+  .filters button.on { background: #d4af37e6; border-color: #d4af37; color: #000; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid #1a1a1a66; vertical-align: middle; }
+  th { color: #555; font-size: 11px; font-weight: normal; }
+  td.right, th.right { text-align: right; }
+  .gold { color: #d4af37; text-decoration: none; }
+  .gold:hover { text-decoration: underline; }
+  .badge { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; color: #888; background: #888222; border: 1px solid #888555; }
+  .live { color: #00ff41; }
+  .rare { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; }
+  .pager { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11px; color: #555; }
+  .pager button { font: inherit; font-size: 11px; padding: 4px 8px; border: 1px solid #1a1a1a; background: transparent; color: #ccc; border-radius: 4px; cursor: pointer; }
   .dim { color: #555; }
 </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="page">
     <div class="hdr">
       <div style="display:flex;align-items:center;gap:12px;">
         <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
@@ -66,26 +126,52 @@
       </div>
     </div>
 
-    <div class="dim" style="font-size:11px;letter-spacing:2px;margin-bottom:8px;">YEAR HOPS</div>
-    <div id="v2-years" class="years"></div>
-
-    <div class="dim" style="font-size:11px;letter-spacing:2px;margin-bottom:8px;">CHAIN</div>
-    <div class="chain-box">
-      <div id="v2-cards" class="chain"></div>
+    <div class="jumps">
+      <button type="button" class="present" id="jump-present">Jump to Present</button>
+      <button type="button" class="originbtn" id="jump-origin">Jump to Origin →</button>
+      <span id="v2-window" class="stat"></span>
     </div>
-    <div id="v2-hop" class="dim" style="font-size:11px;margin-top:10px;min-height:16px;"></div>
 
-    <div class="search">
-      <span class="dim" style="font-size:11px;letter-spacing:2px;">DB</span>
-      <input id="v2-search" type="text" placeholder="Enter wallet address or outpoint…" />
+    <div class="main">
+      <div class="years-row">
+        <div id="v2-years" class="years"></div>
+        <div class="to-origin">→ origin</div>
+      </div>
+      <div class="chain-box">
+        <div class="chain-labels">
+          <span class="future" id="lab-future">Future</span>
+          <span class="present" id="lab-present">Present</span>
+          <span class="past">Past</span>
+        </div>
+        <div id="v2-cards" class="chain"></div>
+      </div>
+      <div id="v2-hop" class="hint">Select a hop tile to inspect movement details.</div>
     </div>
-    <div id="v2-results"></div>
+
+    <section class="holders">
+      <div class="holders-top">
+        <h2>Holders</h2>
+        <span id="v2-hold-stat" class="dim" style="font-size:10px;"></span>
+      </div>
+      <div class="search">
+        <input id="v2-search" type="text" placeholder="Enter wallet address or outpoint…" />
+        <button type="button" class="go" id="v2-go">Search</button>
+        <button type="button" class="clear" id="v2-clear">Clear</button>
+      </div>
+      <div id="v2-filters" class="filters"></div>
+      <div id="v2-results"></div>
+    </section>
   </div>
 <script>
 (function(){
   var data = null;
   var year = null;
   var selectedHop = null;
+  var filter = 'all';
+  var page = 1;
+  var pageSize = 50;
+  var searchQ = '';
+  var SERIES = {1:'s1',2:'s2',3:'s3',4:'s4',5:'s5',6:'s6',7:'s7'};
 
   function fmt(n){ return Number(n || 0).toLocaleString('en-US'); }
   function compact(n){
@@ -94,13 +180,14 @@
     if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
     return fmt(n);
   }
-  function trunc(addr){
+  function trunc(addr, head, tail){
+    head = head || 6; tail = tail || 4;
     if (!addr) return '';
-    if (addr.length <= 13) return addr;
-    return addr.slice(0, 6) + '…' + addr.slice(-4);
+    if (addr.length <= head + tail + 3) return addr;
+    return addr.slice(0, head) + '…' + addr.slice(-tail);
   }
   function esc(s){
-    return String(s || '').replace(/[&<>"]/g, function(c){
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];
     });
   }
@@ -109,6 +196,12 @@
     return isNaN(d.getTime()) ? '' : d.toLocaleString();
   }
   function yearOf(t){ return (t || '').slice(0, 4); }
+  function glyph(){
+    return '<svg class="satg" viewBox="0 0 24 32" aria-hidden="true"><rect x="10.5" y="2" width="3" height="28" rx="1.5" fill="#c084fc"/><rect x="5" y="7" width="14" height="3" rx="1.5" fill="#c084fc"/><rect x="2" y="14.5" width="20" height="3" rx="1.5" fill="#c084fc"/><rect x="5" y="22" width="14" height="3" rx="1.5" fill="#c084fc"/></svg>';
+  }
+  function amt(n, seriesId){
+    return '<span class="satline ' + (SERIES[seriesId] || 's1') + '"><span>' + compact(n) + '</span>' + glyph() + '</span>';
+  }
 
   function renderYears(){
     var html = '';
@@ -116,69 +209,189 @@
       html += '<button type="button" data-year="' + b.id + '" class="' + (year === b.id ? 'on' : '') + '">' +
         '<div class="yl">' + esc(b.label) + '</div>' +
         '<div class="ys">' + fmt(b.blockCount) + ' blocks</div>' +
-        '<div class="ys">' + fmt(b.hopCount) + ' hops</div></button>';
+        '<div class="yh">' + fmt(b.hopCount) + ' hops</div></button>';
     });
     document.getElementById('v2-years').innerHTML = html;
   }
 
   function hopTile(hop){
     var on = selectedHop && selectedHop.id === hop.id ? ' on' : '';
+    var lab = hop.walletLabel ? '<div class="lab">' + esc(hop.walletLabel) + '</div>' : '';
     return '<button type="button" class="hop ' + esc(hop.kind) + on + '" data-hop="' + esc(hop.id) + '">' +
-      '<div class="top"><span>' + compact(hop.satCount) + '</span><span class="dim">' + esc(hop.kind) + '</span></div>' +
-      '<div class="addr">→ ' + esc(trunc(hop.toAddress)) + '</div></button>';
+      '<div class="top">' + amt(hop.satCount, hop.seriesId || 1) + '<span class="kind">' + esc(hop.kind) + '</span></div>' +
+      '<div class="addr">→ ' + esc(trunc(hop.toAddress)) + '</div>' + lab + '</button>';
   }
 
-  function renderCards(){
-    var cards = (data.blocks || []).filter(function(b){
+  function futureCard(b){
+    var pct = Math.min(100, Number(b.progressPercent) || 0);
+    return '<div class="soon"><span class="k">S' + b.seriesId + ' mint</span>' +
+      '<span class="n">#' + fmt(b.height) + '</span>' +
+      amt(b.satCount, b.seriesId) +
+      '<span class="yr">' + esc(b.estimatedYear) + '</span>' +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+      '<span class="pct">' + pct.toFixed(1) + '%</span></div>';
+  }
+
+  function blockCard(b){
+    var hops = b.hops || [];
+    var hasFee = hops.some(function(h){ return h.kind === 'fee'; });
+    var highlighted = year && !b.isGenesis && !b.isSeriesMining && yearOf(b.blockTime) === year;
+    var cls = 'card' + (b.isGenesis ? ' genesis' : '') + (b.isSeriesMining ? ' mint' : '') + (hasFee ? ' fee' : '') + (highlighted ? ' on' : '');
+    var miner = b.minerName && String(b.minerName).toLowerCase() !== 'unknown' ? esc(b.minerName) : '';
+    var link = b.isGenesis ? '' : '<a href="https://mempool.space/block/' + b.height + '" target="_blank" rel="noopener" style="color:#555;text-decoration:none;">↗</a>';
+    var head = '';
+    if (b.isSeriesMining) {
+      head = '<div class="row"><span class="mintlab">S1 mint</span>' + link + '</div><div class="h">#' + fmt(b.height) + '</div>' +
+        '<div class="yr">2019</div><div class="mined">mined · 100%</div>';
+    } else if (b.isGenesis) {
+      head = '<div class="h">GENESIS</div><div class="sub">Bitcoin origin</div>';
+    } else {
+      head = '<div class="row"><span class="h">#' + fmt(b.height) + '</span>' + link + '</div>' +
+        '<div class="sub">' + fmt(b.hopCount) + ' hop' + (b.hopCount === 1 ? '' : 's') + '</div>';
+    }
+    if (!b.isGenesis && b.satTotal > 0) head += amt(b.satTotal, 1);
+    var body = '';
+    if (b.isGenesis) body = '<div class="hops" style="align-items:center;justify-content:center;color:#555;font-size:22px;flex:1;">⬡</div>';
+    else body = '<div class="hops">' + (hops.length ? hops.map(hopTile).join('') : '<div class="dim" style="font-size:9px;">…</div>') + '</div>';
+    return '<div class="' + cls + '"><div class="head">' + head + '</div>' + body +
+      '<div class="miner' + (miner ? '' : ' empty') + '" title="' + (miner || 'Miner unknown') + '">' + (miner || '…') + '</div></div>';
+  }
+
+  function pastBlocks(){
+    return (data.blocks || []).filter(function(b){
       if (b.isGenesis || b.isSeriesMining) return true;
       if (!year) return true;
       return yearOf(b.blockTime) === year;
     }).sort(function(a, b){ return b.height - a.height; });
+  }
 
+  function renderCards(){
+    var upcoming = data.upcoming || [];
+    var cards = pastBlocks();
     var tip = data.snapshotBlockHeight ? fmt(data.snapshotBlockHeight) : '—';
-    var html = '<div class="now"><div class="line"></div><div class="mark"><b>NOW</b><span>' + tip + '</span></div><div class="line"></div></div>';
-    html += cards.map(function(b){
-      var cls = 'card' + (b.isGenesis ? ' genesis' : '') + (b.isSeriesMining ? ' mint' : '');
-      var title = b.isGenesis ? 'GENESIS' : (b.isSeriesMining ? 'S1 mint' : '#' + fmt(b.height));
-      var sub = b.isGenesis ? 'Bitcoin origin' : (fmt(b.hopCount) + ' hop' + (b.hopCount === 1 ? '' : 's'));
-      var sats = b.satTotal > 0 ? '<div class="sub">' + compact(b.satTotal) + ' sats</div>' : '';
-      var body = '';
-      if (b.isGenesis) {
-        body = '<div class="hops" style="align-items:center;justify-content:center;color:#555;font-size:22px;">⬡</div>';
-      } else {
-        var hops = b.hops || [];
-        body = '<div class="hops">' + (hops.length ? hops.map(hopTile).join('') : '<div class="dim" style="font-size:9px;">…</div>') + '</div>';
-      }
-      var miner = b.minerName && String(b.minerName).toLowerCase() !== 'unknown' ? esc(b.minerName) : '…';
-      var link = b.isGenesis ? '' : ' <a href="https://mempool.space/block/' + b.height + '" target="_blank" rel="noopener" style="color:#555;text-decoration:none;">↗</a>';
-      return '<div class="' + cls + '"><div class="head"><div class="h">' + title + link + '</div>' +
-        (b.isSeriesMining ? '<div class="h">#' + fmt(b.height) + '</div>' : '') +
-        '<div class="sub">' + sub + '</div>' + sats + '</div>' + body +
-        '<div class="miner" title="' + miner + '">' + miner + '</div></div>';
-    }).join('');
-    html += '<div class="origin">origin</div>';
+    var html = '<div class="chain-row">';
+    html += '<div id="v2-spacer" style="width:0;flex:0 0 auto;"></div>';
+    html += '<div id="v2-future" style="display:flex;gap:8px;flex:0 0 auto;">' + upcoming.map(futureCard).join('') + '</div>';
+    html += '<div class="now" id="v2-now"><div class="line"></div><div class="mark"><b>NOW</b><span>' + tip + '</span></div><div class="line"></div></div>';
+    html += '<div id="v2-past" style="display:flex;gap:8px;flex:0 0 auto;">' + cards.map(blockCard).join('') + '</div>';
+    html += '<div class="origin">origin</div></div>';
     document.getElementById('v2-cards').innerHTML = html;
+    document.getElementById('lab-future').style.display = upcoming.length ? '' : 'none';
+    layoutChain(true);
+  }
+
+  function layoutChain(reset){
+    var chain = document.getElementById('v2-cards');
+    var spacer = document.getElementById('v2-spacer');
+    var now = document.getElementById('v2-now');
+    var future = document.getElementById('v2-future');
+    if (!chain || !spacer || !now) return;
+    spacer.style.width = '0px';
+    var centerBefore = now.offsetLeft + now.offsetWidth / 2;
+    var pad = Math.max(0, chain.clientWidth / 2 - centerBefore);
+    spacer.style.width = pad + 'px';
+    var present = document.getElementById('lab-present');
+    var futureLab = document.getElementById('lab-future');
+    var presentCenter = now.offsetLeft + now.offsetWidth / 2;
+    if (present) present.style.left = (presentCenter - 24) + 'px';
+    if (futureLab && future) {
+      var mid = presentCenter / 2;
+      futureLab.style.left = Math.max(8, mid - 20) + 'px';
+    }
+    if (reset) chain.scrollLeft = 0;
+  }
+
+  function labelled(){
+    return (data.utxos || []).filter(function(u){ return u.walletLabel; });
+  }
+
+  function renderFilters(){
+    var utxos = data.utxos || [];
+    var multi = data.multiWallets || [];
+    var items = [
+      ['all', 'All DB (' + utxos.length + ')'],
+      ['labelled', 'Labelled (' + labelled().length + ')'],
+      ['multi', 'Multi-UTXO (' + multi.length + ')']
+    ];
+    document.getElementById('v2-filters').innerHTML = items.map(function(item){
+      return '<button type="button" data-filter="' + item[0] + '" class="' + (filter === item[0] ? 'on' : '') + '">' + item[1] + '</button>';
+    }).join('');
+  }
+
+  function rarityHtml(u){
+    if (u.rarity && u.rarity.length) {
+      return u.rarity.map(function(tag){
+        return '<span class="rare" style="color:' + esc(tag.color) + ';background:' + esc(tag.color) + '22;border:1px solid ' + esc(tag.color) + '55" title="' + esc(tag.desc) + '">' + esc(tag.symbol) + ' ' + esc(String(tag.label || '').toUpperCase()) + '</span>';
+      }).join('');
+    }
+    return '<span class="live">LIVE</span>';
+  }
+
+  function utxoRows(rows){
+    return rows.map(function(u){
+      var vout = String(u.outpoint).split(':')[1] || '0';
+      var names = esc(trunc(u.satnameRangeStart, 8, 4));
+      if (u.satnameRangeEnd && u.satnameRangeEnd !== u.satnameRangeStart) {
+        names += ' <span class="dim">→</span> ' + esc(trunc(u.satnameRangeEnd, 8, 4));
+      }
+      var badge = u.walletLabel ? '<span class="badge">' + esc(u.walletLabel) + '</span>' : '';
+      var edge = (u.rarity && u.rarity[0]) ? 'border-left:2px solid ' + u.rarity[0].color : '';
+      return '<tr style="' + edge + '"><td class="dim">' + esc(String(u.outpoint).slice(0, 12)) + '…:' + esc(vout) + '</td>' +
+        '<td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(u.address) + '" target="_blank" rel="noopener">' + esc(trunc(u.address, 12, 6)) + '</a>' + badge + '</td>' +
+        '<td class="right"><span class="s1" style="font-weight:bold;">' + fmt(u.satCount) + '</span> ' + glyph() + '</td>' +
+        '<td class="dim" style="font-size:10px;">' + esc(trunc(u.satRangeStart, 7, 4)) + ' → ' + esc(trunc(u.satRangeEnd, 7, 4)) + '</td>' +
+        '<td style="font-size:10px;color:#00ff41;">' + names + '</td>' +
+        '<td class="right dim">' + esc((u.lastMoved || '').slice(0, 10) || '—') + '</td>' +
+        '<td class="right">' + rarityHtml(u) + '</td></tr>';
+    }).join('');
+  }
+
+  function activeRows(){
+    if (searchQ) {
+      return (data.utxos || []).filter(function(u){
+        return u.address.toLowerCase().indexOf(searchQ) !== -1 || u.outpoint.toLowerCase().indexOf(searchQ) !== -1 ||
+          (u.walletLabel && u.walletLabel.toLowerCase().indexOf(searchQ) !== -1);
+      });
+    }
+    if (filter === 'labelled') return labelled();
+    if (filter === 'multi') return data.multiWallets || [];
+    return data.utxos || [];
   }
 
   function renderResults(){
-    var q = (document.getElementById('v2-search').value || '').trim().toLowerCase();
-    var rows = data.utxos || [];
-    if (q) {
-      rows = rows.filter(function(u){
-        return u.address.toLowerCase().indexOf(q) !== -1 || u.outpoint.toLowerCase().indexOf(q) !== -1;
-      });
-    } else {
-      rows = rows.slice().sort(function(a, b){ return b.satCount - a.satCount; }).slice(0, 40);
+    var rows = activeRows();
+    var html = '';
+    if (searchQ) {
+      var addrs = {};
+      var total = 0;
+      rows.forEach(function(u){ addrs[u.address] = 1; total += u.satCount; });
+      html += '<div class="dim" style="font-size:12px;margin-bottom:12px;">Matches: <span style="color:#fff;">' + fmt(rows.length) + ' UTXOs</span> · Addresses: <span style="color:#fff;">' + fmt(Object.keys(addrs).length) + '</span> · Total: <span class="s1">' + fmt(total) + '</span></div>';
     }
-    var html = '<div class="dim" style="font-size:11px;margin-bottom:8px;">' +
-      (q ? fmt(rows.length) + ' matches' : 'Largest live ranges') + '</div>';
-    html += '<table><thead><tr><th>ADDRESS</th><th>SATS</th><th>OUTPOINT</th></tr></thead><tbody>';
-    rows.forEach(function(u){
-      html += '<tr><td>' + u.address + '</td><td>' + fmt(u.satCount) + '</td><td class="dim">' +
-        u.outpoint.slice(0, 10) + '…:' + u.outpoint.split(':')[1] + '</td></tr>';
-    });
-    html += '</tbody></table>';
+    if (filter === 'multi' && !searchQ) {
+      html += '<div class="table-wrap"><table><thead><tr><th>#</th><th>Address</th><th class="right">Ranges</th><th class="right">UTXOs</th><th class="right">BHANG ' + glyph() + '</th></tr></thead><tbody>';
+      var start = (page - 1) * pageSize;
+      rows.slice(start, start + pageSize).forEach(function(w, i){
+        var badge = w.walletLabel ? '<span class="badge">' + esc(w.walletLabel) + '</span>' : '';
+        html += '<tr><td class="dim">' + (start + i + 1) + '</td><td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(w.address) + '" target="_blank" rel="noopener">' + esc(trunc(w.address, 12, 6)) + '</a>' + badge + '</td>' +
+          '<td class="right">' + fmt(w.rangeCount) + '</td><td class="right">' + fmt(w.utxoCount) + '</td><td class="right"><span class="s1" style="font-weight:bold;">' + fmt(w.bhangSats) + '</span></td></tr>';
+      });
+      html += '</tbody></table></div>';
+    } else {
+      html += '<div class="table-wrap"><table><thead><tr><th>Outpoint</th><th>Address</th><th class="right">' + glyph() + '</th><th>Sat range</th><th>Satname range</th><th class="right">Last moved</th><th class="right">Rarity</th></tr></thead><tbody>';
+      var slice = rows.slice((page - 1) * pageSize, page * pageSize);
+      html += utxoRows(slice) || '<tr><td colspan="7" class="dim">No matching UTXOs.</td></tr>';
+      html += '</tbody></table></div>';
+    }
+    var pages = Math.max(1, Math.ceil(rows.length / pageSize));
+    if (page > pages) page = pages;
+    if (pages > 1) {
+      html += '<div class="pager"><button type="button" id="pg-prev">Prev</button><span>' + page + ' / ' + pages + ' · ' + fmt(rows.length) + '</span><button type="button" id="pg-next">Next</button></div>';
+    }
     document.getElementById('v2-results').innerHTML = html;
+    var prev = document.getElementById('pg-prev');
+    var next = document.getElementById('pg-next');
+    if (prev) prev.onclick = function(){ if (page > 1) { page--; renderResults(); } };
+    if (next) next.onclick = function(){ if (page < pages) { page++; renderResults(); } };
   }
 
   fetch('/tracker-v2.json')
@@ -188,8 +401,16 @@
       document.getElementById('v2-updated').textContent = when(json.exportedAt);
       document.getElementById('v2-counts').textContent =
         fmt(json.stats.utxoCount) + ' UTXOs · ' + fmt(json.stats.walletCount) + ' wallets';
+      var cards = (json.blocks || []).filter(function(b){ return !b.isGenesis; }).length;
+      document.getElementById('v2-window').textContent =
+        fmt(cards) + ' / ' + fmt(json.overview.totalBlocks || cards) + ' blocks · ' +
+        fmt(json.overview.totalHops) + ' hops · recent window · present';
+      document.getElementById('v2-hold-stat').innerHTML =
+        fmt(json.stats.utxoCount) + ' UTXOs · ' + fmt(json.stats.walletCount) + ' wallets · ' +
+        '<span class="s1">' + compact(json.stats.totalSats) + '</span> tracked';
       renderYears();
       renderCards();
+      renderFilters();
       renderResults();
     })
     .catch(function(){
@@ -211,17 +432,50 @@
     var id = btn.getAttribute('data-hop');
     var found = null;
     (data.blocks || []).some(function(b){
-      return (b.hops || []).some(function(h){ if (h.id === id) { found = h; return true; } return false; });
+      return (b.hops || []).some(function(h){ if (h.id === id) { found = h; found.blockHeight = b.height; return true; } return false; });
     });
     selectedHop = found;
     document.getElementById('v2-hop').textContent = found
-      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress)
-      : '';
+      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress + (found.walletLabel ? ' · ' + found.walletLabel : ''))
+      : 'Select a hop tile to inspect movement details.';
     renderCards();
   });
-  document.getElementById('v2-search').addEventListener('input', function(){
-    if (data) renderResults();
+  document.getElementById('jump-present').onclick = function(){
+    var chain = document.getElementById('v2-cards');
+    if (chain) chain.scrollTo({ left: 0, behavior: 'smooth' });
+  };
+  document.getElementById('jump-origin').onclick = function(){
+    var chain = document.getElementById('v2-cards');
+    if (!chain) return;
+    chain.scrollTo({ left: chain.scrollWidth, behavior: 'smooth' });
+  };
+  document.getElementById('v2-filters').addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if (!btn || !data) return;
+    filter = btn.getAttribute('data-filter');
+    searchQ = '';
+    document.getElementById('v2-search').value = '';
+    page = 1;
+    renderFilters();
+    renderResults();
   });
+  document.getElementById('v2-go').onclick = function(){
+    searchQ = (document.getElementById('v2-search').value || '').trim().toLowerCase();
+    filter = 'all';
+    page = 1;
+    renderFilters();
+    renderResults();
+  };
+  document.getElementById('v2-clear').onclick = function(){
+    searchQ = '';
+    document.getElementById('v2-search').value = '';
+    page = 1;
+    renderResults();
+  };
+  document.getElementById('v2-search').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') document.getElementById('v2-go').click();
+  });
+  window.addEventListener('resize', function(){ layoutChain(false); });
 })();
 </script>
 </body>
