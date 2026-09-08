@@ -57,7 +57,7 @@
   .soon .bar i { display: block; height: 100%; background: #ffb000cc; }
   .soon .pct { margin-top: 4px; color: #ffb000; font-size: 8px; font-weight: bold; }
   .card { flex: 0 0 auto; width: 120px; min-height: 240px; display: flex; flex-direction: column; border: 1px solid #1a1a1a; background: #111111f2; border-radius: 8px; }
-  .card.genesis { width: 100px; border-color: #ffffff4d; background: #ffffff08; }
+  .card.genesis { width: 100px; min-width: 100px; border-color: #ffffff4d; background: #ffffff08; overflow: hidden; }
   .card.mint { width: 140px; border-color: #d4af3799; background: #d4af370f; box-shadow: 0 0 24px rgba(212,175,55,.15); }
   .card.fee { border-color: #ffb0004d; }
   .card.on { box-shadow: 0 0 22px rgba(0,255,65,.22); border-color: #00ff4180; }
@@ -80,7 +80,8 @@
   .hop .lab { margin-top: 4px; color: #00ff41; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a80; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .miner.empty { color: #555; font-weight: 500; }
-  .origin { flex: 0 0 auto; align-self: center; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; writing-mode: vertical-rl; }
+  .origin { flex: 0 0 auto; align-self: center; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; writing-mode: vertical-rl; margin-left: 8px; }
+  .chain-end { width: 220px; flex: 0 0 auto; }
   .satg { width: 9px; height: 12px; display: inline-block; vertical-align: -1px; }
   .s1 { color: #00ff41; } .s2 { color: #00e8ff; } .s3 { color: #ff66cc; }
   .s4 { color: #ffb000; } .s5 { color: #ff7744; } .s6 { color: #b88cff; } .s7 { color: #ffee58; }
@@ -274,6 +275,7 @@
   var chunkWait = {};
   var paintFrame = 0;
   var holdScroll = false;
+  var pinEnd = false;
   var GAP = 8;
   var OVERSCAN = 900;
 
@@ -344,7 +346,14 @@
       .then(function(r){ return r.ok ? r.json() : {}; })
       .then(function(hops){
         Object.keys(hops || {}).forEach(function(k){ hopByHeight[k] = hops[k]; });
-        schedulePaint(false);
+        if (pinEnd) {
+          holdScroll = true;
+          renderCards(false);
+          pinToEnd(document.getElementById('v2-cards'));
+          holdScroll = false;
+        } else {
+          schedulePaint(false);
+        }
       })
       .catch(function(){ chunkCards[file] = []; })
       .finally(function(){ delete chunkWait[file]; });
@@ -393,8 +402,12 @@
   function maxScroll(chain){
     return Math.max(0, chain.scrollWidth - chain.clientWidth);
   }
+  function pinToEnd(chain){
+    chain.scrollLeft = maxScroll(chain);
+  }
   function jumpPresent(){
     if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
+    pinEnd = false;
     holdScroll = true;
     var chain = document.getElementById('v2-cards');
     if (!chain) { holdScroll = false; return; }
@@ -405,16 +418,21 @@
   }
   function jumpOrigin(){
     if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
+    pinEnd = true;
     holdScroll = true;
     var chain = document.getElementById('v2-cards');
     if (!chain) { holdScroll = false; return; }
     var chunks = (chainMeta && chainMeta.chunks) || [];
     if (chunks.length) ensureChunk(chunks[0].file);
     var map = segments();
-    chain.scrollLeft = pastOriginX() + map.total;
+    chain.scrollLeft = pastOriginX() + map.total + 400;
     renderCards(false);
-    chain.scrollLeft = maxScroll(chain);
+    pinToEnd(chain);
     holdScroll = false;
+    requestAnimationFrame(function(){
+      if (!pinEnd) return;
+      pinToEnd(chain);
+    });
   }
   function renderCards(reset){
     var upcoming = data.upcoming || [];
@@ -458,7 +476,7 @@
     html += '<div id="v2-past" style="display:flex;flex:0 0 auto;">';
     html += '<div style="width:' + leftPad + 'px;flex:0 0 auto;"></div>' + body;
     html += '<div style="width:' + rightPad + 'px;flex:0 0 auto;"></div></div>';
-    html += '<div class="origin">origin</div></div></div>';
+    html += '<div class="origin">origin</div><div class="chain-end"></div></div></div>';
     var chain = document.getElementById('v2-cards');
     var keep = chain ? chain.scrollLeft : 0;
     chain.innerHTML = html;
@@ -466,6 +484,7 @@
     var futureLab = document.getElementById('lab-future');
     if (futureLab) futureLab.style.display = upcoming.length ? '' : 'none';
     layoutChain(!!reset);
+    if (pinEnd && chain) pinToEnd(chain);
   }
 
   function layoutChain(reset){
