@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BHANG TRACKER V1</title>
+  <link rel="canonical" href="/tracker-v1">
+  <style>
+    html, body { margin: 0; padding: 0; background: #000; color: #ccc; }
+    body { overflow-y: auto; }
+    @media (max-width: 600px) {
+      .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
+      .tracker-series-grid > div { padding: 6px 4px !important; }
+      #t-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+      #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
+      #t-utxos { overflow-x: auto; }
+      #t-utxos table { min-width: 480px; }
+      #tracker-content { padding: 14px 8px !important; }
+    }
+  </style>
+</head>
+<body>
+<div id="tracker">
+  <div id="tracker-content" style="max-width:900px;margin:0 auto;padding:24px 16px;font-family:'JetBrains Mono','Fira Code',monospace;color:#ccc;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #1a1a1a;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
+        <span style="display:inline-flex;border:1px solid #222;border-radius:4px;overflow:hidden;font-size:11px;">
+          <a href="/tracker-v1" style="padding:3px 8px;background:#00ff4122;color:#00ff41;text-decoration:none;">V1</a>
+          <a href="/tracker-v2" style="padding:3px 8px;color:#666;text-decoration:none;">V2</a>
+        </span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="t-blockheight" style="color:#00ff41;font-size:11px;font-weight:bold;"></span>
+        <div id="t-updated" style="color:#555;font-size:11px;"></div>
+      </div>
+    </div>
+
+    <!-- Series overview -->
+    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES OVERVIEW</div>
+    <div id="t-series" class="tracker-series-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px;"></div>
+
+    <!-- Next target mining progress -->
+    <div id="t-next-target" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
+
+    <!-- Trace progress -->
+    <div id="t-trace" style="border:1px solid #1a1a1a;border-radius:4px;padding:16px;margin-bottom:24px;background:#111;"></div>
+
+    <!-- Sat conservation -->
+    <div id="t-conservation" style="margin-bottom:24px;"></div>
+
+    <!-- Wallet search -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <span style="color:#555;font-size:11px;letter-spacing:2px;white-space:nowrap;">SEARCH</span>
+      <input id="t-search" type="text" placeholder="Enter wallet address or outpoint..." style="flex:1;background:#111;border:1px solid #1a1a1a;border-radius:4px;padding:8px 12px;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;" />
+    </div>
+    <div id="t-search-results" style="margin-bottom:24px;"></div>
+
+    <!-- Address type breakdown -->
+    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">ADDRESS TYPES</div>
+    <div id="t-addr-types" style="margin-bottom:24px;"></div>
+
+    <!-- Live feed -->
+    <div style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">LIVE FEED <span id="t-live-status" style="color:#333;font-size:10px;">● CONNECTING</span></div>
+    <div id="t-live-feed" style="border:1px solid #1a1a1a;border-radius:4px;padding:12px;margin-bottom:24px;background:#111;max-height:200px;overflow-y:auto;font-size:11px;">
+      <div style="color:#555;">Waiting for new blocks...</div>
+    </div>
+
+    <!-- UTXOs -->
+    <div id="t-series1-title" style="color:#555;font-size:11px;letter-spacing:2px;margin-bottom:8px;">SERIES 1 — MINED (308,915,776 SATS)</div>
+    <div id="t-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;font-size:12px;"></div>
+
+    <!-- Rare Sats Legend -->
+    <div id="t-rare-sats" style="border:1px solid #222;border-radius:6px;padding:12px 14px;margin-bottom:16px;background:#0a0a0a;">
+      <div style="color:#555;font-size:10px;letter-spacing:2px;margin-bottom:8px;">RARE SATS IN COLLECTION</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:11px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:#70a0ff22;border:1px solid #70a0ff55;color:#70a0ff;">◆ UNCOMMON</span>
+          <span style="color:#888;">1 sat</span>
+          <span style="color:#555;">— First sat of block 579,125</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:#ff70d022;border:1px solid #ff70d055;color:#ff70d0;">⟐ PALINDROME</span>
+          <span style="color:#888;">2 sats</span>
+          <span style="color:#555;">— Sat numbers read same forwards/backwards</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="t-utxo-filter" style="display:flex;gap:8px;margin-bottom:12px;"></div>
+    <div id="t-utxos" style="font-size:12px;"></div>
+  </div>
+</div>
+<script>
+function formatPushed(iso){
+  var d=new Date(iso);
+  if(isNaN(d.getTime())) return '';
+  var zone='';
+  try {
+    var parts=new Intl.DateTimeFormat(undefined,{timeZoneName:'short'}).formatToParts(d);
+    for(var i=0;i<parts.length;i++) if(parts[i].type==='timeZoneName') zone=parts[i].value;
+  } catch(e) {}
+  return d.toLocaleString()+(zone?' '+zone:'');
+}
+(function loadTracker(){
+  // Fetch block height
+  fetch('https://mempool.space/api/blocks/tip/height')
+    .then(function(r){return r.text();})
+    .then(function(h){
+      var el=document.getElementById('t-blockheight');
+      el.innerHTML='<span style="color:#00ff41;">●</span> BLK: '+parseInt(h).toLocaleString();
+      window._currentBlock=parseInt(h);
+    }).catch(function(){});
+
+  fetch('/tracker-data.json')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      // Last updated
+      document.getElementById('t-updated').textContent=formatPushed(data.exported_at);
+
+      var seriesData=data.series;
+      var currentBlock=window._currentBlock||948000;
+      // Block ranges per series (L-R)
+      var BLKSETS=[
+        {L:579124,R:579125},{L:1568922,R:1568923},{L:2544826,R:2544826},
+        {L:3536797,R:3536798},{L:4530322,R:4530322},{L:5500597,R:5500597},{L:6403598,R:6403598}
+      ];
+      function fmtSats(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString();}
+
+      // Series cards
+      var sh='';
+      for(var i=0;i<seriesData.length;i++){
+        var s=seriesData[i];
+        var mined=s.mined===1;
+        var pctMined=mined?100:Math.min(100,Math.round((currentBlock/s.target_block)*100));
+        var border=mined?'border-color:rgba(0,255,65,0.3);background:rgba(0,255,65,0.03)':'border-color:#1a1a1a;background:#111';
+        var label=mined?'<span style="color:#00ff41">MINED</span>':'<span style="color:#ffb000">'+pctMined+'%</span>';
+        var blkRange=BLKSETS[i]?BLKSETS[i].L.toLocaleString()+(BLKSETS[i].L!==BLKSETS[i].R?'-'+BLKSETS[i].R.toLocaleString():''):'';
+        sh+='<div style="border:1px solid;padding:10px;border-radius:4px;text-align:center;'+border+'">';
+        sh+='<div style="color:#555;font-size:10px;">S'+s.id+'</div>';
+        sh+='<div style="font-size:16px;font-weight:bold;margin:4px 0;">'+label+'</div>';
+        sh+='<div style="color:#fff;font-size:12px;">'+fmtSats(s.sat_count)+'</div>';
+        sh+='<div style="color:#555;font-size:9px;">BLK '+blkRange+'</div>';
+        sh+='<div style="color:#555;font-size:10px;">'+s.name_length+'L</div>';
+        sh+='<div style="color:#555;font-size:10px;margin-top:4px;">'+s.estimated_year+'</div>';
+        sh+='</div>';
+      }
+      document.getElementById('t-series').innerHTML=sh;
+
+      // Next target mining progress — find first unmined series
+      var nextSeries=null;
+      for(var i=0;i<seriesData.length;i++){
+        if(seriesData[i].mined!==1){nextSeries=seriesData[i];break;}
+      }
+      if(nextSeries){
+        var blocksRemaining=nextSeries.target_block-currentBlock;
+        var estYears=(blocksRemaining*10/525960).toFixed(1);
+        var miningPct=Math.min(100,Math.round((currentBlock/nextSeries.target_block)*10000)/100);
+        var nt='<div style="display:flex;justify-content:space-between;margin-bottom:8px;">';
+        nt+='<span style="color:#555;font-size:11px;letter-spacing:2px;">NEXT TARGET: SERIES '+nextSeries.id+' MINING PROGRESS</span>';
+        nt+='<span style="color:#ffb000;font-size:13px;font-weight:bold;">'+miningPct+'%</span></div>';
+        nt+='<div style="background:#1a1a1a;border-radius:2px;height:8px;margin-bottom:12px;overflow:hidden;">';
+        nt+='<div style="background:linear-gradient(90deg,#00ff41,#ffb000);height:100%;width:'+miningPct+'%;transition:width 0.3s;"></div></div>';
+        nt+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px;">';
+        nt+='<div><span style="color:#555;">Target Block</span><div style="color:#fff;font-weight:bold;">'+nextSeries.target_block.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:#555;">Blocks Remaining</span><div style="color:#ffb000;font-weight:bold;">'+blocksRemaining.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:#555;">Est. Time</span><div style="color:#fff;">~'+estYears+' years</div></div>';
+        nt+='<div><span style="color:#555;">Sats to Unlock</span><div style="color:#fff;">'+nextSeries.sat_count.toLocaleString()+'</div></div>';
+        nt+='</div>';
+        nt+='<div style="color:#555;font-size:10px;margin-top:8px;">Range: '+nextSeries.sat_start+' → '+nextSeries.sat_end+'</div>';
+        document.getElementById('t-next-target').innerHTML=nt;
+      } else {
+        document.getElementById('t-next-target').style.display='none';
+      }
+
+      // Trace progress — enhanced with Traced/Untraced, %, Last Run, sat range
+      var tr=data.trace;
+      var s1=seriesData[0];
+      var traced=s1.stats.total_sats;
+      var total=s1.sat_count;
+      var untraced=total-traced;
+      var pct=Math.round((traced/total)*10000)/100;
+      var tracedPctLabel='Traced: '+pct+'%';
+      var untracedPct=(100-pct).toFixed(2);
+      var th='<div style="display:flex;justify-content:space-between;margin-bottom:8px;">';
+      th+='<span style="color:#555;font-size:11px;letter-spacing:2px;">SERIES 1 — TRACE PROGRESS</span>';
+      th+='<span style="font-size:11px;">STATUS: <span style="color:'+(tr.status==='tracing'?'#00ff41':'#ffb000')+';">'+tr.status.toUpperCase()+(tr.status==='tracing'?' ▸':'')+'</span></span></div>';
+      th+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">';
+      th+='<div style="flex:1;background:#1a1a1a;border-radius:2px;height:8px;overflow:hidden;">';
+      th+='<div style="background:#00ff41;height:100%;width:'+pct+'%;transition:width 0.3s;"></div></div>';
+      th+='<span style="color:#fff;font-size:13px;font-weight:bold;">'+pct+'%</span></div>';
+      th+='<div style="display:flex;gap:16px;font-size:10px;margin-bottom:12px;">';
+      th+='<span style="color:#00ff41;">● Traced: '+pct+'%</span>';
+      th+='<span style="color:#555;">● Untraced: '+untracedPct+'%</span></div>';
+      var feeRetraced=parseInt(tr.fee_sats_retraced||'0');
+      th+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;font-size:12px;">';
+      th+='<div><span style="color:#555;">Traced</span><div style="color:#00ff41;font-weight:bold;">'+traced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Untraced</span><div style="color:#ffb000;">'+untraced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Total Supply</span><div style="color:#fff;">'+total.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Fee Sats Retraced</span><div style="color:#D4AF37;">'+feeRetraced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:#555;">Queue</span><div style="color:#ffb000;">'+tr.queue_size.toLocaleString()+' items</div></div>';
+      th+='<div><span style="color:#555;">Last Run</span><div style="color:#fff;">'+tr.last_run+'</div></div>';
+      th+='</div>';
+      th+='<div style="color:#555;font-size:10px;margin-top:8px;">Range: '+s1.sat_start+' → '+s1.sat_end+'</div>';
+      document.getElementById('t-trace').innerHTML=th;
+
+      // Sat conservation banner — every BHANG sat must be located or queued
+      var cons=data.conservation||{
+        target:s1.sat_count,
+        accounted:s1.stats.total_sats,
+        live_sats:s1.stats.total_sats,
+        queued_sats:0,
+        gap:s1.sat_count-s1.stats.total_sats,
+        duplicate:0
+      };
+      var consOk=(cons.gap===0&&cons.duplicate===0);
+      var consCol=consOk?'#00ff41':'#ff4444';
+      var ch='<div style="border:1px solid '+(consOk?'#1a3a1a':'#3a1a1a')+';border-radius:4px;padding:14px 16px;background:'+(consOk?'#0a140a':'#140a0a')+';">';
+      ch+='<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+      ch+='<span style="color:#555;font-size:11px;letter-spacing:2px;">SAT CONSERVATION</span>';
+      ch+='<span style="color:'+consCol+';font-size:12px;font-weight:bold;">'+(consOk?'✓ 0 SATS LOST':'⚠ '+Math.abs(cons.gap).toLocaleString()+' SATS UNACCOUNTED')+'</span></div>';
+      ch+='<div style="color:#fff;font-size:18px;font-weight:bold;margin:8px 0 6px;">'+cons.accounted.toLocaleString()+' <span style="color:#555;font-size:13px;font-weight:normal;">/ '+cons.target.toLocaleString()+' sats accounted</span></div>';
+      ch+='<div style="display:flex;gap:16px;font-size:10px;color:#555;flex-wrap:wrap;">';
+      ch+='<span>In live UTXOs: <span style="color:#aaa;">'+cons.live_sats.toLocaleString()+'</span></span>';
+      ch+='<span>In trace queue: <span style="color:#aaa;">'+cons.queued_sats.toLocaleString()+'</span></span>';
+      ch+='<span>Duplicates: <span style="color:#aaa;">'+cons.duplicate.toLocaleString()+'</span></span>';
+      ch+='</div></div>';
+      document.getElementById('t-conservation').innerHTML=ch;
+
+      // Series 1 title
+      document.getElementById('t-series1-title').textContent='SERIES 1 — MINED ('+s1.sat_count.toLocaleString()+' SATS)';
+
+      // Stats — 4 columns plain text like original
+      var st=s1.stats;
+      var ssh='';
+      ssh+='<div><span style="color:#555;font-size:11px;">UTXOs</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.utxo_count+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Wallets</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.wallet_count+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Tracked Sats</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.total_sats.toLocaleString()+'</div></div>';
+      ssh+='<div><span style="color:#555;font-size:11px;">Inscribed</span><div style="color:#fff;font-size:16px;font-weight:bold;">'+st.inscribed_count+'</div></div>';
+      document.getElementById('t-stats').innerHTML=ssh;
+
+      // Address type breakdown — table format
+      var utxos=s1.utxos;
+
+      // ─── Rare Sat Detection ───
+      // Rarity is pre-computed in tracker-data.json by the export script.
+      // Fallback client-side detection for backwards compatibility with older snapshots.
+      var SPECIAL_SATS = [
+        { sat: '1773906250000000', type: 'uncommon', label: 'Uncommon', symbol: '◆', color: '#70a0ff', name: 'bhanggsozvd', desc: 'First sat of block 579,125' },
+        { sat: '1773906116093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangrzprys', desc: 'Sat number reads same forwards/backwards' },
+        { sat: '1773906226093771', type: 'palindrome', label: 'Palindrome', symbol: '⟐', color: '#ff70d0', name: 'bhangisxebm', desc: 'Sat number reads same forwards/backwards' }
+      ];
+
+      function getUtxoRarity(u) {
+        // Use pre-computed rarity from export if available
+        if (u.rarity) return u.rarity;
+        // Fallback: compute client-side
+        var start = BigInt(u.sat_range_start);
+        var end = BigInt(u.sat_range_end);
+        var tags = [];
+        for (var i = 0; i < SPECIAL_SATS.length; i++) {
+          var ss = BigInt(SPECIAL_SATS[i].sat);
+          if (ss >= start && ss <= end) {
+            tags.push(SPECIAL_SATS[i]);
+          }
+        }
+        return tags;
+      }
+
+      function rarityBadge(tag) {
+        return '<span title="' + tag.label + ': ' + tag.desc + ' (' + tag.name + ')" style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:bold;background:' + tag.color + '22;border:1px solid ' + tag.color + '55;color:' + tag.color + ';cursor:help;vertical-align:middle;">' + tag.symbol + ' ' + tag.label.toUpperCase() + '</span>';
+      }
+
+      // Identified-wallet badge — set from wallet_label in tracker-data.json (export script)
+      function walletBadge(wl) {
+        if (!wl) return '';
+        var c = wl.kind === 'exchange' ? '#3b8eea' : wl.kind === 'hot-wallet' ? '#ff9500' : '#888';
+        return '<span title="Identified wallet: ' + wl.label + '" style="display:inline-block;margin-left:5px;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:bold;background:' + c + '22;border:1px solid ' + c + '55;color:' + c + ';vertical-align:middle;white-space:nowrap;">' + wl.label + '</span>';
+      }
+      var types={legacy:{label:'Legacy',addrs:{},utxos:0,sats:0},nested:{label:'Nested SegWit',addrs:{},utxos:0,sats:0},segwit:{label:'Native SegWit',addrs:{},utxos:0,sats:0},taproot:{label:'Taproot',addrs:{},utxos:0,sats:0}};
+      for(var j=0;j<utxos.length;j++){
+        var a=utxos[j].address;var t;
+        if(a.startsWith('bc1p'))t='taproot';
+        else if(a.startsWith('bc1q'))t='segwit';
+        else if(a.startsWith('3'))t='nested';
+        else t='legacy';
+        types[t].addrs[a]=1;types[t].utxos++;types[t].sats+=utxos[j].sat_count;
+      }
+      var tkeys=['legacy','nested','segwit','taproot'];
+      var tcolors={legacy:'#ffb000',nested:'#70a0ff',segwit:'#00ff41',taproot:'#D4AF37'};
+      var ath='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+      ath+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+      ath+='<th style="padding:6px 4px;">TYPE</th><th style="padding:6px 4px;text-align:right;">WALLETS</th><th style="padding:6px 4px;text-align:right;">SATS</th></tr>';
+      for(var k=0;k<tkeys.length;k++){
+        var tk=tkeys[k];var tp=types[tk];var ac=Object.keys(tp.addrs).length;
+        ath+='<tr style="border-bottom:1px solid #111;">';
+        ath+='<td style="padding:6px 4px;color:'+tcolors[tk]+';font-weight:bold;">'+tp.label+'</td>';
+        ath+='<td style="padding:6px 4px;text-align:right;color:#fff;">'+ac+'</td>';
+        ath+='<td style="padding:6px 4px;text-align:right;color:#00ff41;">'+tp.sats.toLocaleString()+'</td>';
+        ath+='</tr>';
+      }
+      ath+='</table>';
+      document.getElementById('t-addr-types').innerHTML=ath;
+
+      // Wallet search
+      var allUtxos=utxos;
+      function doSearch(){
+        var q=document.getElementById('t-search').value.trim().toLowerCase();
+        var el=document.getElementById('t-search-results');
+        if(!q){el.innerHTML='';return;}
+        var matches=allUtxos.filter(function(u){return u.address.toLowerCase().indexOf(q)!==-1||u.outpoint.toLowerCase().indexOf(q)!==-1;});
+        if(!matches.length){el.innerHTML='<div style="color:#555;font-size:12px;padding:8px;">No matching UTXOs found.</div>';return;}
+        var totalSats=0;var addrs={};
+        for(var i=0;i<matches.length;i++){totalSats+=matches[i].sat_count;addrs[matches[i].address]=1;}
+        var rh='<div style="border:1px solid #222;border-radius:4px;padding:12px;background:#111;margin-bottom:8px;">';
+        rh+='<div style="display:flex;gap:20px;font-size:12px;margin-bottom:10px;">';
+        rh+='<span><span style="color:#555;">Matches: </span><span style="color:#fff;">'+matches.length+' UTXOs</span></span>';
+        rh+='<span><span style="color:#555;">Addresses: </span><span style="color:#fff;">'+Object.keys(addrs).length+'</span></span>';
+        rh+='<span><span style="color:#555;">Total Sats: </span><span style="color:#00ff41;">'+totalSats.toLocaleString()+'</span></span>';
+        rh+='</div>';
+        rh+='<div style="overflow-x:auto;">';
+        rh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+        rh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;"><th style="padding:4px;">Outpoint</th><th style="padding:4px;">Address</th><th style="padding:4px;text-align:right;">Sats</th><th style="padding:4px;text-align:right;">Last Moved</th><th style="padding:4px;text-align:right;">Status</th></tr>';
+        for(var i=0;i<matches.length;i++){
+          var u=matches[i];
+          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
+          var tags=getUtxoRarity(u);
+          rh+='<tr style="border-bottom:1px solid #111;'+(tags.length?'border-left:2px solid '+tags[0].color+';':'')+'">';
+          rh+='<td style="padding:4px;color:#888;">'+opShort+'</td>';
+          rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a>'+walletBadge(u.wallet_label)+'</td>';
+          rh+='<td style="padding:4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
+          rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
+          rh+='<td style="padding:4px;text-align:right;white-space:nowrap;">';
+          if(tags.length){for(var t=0;t<tags.length;t++){rh+=rarityBadge(tags[t]);}}
+          else{rh+='<span style="color:#00ff41;">LIVE</span>';}
+          rh+='</td></tr>';
+        }
+        rh+='</table></div></div>';
+        el.innerHTML=rh;
+      }
+      document.getElementById('t-search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+      document.getElementById('t-search').addEventListener('input',function(){if(!this.value.trim())document.getElementById('t-search-results').innerHTML='';});
+
+      // UTXO table — paginated, 50 per page, filterable (All DB / Labelled)
+      var PAGE_SIZE=50;
+      var currentPage=1;
+      var totalPages=1;
+      var utxoFilter='all';
+      var labelledUtxos=utxos.filter(function(u){return u.wallet_label;});
+      var multiRangeWallets=(s1.multi_range_wallets)||[];
+
+      function activeUtxoList(){
+        if(utxoFilter==='labelled')return labelledUtxos;
+        if(utxoFilter==='multi')return multiRangeWallets;
+        return utxos;
+      }
+
+      function renderUtxoFilter(){
+        var el=document.getElementById('t-utxo-filter');
+        if(!el)return;
+        function fbtn(key,label){
+          var on=utxoFilter===key;
+          return '<button onclick="setUtxoFilter(\''+key+'\')" style="background:'+(on?'#D4AF37':'none')+';border:1px solid '+(on?'#D4AF37':'#333')+';color:'+(on?'#000':'#aaa')+';padding:5px 14px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:bold;letter-spacing:1px;">'+label+'</button>';
+        }
+        el.innerHTML=fbtn('all','ALL DB ('+utxos.length+')')+fbtn('labelled','LABELLED ('+labelledUtxos.length+')')+fbtn('multi','MULTI-UTXO ('+multiRangeWallets.length+')');
+      }
+
+      window.setUtxoFilter=function(f){
+        if(utxoFilter===f)return;
+        utxoFilter=f;currentPage=1;
+        renderUtxoFilter();renderUtxoTable();
+      };
+
+      function renderUtxoTable(){
+        if(utxoFilter==='multi'){renderMultiWalletsTable();return;}
+        var list=activeUtxoList();
+        totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+        if(currentPage>totalPages)currentPage=totalPages;
+        if(!list.length){document.getElementById('t-utxos').innerHTML='<div style="color:#555;font-size:12px;padding:16px;text-align:center;">No UTXOs in this view.</div>';return;}
+        var start=(currentPage-1)*PAGE_SIZE;
+        var end=Math.min(start+PAGE_SIZE,list.length);
+        var pageUtxos=list.slice(start,end);
+
+        var uh='<div style="overflow-x:auto;">';
+        uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+        uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
+        for(var j=0;j<pageUtxos.length;j++){
+          var u=pageUtxos[j];
+          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
+          var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
+          var moved=u.last_moved?u.last_moved.substring(0,10):'—';
+          var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
+          var tags=getUtxoRarity(u);
+          var rowBorder=tags.length?'border-left:2px solid '+tags[0].color+';':'';
+          uh+='<tr style="border-bottom:1px solid #111;'+rowBorder+'">';
+          uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
+          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(u.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
+          uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">';
+          if(tags.length){for(var t=0;t<tags.length;t++){uh+=rarityBadge(tags[t]);}}
+          else{uh+='<span style="color:#00ff41;">LIVE</span>';}
+          uh+='</td>';
+          uh+='</tr>';
+        }
+        uh+='</table></div>';
+
+        if(totalPages>1){
+          uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
+          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+list.length.toLocaleString()+'</span>';
+          uh+='<div style="display:flex;align-items:center;gap:6px;">';
+          uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
+          uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
+          uh+='<span style="color:#fff;padding:0 8px;">'+currentPage+' / '+totalPages+'</span>';
+          uh+='<button onclick="goPage('+(currentPage+1)+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">Next ›</button>';
+          uh+='<button onclick="goPage('+totalPages+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">&raquo;</button>';
+          uh+='</div></div>';
+        }
+
+        document.getElementById('t-utxos').innerHTML=uh;
+      }
+
+      // Multi-UTXO view — one row per wallet (address) that holds 2+ BHANG sat
+      // ranges, sorted by tracked BHANG sats desc. Shows the wallet's full
+      // current BTC balance (from mempool.space, captured at export time).
+      function renderMultiWalletsTable(){
+        var list=multiRangeWallets;
+        totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+        if(currentPage>totalPages)currentPage=totalPages;
+        if(!list.length){document.getElementById('t-utxos').innerHTML='<div style="color:#555;font-size:12px;padding:16px;text-align:center;">No multi-UTXO wallets in this snapshot.</div>';return;}
+        var start=(currentPage-1)*PAGE_SIZE;
+        var end=Math.min(start+PAGE_SIZE,list.length);
+        var page=list.slice(start,end);
+
+        var uh='<div style="overflow-x:auto;">';
+        uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+        uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
+        uh+='<th style="padding:6px 4px;">#</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">RANGES</th><th style="padding:6px 4px;text-align:right;">UTXOS</th><th style="padding:6px 4px;text-align:right;">BHANG SATS ▾</th><th style="padding:6px 4px;text-align:right;">TOTAL BTC BALANCE</th></tr>';
+        for(var j=0;j<page.length;j++){
+          var w=page[j];
+          var addr=w.address.substring(0,12)+'...'+w.address.substring(w.address.length-6);
+          var bal;
+          if(w.btc_balance_sats===null||w.btc_balance_sats===undefined){
+            bal='<span style="color:#555;">—</span>';
+          }else{
+            bal='<span style="color:#fff;">'+(w.btc_balance_sats/1e8).toLocaleString(undefined,{maximumFractionDigits:8})+'</span> <span style="color:#888;font-size:10px;">BTC</span>';
+          }
+          uh+='<tr style="border-bottom:1px solid #111;">';
+          uh+='<td style="padding:5px 4px;color:#555;">'+(start+j+1)+'</td>';
+          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+w.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(w.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+w.range_count+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+w.outpoint_count+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+Number(w.bhang_sats).toLocaleString()+'</td>';
+          uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">'+bal+'</td>';
+          uh+='</tr>';
+        }
+        uh+='</table></div>';
+
+        if(totalPages>1){
+          uh+='<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;">';
+          uh+='<span style="color:#555;">Showing '+(start+1)+'–'+end+' of '+list.length.toLocaleString()+' wallets</span>';
+          uh+='<div style="display:flex;align-items:center;gap:6px;">';
+          uh+='<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">&laquo;</button>';
+          uh+='<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+' style="'+paginBtnStyle(currentPage===1)+'">‹ Prev</button>';
+          uh+='<span style="color:#fff;padding:0 8px;">'+currentPage+' / '+totalPages+'</span>';
+          uh+='<button onclick="goPage('+(currentPage+1)+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">Next ›</button>';
+          uh+='<button onclick="goPage('+totalPages+')" '+(currentPage===totalPages?'disabled':'')+' style="'+paginBtnStyle(currentPage===totalPages)+'">&raquo;</button>';
+          uh+='</div></div>';
+        }
+
+        document.getElementById('t-utxos').innerHTML=uh;
+      }
+
+      function paginBtnStyle(disabled){
+        return 'background:none;border:1px solid '+(disabled?'#333':'#555')+';color:'+(disabled?'#333':'#aaa')+';padding:4px 8px;border-radius:3px;cursor:'+(disabled?'not-allowed':'pointer')+';font-family:inherit;font-size:11px;';
+      }
+
+      window.goPage=function(p){
+        if(p<1)p=1;if(p>totalPages)p=totalPages;
+        currentPage=p;
+        renderUtxoTable();
+        document.getElementById('t-utxos').scrollIntoView({behavior:'smooth',block:'nearest'});
+      };
+
+      renderUtxoFilter();
+      renderUtxoTable();
+    })
+    .catch(function(e){
+      document.getElementById('tracker-content').innerHTML='<p style="color:#555;padding:40px;text-align:center;">Tracker data not available. Run export script to update.</p>';
+    });
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Live Block Scanner — watches for UTXO movements via mempool.space WebSocket
+// ═══════════════════════════════════════════════════════════════
+(function liveScanner(){
+  var outpointMap={};   // outpoint → utxo data (with sat ranges)
+  var addressSet={};    // address → [outpoints]
+  var ws=null;
+  var feedEl=null;
+  var statusEl=null;
+  var reconnectDelay=5000;
+  var maxFeedItems=50;
+  var initialized=false;
+  var snapshotBlockHeight=0;
+
+  // Wait for tracker data to load, then build lookup maps
+  function waitForData(){
+    fetch('/tracker-data.json')
+      .then(function(r){return r.json();})
+      .then(function(data){
+        var series1=data.series[0];
+        if(!series1||!series1.utxos)return;
+        snapshotBlockHeight=data.snapshot_block_height||0;
+        for(var i=0;i<series1.utxos.length;i++){
+          var u=series1.utxos[i];
+          outpointMap[u.outpoint]=u;
+          if(!addressSet[u.address])addressSet[u.address]=[];
+          addressSet[u.address].push(u.outpoint);
+        }
+        initialized=true;
+        addFeedItem('Loaded '+series1.utxos.length+' UTXOs across '+Object.keys(addressSet).length+' addresses','info');
+        if(snapshotBlockHeight>0){
+          addFeedItem('Snapshot at block '+snapshotBlockHeight.toLocaleString()+' — catching up...','info');
+          catchUpBlocks();
+        } else {
+          connectWs();
+        }
+      }).catch(function(){});
+  }
+
+  // Catch up: scan all blocks between snapshot and current tip
+  function catchUpBlocks(){
+    setStatus('CATCHING UP','#ffb000');
+    fetch('https://mempool.space/api/blocks/tip/height')
+      .then(function(r){return r.text();})
+      .then(function(h){
+        var currentHeight=parseInt(h,10);
+        var gap=currentHeight-snapshotBlockHeight;
+        if(gap<=0){
+          addFeedItem('Snapshot is current — no catch-up needed','info');
+          connectWs();
+          return;
+        }
+        addFeedItem('Scanning '+gap+' missed block'+(gap===1?'':'s')+' ('+snapshotBlockHeight+' → '+currentHeight+')','info');
+        // Fetch block hashes starting from snapshot+1
+        // mempool.space: GET /api/blocks/:startHeight returns 15 blocks descending
+        var blocksToScan=[];
+        var fetchStart=currentHeight;
+
+        function fetchBlockBatch(){
+          fetch('https://mempool.space/api/blocks/'+fetchStart)
+            .then(function(r){return r.json();})
+            .then(function(blocks){
+              for(var i=0;i<blocks.length;i++){
+                if(blocks[i].height>snapshotBlockHeight){
+                  blocksToScan.push({hash:blocks[i].id,height:blocks[i].height,tx_count:blocks[i].tx_count});
+                }
+              }
+              var lowest=blocks[blocks.length-1].height;
+              if(lowest>snapshotBlockHeight+1&&blocks.length===15){
+                fetchStart=lowest;
+                fetchBlockBatch();
+              } else {
+                // Sort ascending and scan
+                blocksToScan.sort(function(a,b){return a.height-b.height;});
+                scanCatchUpQueue(blocksToScan,0);
+              }
+            }).catch(function(e){
+              addFeedItem('Catch-up fetch error: '+e,'error');
+              connectWs();
+            });
+        }
+        fetchBlockBatch();
+      }).catch(function(e){
+        addFeedItem('Could not fetch tip height: '+e,'error');
+        connectWs();
+      });
+  }
+
+  function scanCatchUpQueue(blocks,idx){
+    if(idx>=blocks.length){
+      var totalMoved=0;
+      addFeedItem('Catch-up complete — '+blocks.length+' blocks scanned','info');
+      connectWs();
+      return;
+    }
+    var blk=blocks[idx];
+    setStatus('CATCHING UP ('+Math.round((idx/blocks.length)*100)+'%)','#ffb000');
+    scanBlockAsync(blk.hash,blk.height,function(){
+      scanCatchUpQueue(blocks,idx+1);
+    });
+  }
+
+  // Async version of scanBlock with callback
+  function scanBlockAsync(blockHash,blockHeight,onDone){
+    var page=0;
+    var movementsFound=0;
+
+    function fetchPage(){
+      var url='https://mempool.space/api/block/'+blockHash+'/txs/'+page*25;
+      fetch(url)
+        .then(function(r){return r.json();})
+        .then(function(txs){
+          if(!txs||!txs.length){finish();return;}
+          for(var i=0;i<txs.length;i++){
+            var tx=txs[i];
+            for(var j=0;j<tx.vin.length;j++){
+              var inp=tx.vin[j];
+              var spentOutpoint=inp.txid+':'+inp.vout;
+              if(outpointMap[spentOutpoint]){
+                var u=outpointMap[spentOutpoint];
+                movementsFound++;
+                addFeedItem(
+                  'CATCH-UP BLK '+blockHeight+': '+u.sat_count.toLocaleString()+' sats moved from '+
+                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4),
+                  'movement'
+                );
+                traceFifo(tx,j,u,blockHeight);
+              }
+            }
+          }
+          if(txs.length===25){page++;fetchPage();}
+          else finish();
+        }).catch(function(e){
+          addFeedItem('Error scanning block '+blockHeight+': '+e,'error');
+          if(onDone)onDone();
+        });
+    }
+
+    function finish(){
+      if(movementsFound>0){
+        addFeedItem('Block '+blockHeight.toLocaleString()+': '+movementsFound+' movement'+(movementsFound===1?'':'s')+' found','movement');
+      }
+      if(onDone)onDone();
+    }
+
+    fetchPage();
+  }
+
+  function addFeedItem(msg,type){
+    feedEl=document.getElementById('t-live-feed');
+    if(!feedEl)return;
+    var colors={info:'#555',block:'#00ff41',movement:'#D4AF37',error:'#ff4444'};
+    var icons={info:'○',block:'◆',movement:'⚡',error:'✕'};
+    var now=new Date();
+    var ts=now.toLocaleTimeString();
+    var div=document.createElement('div');
+    div.style.cssText='padding:3px 0;border-bottom:1px solid #0a0a0a;';
+    div.innerHTML='<span style="color:#333;">'+ts+'</span> <span style="color:'+(colors[type]||'#555')+';">'+(icons[type]||'○')+' '+msg+'</span>';
+    // Remove "waiting" placeholder
+    if(feedEl.children.length===1&&feedEl.children[0].textContent.indexOf('Waiting')!==-1){
+      feedEl.innerHTML='';
+    }
+    feedEl.insertBefore(div,feedEl.firstChild);
+    while(feedEl.children.length>maxFeedItems)feedEl.removeChild(feedEl.lastChild);
+  }
+
+  function setStatus(text,color){
+    statusEl=document.getElementById('t-live-status');
+    if(statusEl)statusEl.innerHTML='<span style="color:'+color+';">● '+text+'</span>';
+  }
+
+  function connectWs(){
+    if(ws&&(ws.readyState===0||ws.readyState===1))return;
+    setStatus('CONNECTING','#ffb000');
+
+    ws=new WebSocket('wss://mempool.space/api/v1/ws');
+
+    ws.onopen=function(){
+      setStatus('LIVE','#00ff41');
+      addFeedItem('Connected to mempool.space WebSocket','info');
+      ws.send(JSON.stringify({action:'want',data:['blocks']}));
+    };
+
+    ws.onmessage=function(evt){
+      try{
+        var msg=JSON.parse(evt.data);
+        if(msg.block){
+          var blk=msg.block;
+          addFeedItem('Block '+blk.height.toLocaleString()+' — '+blk.tx_count+' txs','block');
+          scanBlock(blk.id,blk.height);
+        }
+      }catch(e){}
+    };
+
+    ws.onclose=function(){
+      setStatus('OFFLINE','#ff4444');
+      addFeedItem('WebSocket disconnected — reconnecting in '+Math.round(reconnectDelay/1000)+'s','error');
+      setTimeout(connectWs,reconnectDelay);
+      reconnectDelay=Math.min(reconnectDelay*1.5,60000);
+    };
+
+    ws.onerror=function(){
+      ws.close();
+    };
+  }
+
+  function scanBlock(blockHash,blockHeight){
+    // Fetch block TXs in pages of 25
+    var page=0;
+    var movementsFound=0;
+
+    function fetchPage(){
+      var url='https://mempool.space/api/block/'+blockHash+'/txs/'+page*25;
+      fetch(url)
+        .then(function(r){return r.json();})
+        .then(function(txs){
+          if(!txs||!txs.length)return finish();
+
+          for(var i=0;i<txs.length;i++){
+            var tx=txs[i];
+            // Check each input — does it spend one of our outpoints?
+            for(var j=0;j<tx.vin.length;j++){
+              var inp=tx.vin[j];
+              var spentOutpoint=inp.txid+':'+inp.vout;
+              if(outpointMap[spentOutpoint]){
+                var u=outpointMap[spentOutpoint];
+                movementsFound++;
+                addFeedItem(
+                  'MOVEMENT: '+u.sat_count.toLocaleString()+' sats moved from '+
+                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4)+
+                  ' — tracing FIFO →',
+                  'movement'
+                );
+                // Run client-side FIFO trace
+                traceFifo(tx,j,u,blockHeight);
+              }
+            }
+          }
+
+          if(txs.length===25){page++;fetchPage();}
+          else finish();
+        }).catch(function(e){
+          addFeedItem('Error scanning block '+blockHeight+': '+e,'error');
+        });
+    }
+
+    function finish(){
+      if(movementsFound===0){
+        addFeedItem('Block '+blockHeight.toLocaleString()+' scanned — no BHANG movements','info');
+      }
+    }
+
+    fetchPage();
+  }
+
+  // Client-side FIFO sat range tracer
+  function traceFifo(tx,inputIndex,trackedUtxo,blockHeight){
+    var satStart=BigInt(trackedUtxo.sat_range_start);
+    var satEnd=BigInt(trackedUtxo.sat_range_end);
+    var inputOffset=BigInt(trackedUtxo.input_offset);
+    var rangeSize=satEnd-satStart+1n;
+
+    // Stream offset: sum of all input values before this input + our offset within the input
+    var streamOffset=0n;
+    for(var i=0;i<inputIndex;i++){
+      streamOffset+=BigInt(tx.vin[i].prevout.value);
+    }
+    var streamPosition=streamOffset+inputOffset;
+
+    // Map tracked sats to outputs via FIFO
+    var outOffset=0n;
+    var mappedCount=0n;
+    var destinations=[];
+
+    for(var v=0;v<tx.vout.length;v++){
+      var outSize=BigInt(tx.vout[v].value);
+      var outStart=outOffset;
+      var outEnd=outOffset+outSize-1n;
+      outOffset+=outSize;
+
+      var intStart=streamPosition>outStart?streamPosition:outStart;
+      var intEnd=(streamPosition+rangeSize-1n)<outEnd?(streamPosition+rangeSize-1n):outEnd;
+      if(intStart>intEnd)continue;
+
+      var newInputOffset=intStart-outStart;
+      var newSatStart=satStart+(intStart-streamPosition);
+      var newSatEnd=satStart+(intEnd-streamPosition);
+      var count=newSatEnd-newSatStart+1n;
+      mappedCount+=count;
+
+      var newOutpoint=tx.txid+':'+v;
+      var newAddr=tx.vout[v].scriptpubkey_address||'unknown';
+
+      destinations.push({
+        outpoint:newOutpoint,
+        address:newAddr,
+        sat_range_start:newSatStart.toString(),
+        sat_range_end:newSatEnd.toString(),
+        sat_count:Number(count),
+        input_offset:newInputOffset.toString()
+      });
+
+      addFeedItem(
+        '→ '+Number(count).toLocaleString()+' sats → '+
+        newAddr.substring(0,8)+'…'+newAddr.substring(newAddr.length-4)+
+        ' ('+newOutpoint.substring(0,8)+'…:'+v+')',
+        'movement'
+      );
+    }
+
+    // Check for fee sats
+    var totalOutputValue=outOffset;
+    if(streamPosition+rangeSize>totalOutputValue){
+      var feeSats=Number((streamPosition+rangeSize)-totalOutputValue);
+      addFeedItem(
+        '→ '+feeSats.toLocaleString()+' sats went to miner fees (block '+blockHeight+' coinbase) — will be traced on next server refresh',
+        'info'
+      );
+    }
+
+    if(mappedCount!==rangeSize){
+      addFeedItem('WARNING: Mapped '+mappedCount.toString()+' of '+rangeSize.toString()+' sats — accounting mismatch!','error');
+    }
+
+    // Update local state: remove old outpoint, add new ones
+    var oldOp=trackedUtxo.outpoint;
+    var oldAddr=trackedUtxo.address;
+    delete outpointMap[oldOp];
+    if(addressSet[oldAddr]){
+      addressSet[oldAddr]=addressSet[oldAddr].filter(function(op){return op!==oldOp;});
+      if(!addressSet[oldAddr].length)delete addressSet[oldAddr];
+    }
+
+    for(var d=0;d<destinations.length;d++){
+      var dest=destinations[d];
+      dest.last_moved=new Date().toISOString().substring(0,19).replace('T',' ');
+      dest.first_seen=trackedUtxo.first_seen;
+      outpointMap[dest.outpoint]=dest;
+      if(!addressSet[dest.address])addressSet[dest.address]=[];
+      addressSet[dest.address].push(dest.outpoint);
+    }
+  }
+
+  // Start
+  waitForData();
+})();
+</script>
+</body>
+</html>

@@ -389,8 +389,8 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
       <div style="display:flex;align-items:center;gap:12px;">
         <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
         <span style="display:inline-flex;border:1px solid #222;border-radius:4px;overflow:hidden;font-size:11px;">
-          <a href="/#tracker" style="padding:3px 8px;background:#00ff4122;color:#00ff41;text-decoration:none;">V1</a>
-          <a href="/tracker-v2.html" style="padding:3px 8px;color:#666;text-decoration:none;">V2</a>
+          <a href="/tracker-v1" style="padding:3px 8px;background:#00ff4122;color:#00ff41;text-decoration:none;">V1</a>
+          <a href="/tracker-v2" style="padding:3px 8px;color:#666;text-decoration:none;">V2</a>
         </span>
       </div>
       <div style="display:flex;align-items:center;gap:12px;">
@@ -456,6 +456,16 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
 </div>
 
 <script>
+function formatPushed(iso){
+  var d=new Date(iso);
+  if(isNaN(d.getTime())) return '';
+  var zone='';
+  try {
+    var parts=new Intl.DateTimeFormat(undefined,{timeZoneName:'short'}).formatToParts(d);
+    for(var i=0;i<parts.length;i++) if(parts[i].type==='timeZoneName') zone=parts[i].value;
+  } catch(e) {}
+  return d.toLocaleString()+(zone?' '+zone:'');
+}
 (function loadTracker(){
   // Fetch block height
   fetch('https://mempool.space/api/blocks/tip/height')
@@ -470,8 +480,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     .then(function(r){return r.json();})
     .then(function(data){
       // Last updated
-      var d=new Date(data.exported_at);
-      document.getElementById('t-updated').textContent=d.toLocaleString();
+      document.getElementById('t-updated').textContent=formatPushed(data.exported_at);
 
       var seriesData=data.series;
       var currentBlock=window._currentBlock||948000;
@@ -1389,10 +1398,18 @@ function showTab(tab, updateHash){
 }
 
 document.getElementById('btn-about').addEventListener('click',function(){ showTab('about'); });
-document.getElementById('btn-tracker').addEventListener('click',function(){ showTab('tracker'); });
+document.getElementById('btn-tracker').addEventListener('click',function(){ location.href='/tracker-v1'; });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
-window.addEventListener('hashchange',function(){ showTab((location.hash||'').replace('#','')||'home',false); });
-(function(){var t=(location.hash||'').replace('#',''); if(t==='about'||t==='tracker'){showTab(t,false);}})();
+window.addEventListener('hashchange',function(){
+  var t=(location.hash||'').replace('#','');
+  if(t==='tracker'){ location.replace('/tracker-v1'); return; }
+  showTab(t||'home',false);
+});
+(function(){
+  var t=(location.hash||'').replace('#','');
+  if(t==='tracker'){ location.replace('/tracker-v1'); return; }
+  if(t==='about') showTab(t,false);
+})();
 
 // ─── STATE ───
 var H=893000;
