@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<link rel="stylesheet" href="/theme.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHANG — About</title>
+<link rel="canonical" href="/about">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+  body { overflow-y: auto; padding-bottom: 56px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  #about-page { min-height: calc(100vh - 56px); color: var(--text-strong); background: var(--bg); }
+  .about-inner { color: var(--text); }
+  .about-title { color: var(--gold); }
+  .about-muted { color: var(--muted); }
+  .about-dim { color: var(--muted-strong); }
+  .about-strong { color: var(--text-strong); }
+  .about-gold { color: var(--gold); }
+  .about-green { color: var(--green); }
+  .about-orange { color: var(--orange); }
+  .about-card { border: 1px solid var(--line); border-radius: 8px; background: var(--bg-soft); }
+  .about-link { color: var(--gold); text-decoration: none; }
+  #footer {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 56px;
+    background: var(--footer-bg); border-top: 1px solid var(--footer-border);
+    display: flex; z-index: 1000;
+  }
+  #footer a {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    color: var(--footer-text); font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+  }
+  #footer a:hover { color: var(--footer-text-hover); background: var(--footer-hover-bg); }
+  #footer a.active { color: var(--footer-text-hover); border-top: 2px solid var(--gold); }
+  @media (max-width: 600px) {
+    body { padding-bottom: 48px; }
+    #footer { height: 48px; }
+    #footer a { font-size: 11px; letter-spacing: 0.5px; }
+    .detail-grid { grid-template-columns: 100px 1fr !important; gap: 6px 10px !important; font-size: 12px !important; }
+    .card-detail-grid { grid-template-columns: 80px 1fr !important; gap: 4px 8px !important; font-size: 11px !important; }
+    .card-row { flex-direction: column !important; }
+    .card-media { width: 100% !important; min-height: 160px !important; }
+    .about-inner { padding: 8px !important; }
+    .about-title { font-size: 22px !important; }
+    h2.about-title { font-size: 15px !important; }
+    .about-inner p { font-size: 13px !important; line-height: 1.5 !important; }
+  }
+</style>
+</head>
+<body>
+<div id="about-page">
+<div class="about-inner" style="max-width:720px;margin:0 auto;padding:24px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.7;">
+
+    <h1 class="about-title" style="font-size:28px;margin-bottom:4px;">BHANG</h1>
+    <p class="about-muted" style="font-size:14px;margin-bottom:32px;">A 100 Year Generative Art on Bitcoin</p>
+
+    <!-- Art preview -->
+    <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" class="about-card" style="display:block;border-radius:8px;overflow:hidden;margin-bottom:32px;">
+      <img src="/bhang-art.png" alt="BHANG — Series 1 Mined" style="width:100%;display:block;" />
+    </a>
+
+    <p class="about-muted" style="font-style:italic;margin-bottom:24px;">21kb. Runs longer than I'll live.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">Gallery View</h2>
+    <p>BHANG is a single HTML file inscribed on Bitcoin. It renders a pair of round glasses, each lens a live visualization of Bitcoin's state. The art reads the current block height directly from the chain and evolves based on what it finds.</p>
+    <p>No external APIs. No servers. Just 21 kilobytes of JavaScript, permanently on-chain, doing its job for the next century.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">What It Tracks</h2>
+    <p>Every satoshi in Bitcoin has a name. As more blocks get mined and more sats enter the supply, the names get shorter.</p>
+    <p>BHANG tracks every satoshi whose name starts with "bhang" &mdash; from the 308 million 11-letter names already in circulation, down to the single satoshi that will simply be named "bhang", mined roughly 104 years from now.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">BHANG Prefix Sats &mdash; 7 Series</h2>
+    <div style="margin:16px 0;font-size:14px;">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-green">Series 1 (2019) &#10003;</span><span>308.9M sats</span><span class="about-muted">11-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-orange">Series 2 (2038)</span><span>11.8M sats</span><span class="about-muted">10-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-orange">Series 3 (2056)</span><span>456K sats</span><span class="about-muted">9-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-orange">Series 4 (2075)</span><span>17.5K sats</span><span class="about-muted">8-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-orange">Series 5 (2094)</span><span>676 sats</span><span class="about-muted">7-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-orange">Series 6 (2112)</span><span>26 sats</span><span class="about-muted">6-letter</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);">
+        <span class="about-gold">Series 7 (~2130)</span><span class="about-gold">1 sat</span><span class="about-gold">5-letter &mdash; "bhang"</span>
+      </div>
+    </div>
+    <p>Each time a new range of bhang-prefix sats gets mined, the art unlocks a new form. The final series adds a gold crown to the glasses. Nobody alive today will see it render live.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">What You See Now</h2>
+    <p>Only Series 1 is mined. The left and right lenses show a strip-packing visualization of actual transactions from Bitcoin blocks 579,124 and 579,125 &mdash; fee rates mapped to colors, transaction sizes to rectangles. Real Bitcoin history, baked into the art as permanent texture.</p>
+    <p>The next unmined series appears as a ghost &mdash; white, translucent, with a pulsing heartbeat effect. The pulse accelerates as the target block approaches. When you're within the same difficulty epoch, ghost flames ignite and intensify. The art doesn't just wait for its future &mdash; it anticipates it.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">Two Views</h2>
+    <p><strong class="about-strong">Gallery view:</strong> the glasses sit inside a digital museum frame, glowing gold border, 3D tilt on mouse movement.</p>
+    <p><strong class="about-strong">Fullscreen view:</strong> static, edge-to-edge, the art alone.</p>
+
+    <!-- Inscription details card -->
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">Inscription Details</h2>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">ID</span>
+        <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" class="about-link" style="word-break:break-all;">420a3e99...e9372a69i0</a>
+        <span class="about-dim">Number</span>
+        <span class="about-strong">#124,622,117</span>
+        <span class="about-dim">Title</span>
+        <span class="about-strong">BHANG</span>
+        <span class="about-dim">Metaprotocol</span>
+        <span class="about-gold">bhang</span>
+        <span class="about-dim">Content Type</span>
+        <span class="about-strong">text/html</span>
+        <span class="about-dim">Content Size</span>
+        <span class="about-strong">20,991 bytes</span>
+        <span class="about-dim">Block</span>
+        <span class="about-strong">946,452</span>
+        <span class="about-dim">Timestamp</span>
+        <span class="about-strong">2026-04-24 13:19:11 UTC</span>
+        <span class="about-dim">Fee</span>
+        <span class="about-strong">3,837 sats</span>
+        <span class="about-dim">Charm</span>
+        <span class="about-strong">&#9851; Recycled</span>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;">Everything about this inscription was deliberate. The transaction ID starts with <strong class="about-strong">420</strong> and ends with <strong class="about-strong">69</strong>. The OP_RETURN reads: <em class="about-gold">"Every sat has a story."</em></p>
+
+    <!-- Sat details card -->
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">The Sat</h2>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">Number</span>
+        <a href="https://ordinals.com/sat/1425808476896869" target="_blank" class="about-link">1,425,808,476,896,869</a>
+        <span class="about-dim">Name</span>
+        <span class="about-strong">dtdldkrbabc</span>
+        <span class="about-dim">Rarity</span>
+        <span class="about-strong">common</span>
+        <span class="about-dim">Block</span>
+        <span class="about-strong">360,323 (June 2015)</span>
+        <span class="about-dim">Epoch</span>
+        <span class="about-strong">1</span>
+        <span class="about-dim">Period</span>
+        <span class="about-strong">178</span>
+      </div>
+    </div>
+    <p>A legacy sat from 2015, ending in 69. This sat carries two inscriptions.</p>
+
+    <!-- INK Custom #69 card -->
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">1st Inscription &mdash; INK Custom #69</h2>
+    <div class="about-card" style="border-radius:8px;overflow:hidden;margin:16px 0;">
+      <div class="card-row" style="display:flex;gap:0;">
+        <div class="card-media" style="width:200px;min-height:200px;flex-shrink:0;background:var(--bg);display:flex;align-items:center;justify-content:center;">
+          <img src="https://ordinals.com/content/8b62e3a785e48867f7aec8589bdf514535408005a6a535682db4e3387246e0e1i0" style="width:100%;height:100%;object-fit:contain;" alt="INK Custom #69" />
+        </div>
+        <div style="padding:16px;font-size:13px;font-family:'JetBrains Mono',monospace;">
+          <div class="card-detail-grid" style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
+            <span class="about-dim">Inscription</span>
+            <a href="https://ordinals.com/inscription/8b62e3a785e48867f7aec8589bdf514535408005a6a535682db4e3387246e0e1i0" target="_blank" class="about-link">#95,856,562</a>
+            <span class="about-dim">Type</span>
+            <span class="about-strong">image/webp</span>
+            <span class="about-dim">Size</span>
+            <span class="about-strong">75,268 bytes</span>
+            <span class="about-dim">Block</span>
+            <span class="about-strong">896,035</span>
+            <span class="about-dim">Date</span>
+            <span class="about-strong">2025-05-10</span>
+            <span class="about-dim">By</span>
+            <a href="https://x.com/INKedBTC" target="_blank" class="about-strong" style="text-decoration:none;">@INKedBTC</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parent inscription card -->
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">Parent Inscription &mdash; Cosmic Snapshot</h2>
+    <div class="about-card" style="border-radius:8px;overflow:hidden;margin:16px 0;">
+      <div class="card-row" style="display:flex;gap:0;">
+        <div class="card-media" style="width:200px;min-height:200px;flex-shrink:0;background:var(--bg);">
+          <iframe src="https://ordinals.com/preview/91ad667c728609d5a0d704e3b3d25f8466533f50fcb246e6553db567ddaaf2d7i5" style="width:100%;height:200px;border:none;pointer-events:none;"></iframe>
+        </div>
+        <div style="padding:16px;font-size:13px;font-family:'JetBrains Mono',monospace;">
+          <div class="card-detail-grid" style="display:grid;grid-template-columns:100px 1fr;gap:6px 12px;">
+            <span class="about-dim">Inscription</span>
+            <a href="https://ordinals.com/inscription/91ad667c728609d5a0d704e3b3d25f8466533f50fcb246e6553db567ddaaf2d7i5" target="_blank" class="about-link">#76,202,706</a>
+            <span class="about-dim">Call Sign</span>
+            <span class="about-strong">LOCALGALLERY</span>
+            <span class="about-dim">Device</span>
+            <span class="about-strong">IAEK-0069</span>
+            <span class="about-dim">CAL Code</span>
+            <span class="about-strong">2019-0604-2128</span>
+            <span class="about-dim">OS</span>
+            <span class="about-strong">v0.0.6</span>
+            <span class="about-dim">Block</span>
+            <span class="about-strong">863,373</span>
+            <span class="about-dim">By</span>
+            <a href="https://x.com/ord_ephemera" target="_blank" class="about-strong" style="text-decoration:none;">@ord_ephemera</a>
+          </div>
+          <p class="about-muted" style="font-size:12px;margin-top:12px;line-height:1.5;">Contains the exact astronomical positions of every celestial body at the moment Series 1 was mined. A cosmic snapshot, permanently tethered to the art.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compression -->
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">How It's Built</h2>
+    <p>The full generative engine is gzip-compressed and decompressed at runtime using <strong class="about-strong">fflate</strong>, an on-chain library from 2023. Compressed using <strong class="about-strong">OCM Dimensions Studio</strong> by <a href="https://x.com/OnChainMonkey" target="_blank" class="about-strong" style="text-decoration:none;">@OnChainMonkey</a>.</p>
+    <p>Transaction built with <strong class="about-strong">inscribe.dev</strong> &mdash; OP_RETURN, parent assignment, sat selection, all hand-configured.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">Why</h2>
+    <p>I'm fascinated by satnames. The idea that every satoshi has a name, and those names get shorter as Bitcoin's supply unfolds over the next century &mdash; that's a story written into the protocol itself.</p>
+    <p>BHANG is my manifestation. The blocks I track, the satoshis I hunt, the treasury I want to build &mdash; all encoded into a piece of generative art that will outlive me.</p>
+    <p class="about-gold" style="margin-top:16px;font-size:16px;">The glasses aren't just art. They're a tracker, a dream, and a time capsule &mdash; permanently on Bitcoin. This is provenance.</p>
+
+    <div class="about-dim" style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;text-align:center;">
+      <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" class="about-link">View on ordinals.com</a>
+      <span style="margin:0 12px;">&middot;</span>
+      <a href="https://x.com/bhangbuddy" target="_blank" class="about-link">@bhangbuddy</a>
+    </div>
+
+  </div>
+</div>
+<nav id="footer">
+  <div class="footer-nav">
+    <a href="/">Home</a>
+    <a class="active" href="/about">About</a>
+    <a href="/tracker-v1">Tracker</a>
+  </div>
+</nav>
+<script src="/theme.js"></script>
+<script>
+  if (window.BhangTheme) {
+    BhangTheme.mountThemeToggle(document.getElementById('footer'));
+  }
+</script>
+</body>
+</html>
