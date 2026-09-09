@@ -635,7 +635,7 @@
       return '<tr style="' + edge + '"><td class="dim">' + esc(String(u.outpoint).slice(0, 12)) + '…:' + esc(vout) + '</td>' +
         '<td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(u.address) + '" target="_blank" rel="noopener">' + esc(trunc(u.address, 12, 6)) + '</a>' + badge + '</td>' +
         '<td class="right"><span class="s1" style="font-weight:bold;">' + fmt(u.satCount) + '</span> ' + glyph() + '</td>' +
-        '<td class="dim" style="font-size:10px;">' + esc(trunc(u.satRangeStart, 7, 4)) + ' → ' + esc(trunc(u.satRangeEnd, 7, 4)) + '</td>' +
+        '<td class="dim" style="font-size:10px;white-space:nowrap;">' + esc(String(u.satRangeStart || '')) + ' → ' + esc(String(u.satRangeEnd || '')) + '</td>' +
         '<td style="font-size:10px;color:#00ff41;">' + names + '</td>' +
         '<td class="right dim">' + esc((u.lastMoved || '').slice(0, 10) || '—') + '</td>' +
         '<td class="right">' + rarityHtml(u) + '</td></tr>';
