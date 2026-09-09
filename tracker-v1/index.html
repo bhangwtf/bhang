@@ -143,6 +143,28 @@ function formatPushed(iso){
         {L:3536797,R:3536798},{L:4530322,R:4530322},{L:5500597,R:5500597},{L:6403598,R:6403598}
       ];
       function fmtSats(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString();}
+      var SAT_SUPPLY=2099999997690000n;
+      function satToName(sat){
+        var x=SAT_SUPPLY-BigInt(sat);
+        var name='';
+        while(x>0n){
+          x-=1n;
+          name=String.fromCharCode(Number(x%26n)+97)+name;
+          x=x/26n;
+        }
+        return name;
+      }
+      function satnameRangeText(start,end){
+        if(start==null||end==null)return '—';
+        var lo=BigInt(start);
+        var hi=BigInt(end);
+        if(lo>hi){var swap=lo;lo=hi;hi=swap;}
+        var a=satToName(lo);
+        var b=satToName(hi);
+        if(!a)return '—';
+        if(!b||a===b)return a;
+        return a+' → '+b;
+      }
 
       // Series cards
       var sh='';
@@ -401,7 +423,7 @@ function formatPushed(iso){
         var uh='<div style="overflow-x:auto;">';
         uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
         uh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;">';
-        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
+        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;">SATNAME RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
         for(var j=0;j<pageUtxos.length;j++){
           var u=pageUtxos[j];
           var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
@@ -415,6 +437,7 @@ function formatPushed(iso){
           uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(u.wallet_label)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
+          uh+='<td style="padding:5px 4px;color:#00ff41;white-space:nowrap;font-size:10px;">'+satnameRangeText(u.sat_range_start,u.sat_range_end)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">';
           if(tags.length){for(var t=0;t<tags.length;t++){uh+=rarityBadge(tags[t]);}}
