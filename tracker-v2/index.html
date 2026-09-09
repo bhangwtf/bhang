@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+<script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<link rel="stylesheet" href="/theme.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BHANG TRACKER V2</title>
@@ -8,51 +10,51 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0a0a0a; color: #ccc; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
-  a { color: #00ff41; }
+  body { background: var(--bg-soft); color: var(--text); font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+  a { color: var(--green); }
   .page { padding: 0 0 72px; }
   #footer {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 56px;
-    background: #111; border-top: 1px solid #222; display: flex; z-index: 1000;
+    background: var(--footer-bg); border-top: 1px solid var(--footer-border); display: flex; z-index: 1000;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   #footer a {
     flex: 1; display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 500;
+    color: var(--footer-text); font-size: 13px; font-weight: 500;
     letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
   }
-  #footer a:hover { color: #fff; background: rgba(255,255,255,0.05); }
-  #footer a.active { color: #fff; border-top: 2px solid #D4AF37; }
+  #footer a:hover { color: var(--footer-text-hover); background: var(--footer-hover-bg); }
+  #footer a.active { color: var(--footer-text-hover); border-top: 2px solid var(--gold); }
   @media (max-width: 600px) {
     .page { padding-bottom: 64px; }
     #footer { height: 48px; }
     #footer a { font-size: 11px; letter-spacing: 0.5px; }
   }
-  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; }
-  .tog { display: inline-flex; border: 1px solid #222; border-radius: 4px; overflow: hidden; font-size: 11px; }
-  .tog a { padding: 3px 8px; text-decoration: none; color: #666; }
-  .tog a.on { background: #00ff4122; color: #00ff41; }
-  .meta { color: #555; font-size: 11px; }
-  .jumps { display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-bottom: 1px solid #1a1a1a; background: #11111180; flex-wrap: wrap; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+  .tog { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; font-size: 11px; }
+  .tog a { padding: 3px 8px; text-decoration: none; color: var(--muted); }
+  .tog a.on { background: #00ff4122; color: var(--green); }
+  .meta { color: var(--muted-strong); font-size: 11px; }
+  .jumps { display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--line-soft); background: color-mix(in srgb, var(--surface) 50%, transparent); flex-wrap: wrap; }
   .jumps button { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 4px; background: transparent; cursor: pointer; }
-  .jumps .present { border: 1px solid #00ff4166; color: #00ff41; }
+  .jumps .present { border: 1px solid #00ff4166; color: var(--green); }
   .jumps .present:hover { background: #00ff4114; }
   .jumps .originbtn { border: 1px solid #d4af3766; color: #d4af37; }
   .jumps .originbtn:hover { background: #d4af3714; }
-  .jumps .stat { margin-left: auto; color: #555; font-size: 10px; }
+  .jumps .stat { margin-left: auto; color: var(--muted-strong); font-size: 10px; }
   .main { padding: 16px 16px 8px; }
   .years-row { display: flex; align-items: stretch; gap: 8px; }
   .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; height: 0; width: 0; }
   .years { display: flex; gap: 8px; overflow-x: auto; flex: 1; }
-  .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid #1a1a1a; background: #11111199; color: #ccc; border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
+  .years button { flex: 0 0 auto; min-width: 88px; text-align: left; border: 1px solid var(--line-soft); background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--text); border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
   .years button.on { border-color: #00ff41b3; background: #00ff411a; box-shadow: 0 0 18px rgba(0,255,65,.28); }
-  .years .yl { font-size: 12px; font-weight: bold; color: #fff; }
-  .years .ys { margin-top: 4px; font-size: 10px; color: #555; }
+  .years .yl { font-size: 12px; font-weight: bold; color: var(--text-strong); }
+  .years .ys { margin-top: 4px; font-size: 10px; color: var(--muted-strong); }
   .years .yh { font-size: 10px; color: #00ff41cc; }
   .years button.on .yl, .years button.on .yh { color: #00ff41; }
-  .to-origin { flex: 0 0 auto; align-self: center; padding: 0 8px; color: #555; font-size: 10px; }
-  .chain-box { position: relative; margin-top: 16px; border: 1px solid #1a1a1a99; border-radius: 12px; background: #11111133; padding: 16px; }
+  .to-origin { flex: 0 0 auto; align-self: center; padding: 0 8px; color: var(--muted-strong); font-size: 10px; }
+  .chain-box { position: relative; margin-top: 16px; border: 1px solid color-mix(in srgb, var(--line-soft) 60%, transparent); border-radius: 12px; background: color-mix(in srgb, var(--surface) 20%, transparent); padding: 16px; }
   .past-lab { position: absolute; left: 75%; top: 16px; transform: translateX(-50%); z-index: 2; pointer-events: none; color: #ffb000; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
   .chain { overflow-x: auto; overflow-y: hidden; }
   .chain-sheet { display: inline-block; width: max-content; }
@@ -65,78 +67,78 @@
   .now .line { width: 1px; height: 80px; border-left: 1px dashed #00ff4173; }
   .now .mark { margin: 8px 0; padding: 6px 8px; border: 1px solid #00ff414d; background: #00ff410d; border-radius: 4px; text-align: center; }
   .now .mark b { display: block; color: #00ff41; font-size: 10px; }
-  .now .mark span { color: #fff; font-size: 11px; font-weight: bold; }
+  .now .mark span { color: var(--text-strong); font-size: 11px; font-weight: bold; }
   .soon { flex: 0 0 auto; width: 84px; min-height: 104px; display: flex; flex-direction: column; border: 1px dashed #d4af3773; background: #d4af370d; border-radius: 6px; padding: 8px; }
   .soon .k { font-size: 8px; font-weight: bold; letter-spacing: .4px; color: #d4af37; text-transform: uppercase; }
-  .soon .n { margin-top: 4px; color: #fff; font-size: 9px; font-weight: bold; }
+  .soon .n { margin-top: 4px; color: var(--text-strong); font-size: 9px; font-weight: bold; }
   .soon .amt { margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 10px; font-weight: 500; }
   .soon .yr { margin-top: 6px; color: #ffb000; font-size: 10px; font-weight: bold; }
   .soon .bar { margin-top: 6px; height: 4px; border-radius: 99px; background: #1a1a1a; overflow: hidden; }
   .soon .bar i { display: block; height: 100%; background: #ffb000cc; }
   .soon .pct { margin-top: 4px; color: #ffb000; font-size: 8px; font-weight: bold; }
-  .card { flex: 0 0 auto; width: 120px; min-height: 240px; display: flex; flex-direction: column; border: 1px solid #1a1a1a; background: #111111f2; border-radius: 8px; }
+  .card { flex: 0 0 auto; width: 120px; min-height: 240px; display: flex; flex-direction: column; border: 1px solid var(--line-soft); background: var(--panel); border-radius: 8px; }
   .card.genesis { width: 100px; min-width: 100px; border-color: #ffffff4d; background: #ffffff08; overflow: hidden; }
   .card.mint { width: 140px; border-color: #d4af3799; background: #d4af370f; box-shadow: 0 0 24px rgba(212,175,55,.15); }
   .card.fee { border-color: #ffb0004d; }
   .card.on { box-shadow: 0 0 22px rgba(0,255,65,.22); border-color: #00ff4180; }
   .card .head { padding: 8px 8px 6px; border-bottom: 1px solid #1a1a1a99; }
   .card .row { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
-  .card .h { color: #fff; font-weight: bold; font-size: 10px; letter-spacing: .3px; }
+  .card .h { color: var(--text-strong); font-weight: bold; font-size: 10px; letter-spacing: .3px; }
   .card .mintlab { font-size: 8px; font-weight: bold; letter-spacing: .4px; color: #d4af37; text-transform: uppercase; }
-  .card .sub { margin-top: 2px; color: #555; font-size: 9px; }
+  .card .sub { margin-top: 2px; color: var(--muted-strong); font-size: 9px; }
   .card .yr { margin-top: 2px; color: #ffb000; font-size: 10px; font-weight: bold; }
   .card .mined { margin-top: 2px; color: #00ff41; font-size: 8px; font-weight: bold; text-transform: uppercase; }
   .satline { margin-top: 2px; display: flex; align-items: center; gap: 2px; font-size: 10px; font-weight: 500; }
   .hops { padding: 8px; display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
-  .hop { width: 100%; text-align: left; border: 1px solid #1a1a1a; background: #111; border-radius: 4px; padding: 6px; color: inherit; font: inherit; cursor: pointer; }
+  .hop { width: 100%; text-align: left; border: 1px solid var(--line-soft); background: var(--surface); border-radius: 4px; padding: 6px; color: inherit; font: inherit; cursor: pointer; }
   .hop.mint { border-color: #d4af3780; background: #d4af371a; }
   .hop.fee { border-color: #ffb00066; background: #ffb0000d; }
   .hop.on { box-shadow: 0 0 0 1px #00ff41; }
   .hop .top { display: flex; align-items: center; justify-content: space-between; gap: 4px; font-size: 10px; }
-  .hop .kind { color: #555; font-size: 9px; text-transform: uppercase; }
-  .hop .addr { margin-top: 4px; color: #555; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hop .kind { color: var(--muted-strong); font-size: 9px; text-transform: uppercase; }
+  .hop .addr { margin-top: 4px; color: var(--muted-strong); font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hop .lab { margin-top: 4px; color: #00ff41; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .miner { margin-top: auto; padding: 6px; border-top: 1px solid #1a1a1a80; text-align: center; color: #d4af37; font-size: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .miner.empty { color: #555; font-weight: 500; }
-  .origin { flex: 0 0 auto; align-self: center; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; writing-mode: vertical-rl; margin-left: 8px; }
+  .miner.empty { color: var(--muted-strong); font-weight: 500; }
+  .origin { flex: 0 0 auto; align-self: center; color: var(--muted-strong); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; writing-mode: vertical-rl; margin-left: 8px; }
   .chain-end { width: 220px; flex: 0 0 auto; }
   .satg { width: 9px; height: 12px; display: inline-block; vertical-align: -1px; }
   .s1 { color: #00ff41; } .s2 { color: #00e8ff; } .s3 { color: #ff66cc; }
   .s4 { color: #ffb000; } .s5 { color: #ff7744; } .s6 { color: #b88cff; } .s7 { color: #ffee58; }
-  .hint { border-top: 1px solid #1a1a1a; background: #11111166; text-align: center; color: #555; font-size: 14px; padding: 16px 24px; }
-  .holders { border-top: 1px solid #1a1a1a; background: #11111133; padding: 16px 16px 24px; }
-  .holders h2 { color: #00ff41; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: normal; }
+  .hint { border-top: 1px solid var(--line-soft); background: color-mix(in srgb, var(--surface) 40%, transparent); text-align: center; color: var(--muted-strong); font-size: 14px; padding: 16px 24px; }
+  .holders { border-top: 1px solid var(--line-soft); background: color-mix(in srgb, var(--surface) 20%, transparent); padding: 16px 16px 24px; }
+  .holders h2 { color: var(--green); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: normal; }
   .holders-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
   .search { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .search input { flex: 1; min-width: 240px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 4px; padding: 8px 12px; color: #fff; font: inherit; font-size: 13px; outline: none; }
+  .search input { flex: 1; min-width: 240px; background: var(--bg-soft); border: 1px solid var(--line-soft); border-radius: 4px; padding: 8px 12px; color: var(--text-strong); font: inherit; font-size: 13px; outline: none; }
   .search input:focus { border-color: #00ff4199; }
   .search button { font: inherit; font-size: 12px; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-  .search .go { border: 1px solid #00ff4166; background: transparent; color: #00ff41; }
+  .search .go { border: 1px solid #00ff4166; background: transparent; color: var(--green); }
   .search .go:hover { background: #00ff4114; }
-  .search .clear { border: 1px solid #1a1a1a; background: transparent; color: #555; }
+  .search .clear { border: 1px solid var(--line-soft); background: transparent; color: var(--muted-strong); }
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .filters button { font: inherit; font-size: 11px; font-weight: bold; letter-spacing: .3px; padding: 6px 14px; border-radius: 4px; cursor: pointer; border: 1px solid #1a1a1a; background: transparent; color: #555; }
+  .filters button { font: inherit; font-size: 11px; font-weight: bold; letter-spacing: .3px; padding: 6px 14px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line-soft); background: transparent; color: var(--muted-strong); }
   .filters button.on { background: #d4af37e6; border-color: #d4af37; color: #000; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 12px; }
   th, td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid #1a1a1a66; vertical-align: middle; }
-  th { color: #555; font-size: 11px; font-weight: normal; }
+  th { color: var(--muted-strong); font-size: 11px; font-weight: normal; }
   td.right, th.right { text-align: right; }
   .gold { color: #d4af37; text-decoration: none; }
   .gold:hover { text-decoration: underline; }
   .badge { display: inline-block; margin-left: 5px; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; vertical-align: middle; white-space: nowrap; }
-  .live { color: #00ff41; }
+  .live { color: var(--green); }
   .rare { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; }
-  .pager { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11px; color: #555; }
-  .pager button { font: inherit; font-size: 11px; padding: 4px 8px; border: 1px solid #1a1a1a; background: transparent; color: #ccc; border-radius: 4px; cursor: pointer; }
-  .dim { color: #555; }
+  .pager { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11px; color: var(--muted-strong); }
+  .pager button { font: inherit; font-size: 11px; padding: 4px 8px; border: 1px solid var(--line-soft); background: transparent; color: var(--text); border-radius: 4px; cursor: pointer; }
+  .dim { color: var(--muted-strong); }
 </style>
 </head>
 <body>
   <div class="page">
     <div class="hdr">
       <div style="display:flex;align-items:center;gap:12px;">
-        <span style="color:#00ff41;font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
+        <span style="color:var(--green);font-size:18px;font-weight:bold;letter-spacing:2px;">BHANG TRACKER</span>
         <span class="tog">
           <a href="/tracker-v1">V1</a>
           <a class="on" href="/tracker-v2">V2</a>
@@ -273,7 +275,7 @@
     var highlighted = year && !b.isGenesis && !b.isSeriesMining && yearOf(b.blockTime) === year;
     var cls = 'card' + (b.isGenesis ? ' genesis' : '') + (b.isSeriesMining ? ' mint' : '') + (hasFee ? ' fee' : '') + (highlighted ? ' on' : '');
     var miner = b.minerName && String(b.minerName).toLowerCase() !== 'unknown' ? esc(b.minerName) : '';
-    var link = b.isGenesis ? '' : '<a href="https://mempool.space/block/' + b.height + '" target="_blank" rel="noopener" style="color:#555;text-decoration:none;">↗</a>';
+    var link = b.isGenesis ? '' : '<a href="https://mempool.space/block/' + b.height + '" target="_blank" rel="noopener" style="color:var(--muted-strong);text-decoration:none;">↗</a>';
     var head = '';
     if (b.isSeriesMining) {
       head = '<div class="row"><span class="mintlab">S1 mint</span>' + link + '</div><div class="h">#' + fmt(b.height) + '</div>' +
@@ -286,7 +288,7 @@
     }
     if (!b.isGenesis && b.satTotal > 0) head += amt(b.satTotal, 1);
     var body = '';
-    if (b.isGenesis) body = '<div class="hops" style="align-items:center;justify-content:center;color:#555;font-size:22px;flex:1;">⬡</div>';
+    if (b.isGenesis) body = '<div class="hops" style="align-items:center;justify-content:center;color:var(--muted-strong);font-size:22px;flex:1;">⬡</div>';
     else body = '<div class="hops">' + (hops.length ? hops.map(hopTile).join('') : '<div class="dim" style="font-size:9px;">…</div>') + '</div>';
     return '<div class="' + cls + '"><div class="head">' + head + '</div>' + body +
       '<div class="miner' + (miner ? '' : ' empty') + '" title="' + (miner || 'Miner unknown') + '">' + (miner || '…') + '</div></div>';
@@ -636,7 +638,7 @@
         '<td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(u.address) + '" target="_blank" rel="noopener">' + esc(trunc(u.address, 12, 6)) + '</a>' + badge + '</td>' +
         '<td class="right"><span class="s1" style="font-weight:bold;">' + fmt(u.satCount) + '</span> ' + glyph() + '</td>' +
         '<td class="dim" style="font-size:10px;white-space:nowrap;">' + esc(String(u.satRangeStart || '')) + ' → ' + esc(String(u.satRangeEnd || '')) + '</td>' +
-        '<td style="font-size:10px;color:#00ff41;">' + names + '</td>' +
+        '<td style="font-size:10px;color:var(--green);">' + names + '</td>' +
         '<td class="right dim">' + esc((u.lastMoved || '').slice(0, 10) || '—') + '</td>' +
         '<td class="right">' + rarityHtml(u) + '</td></tr>';
     }).join('');
@@ -661,7 +663,7 @@
       var addrs = {};
       var total = 0;
       rows.forEach(function(u){ addrs[u.address] = 1; total += u.satCount; });
-      html += '<div class="dim" style="font-size:12px;margin-bottom:12px;">Matches: <span style="color:#fff;">' + fmt(rows.length) + ' UTXOs</span> · Addresses: <span style="color:#fff;">' + fmt(Object.keys(addrs).length) + '</span> · Total: <span class="s1">' + fmt(total) + '</span></div>';
+      html += '<div class="dim" style="font-size:12px;margin-bottom:12px;">Matches: <span style="color:var(--text-strong);">' + fmt(rows.length) + ' UTXOs</span> · Addresses: <span style="color:var(--text-strong);">' + fmt(Object.keys(addrs).length) + '</span> · Total: <span class="s1">' + fmt(total) + '</span></div>';
     }
     if (filter === 'multi' && !searchQ) {
       html += '<div class="table-wrap"><table><thead><tr><th>#</th><th>Address</th><th class="right">Ranges</th><th class="right">UTXOs</th><th class="right">BHANG ' + glyph() + '</th></tr></thead><tbody>';
@@ -790,9 +792,17 @@
 })();
 </script>
 <nav id="footer">
-  <a href="/">Home</a>
-  <a href="/#about">About</a>
-  <a class="active" href="/tracker-v2">Tracker</a>
+  <div class="footer-nav">
+    <a href="/">Home</a>
+    <a href="/#about">About</a>
+    <a class="active" href="/tracker-v2">Tracker</a>
+  </div>
 </nav>
+<script src="/theme.js"></script>
+<script>
+  if (window.BhangTheme) {
+    BhangTheme.mountThemeToggle(document.getElementById('footer'));
+  }
+</script>
 </body>
 </html>
