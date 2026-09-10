@@ -128,7 +128,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   border-top: 2px solid var(--gold);
 }
 
-/* ─── Tracker view (legacy embed; Tracker button opens /tracker-v1) ─── */
+/* ─── Tracker view (legacy embed; Tracker button opens /tracker-v2) ─── */
 #tracker {
   position: fixed;
   top: 0; left: 0;
@@ -1161,15 +1161,15 @@ function showTab(tab){
       }
     }
   }else if(tab==='tracker'){
-    location.href='/tracker-v1';
+    location.href='/tracker-v2';
   }
 }
 
 document.getElementById('btn-about').addEventListener('click',function(){ location.href='/about'; });
-document.getElementById('btn-tracker').addEventListener('click',function(){ location.href='/tracker-v1'; });
+document.getElementById('btn-tracker').addEventListener('click',function(){ location.href='/tracker-v2'; });
 document.getElementById('btn-treasury').addEventListener('click',function(){ location.href='/treasury'; });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
-// Hash routes removed — About is /about, Tracker is /tracker-v1.
+// Hash routes removed — About is /about, Tracker is /tracker-v2.
 
 // ─── STATE ───
 var H=893000;
