@@ -1,3 +1,6 @@
-node_modules/
+﻿node_modules/
 dist/
 .DS_Store
+
+# Local-only snapshot / Task Scheduler automation (runs on this machine; not for public site)
+scripts/
