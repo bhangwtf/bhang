@@ -161,6 +161,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
     <button id="btn-home" class="active">Home</button>
     <button id="btn-about">About</button>
     <button id="btn-tracker">Tracker</button>
+    <button id="btn-treasury">Treasury</button>
   </div>
 </nav>
 
@@ -1166,6 +1167,7 @@ function showTab(tab){
 
 document.getElementById('btn-about').addEventListener('click',function(){ location.href='/about'; });
 document.getElementById('btn-tracker').addEventListener('click',function(){ location.href='/tracker-v1'; });
+document.getElementById('btn-treasury').addEventListener('click',function(){ location.href='/treasury'; });
 document.getElementById('btn-home').addEventListener('click',function(){ showTab('home'); });
 // Hash routes removed — About is /about, Tracker is /tracker-v1.
 

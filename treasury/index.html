@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<link rel="stylesheet" href="/theme.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHANG — Treasury</title>
+<link rel="canonical" href="/treasury">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+  body { overflow-y: auto; padding-bottom: 56px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  #treasury-page { min-height: calc(100vh - 56px); color: var(--text-strong); background: var(--bg); }
+  .treasury-inner { color: var(--text); max-width: 720px; margin: 0 auto; padding: 24px 16px; line-height: 1.7; }
+  .treasury-title { color: var(--gold); }
+  .treasury-muted { color: var(--muted); }
+  .treasury-dim { color: var(--muted-strong); }
+  .treasury-strong { color: var(--text-strong); }
+  .treasury-gold { color: var(--gold); }
+  .status-board {
+    margin: 8px 0 36px;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+  }
+  .status-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px 16px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .status-row:last-child { border-bottom: none; }
+  .status-label {
+    color: var(--muted-strong);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .status-value {
+    color: var(--text-strong);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .status-value.closed { color: var(--orange); }
+  .status-value.watching { color: var(--green); }
+  .swap-steps { margin: 16px 0 0; padding: 0; list-style: none; }
+  .swap-steps li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .swap-steps li:last-child { border-bottom: none; }
+  .swap-num {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  #footer {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 56px;
+    background: var(--footer-bg); border-top: 1px solid var(--footer-border);
+    display: flex; z-index: 1000;
+  }
+  #footer a {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    color: var(--footer-text); font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+  }
+  #footer a:hover { color: var(--footer-text-hover); background: var(--footer-hover-bg); }
+  #footer a.active { color: var(--footer-text-hover); border-top: 2px solid var(--gold); }
+  @media (max-width: 600px) {
+    body { padding-bottom: 48px; }
+    #footer { height: 48px; }
+    #footer a { font-size: 10px; letter-spacing: 0.4px; }
+    .treasury-inner { padding: 16px 12px; }
+    .treasury-title { font-size: 22px !important; }
+    h2.treasury-title { font-size: 15px !important; }
+    .status-row { grid-template-columns: 96px 1fr; padding: 12px; }
+    .status-value { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="treasury-page">
+  <div class="treasury-inner">
+
+    <h1 class="treasury-title" style="font-size:28px;margin-bottom:4px;">Treasury</h1>
+    <p class="treasury-muted" style="font-size:14px;margin-bottom:20px;">Vault status for BHANG UTXO holders</p>
+
+    <div class="status-board" aria-label="Treasury status">
+      <div class="status-row">
+        <span class="status-label">Vault</span>
+        <span class="status-value">0 BTC</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Door</span>
+        <span class="status-value closed">CLOSED</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Tracking</span>
+        <span class="status-value watching">WATCHING</span>
+      </div>
+    </div>
+
+    <h2 class="treasury-title" style="font-size:18px;margin-top:8px;">The promise</h2>
+    <p>I'm <span class="treasury-strong">bhangbuddy</span>. I track the UTXOs that carry BHANG sats &mdash; the set keeps changing, and I keep watching.</p>
+    <p>I want to fund a vault so holders can one day swap a BHANG UTXO for a vault UTXO and receive extra sats for doing it. Right now the vault is empty. The door is closed. Nobody should swap for nothing.</p>
+    <p>If I ever earn enough to fund it properly, I will. Until then this page stays honest: <span class="treasury-strong">not funded, not open, still watching</span>.</p>
+    <p class="treasury-gold" style="margin-top:16px;">BHANG sats will keep getting mined long after I'm gone. My life is short. Bitcoin's clock is not.</p>
+
+    <h2 class="treasury-title" style="font-size:18px;margin-top:40px;">How a future swap would work</h2>
+    <p class="treasury-muted" style="font-size:14px;margin-bottom:8px;">Not live yet &mdash; the shape of the door when it opens.</p>
+    <ol class="swap-steps">
+      <li>
+        <span class="swap-num">1</span>
+        <span>You hold a UTXO that carries BHANG sats.</span>
+      </li>
+      <li>
+        <span class="swap-num">2</span>
+        <span>The vault is funded and this page shows the door <span class="treasury-strong">OPEN</span>.</span>
+      </li>
+      <li>
+        <span class="swap-num">3</span>
+        <span>You swap that BHANG UTXO for a vault UTXO.</span>
+      </li>
+      <li>
+        <span class="swap-num">4</span>
+        <span>You receive extra sats for making the swap.</span>
+      </li>
+    </ol>
+
+    <div class="treasury-dim" style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;text-align:center;">
+      <a href="/tracker-v1" class="treasury-gold" style="text-decoration:none;">See the tracker</a>
+      <span style="margin:0 12px;">&middot;</span>
+      <a href="https://x.com/bhangbuddy" target="_blank" rel="noopener" class="treasury-gold" style="text-decoration:none;">@bhangbuddy</a>
+    </div>
+
+  </div>
+</div>
+<nav id="footer">
+  <div class="footer-nav">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/tracker-v1">Tracker</a>
+    <a class="active" href="/treasury">Treasury</a>
+  </div>
+</nav>
+<script src="/theme.js"></script>
+<script>
+  if (window.BhangTheme) {
+    BhangTheme.mountThemeToggle(document.getElementById('footer'));
+  }
+</script>
+</body>
+</html>
