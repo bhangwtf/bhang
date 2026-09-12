@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-09-12T10:37:39.207Z",
-  "snapshot_block_height": 966659,
+  "exported_at": "2026-09-12T14:40:43.061Z",
+  "snapshot_block_height": 966687,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308772930,
-    "queued_sats": 142846,
+    "live_sats": 308915776,
+    "queued_sats": 0,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "tracing",
-    "last_run": "2026-09-12 10:35:52",
-    "total_utxos_found": 361,
+    "status": "complete",
+    "last_run": "2026-09-12 14:39:42",
+    "total_utxos_found": 364,
     "fee_sats_retraced": "0",
-    "queue_size": 1
+    "queue_size": 0
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 858,
-        "wallet_count": 671,
-        "total_sats": 308772930,
+        "utxo_count": 859,
+        "wallet_count": 672,
+        "total_sats": 308915776,
         "inscribed_count": 0
       },
       "utxos": [
@@ -2694,6 +2694,16 @@
           "first_seen": "2026-08-02 02:05:09"
         },
         {
+          "outpoint": "2f01447a768fb6170ce80bfc1a123c4169750d88d59eb53e0146fc73a3b7f490:1",
+          "address": "bc1q6h274e67rdr7xpn2mr2ttnssjzx3rhlkug6m5q",
+          "sat_range_start": "1773906170263963",
+          "sat_range_end": "1773906170406808",
+          "sat_count": 142846,
+          "input_offset": "40568893588",
+          "last_moved": "2026-09-12 14:25:27",
+          "first_seen": "2026-09-12 14:39:42"
+        },
+        {
           "outpoint": "7335db7064a1939d81a2db82a821c514f440811e0d183756cce64279658082ea:1",
           "address": "bc1qm6nx0ggznsc4vnq28y4ca08vs4rcjvjmykrn9yeqpml2vwhg7npqr3xa22",
           "sat_range_start": "1773906326291385",
@@ -4540,14 +4550,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "fcc31c31f282781a3a603906222b409bd4c86c98a3800098317027a07d18a6db:1",
+          "outpoint": "02599dd3234aaeed59fc6a33298c87dc86c70b7cdef017d4553aeeb7124b721e:1",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "995268546994",
-          "last_moved": "2026-09-12 04:15:56",
-          "first_seen": "2026-09-12 06:35:12",
+          "input_offset": "995597593947",
+          "last_moved": "2026-09-12 14:13:30",
+          "first_seen": "2026-09-12 14:39:37",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -6768,14 +6778,14 @@
           "first_seen": "2026-07-30 02:35:41"
         },
         {
-          "outpoint": "f8e7c270958b219cb285a353a835e812983cbe17033b77bcc8e19d7a535187fa:1",
+          "outpoint": "7a38c6b697646055ad3a9e99cd71601b96314c875c7a66093e24fc5cfb08311a:1247",
           "address": "bc1qd4wf5px0q5dl99p0y00vwtc57fth5exg7tkzajeggp3537gx4v8qxdsgss",
           "sat_range_start": "1773906054548354",
           "sat_range_end": "1773906054552791",
           "sat_count": 4438,
-          "input_offset": "283404120",
-          "last_moved": "2026-09-12 07:58:37",
-          "first_seen": "2026-09-12 10:35:48"
+          "input_offset": "1636705407",
+          "last_moved": "2026-09-12 12:56:42",
+          "first_seen": "2026-09-12 14:39:37"
         },
         {
           "outpoint": "770c3595153590e9aabf30bc6ac139e6b7ebfabe15de421766453ec150e311c0:1",
@@ -9101,14 +9111,14 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7483876842274
+          "btc_balance_sats": 7484388690841
         },
         {
           "address": "1EoGpcfUVYtLqptk2C8y31brTGfow3PJFM",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3534027137867
+          "btc_balance_sats": 3534610437630
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
