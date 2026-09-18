@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-09-18T18:37:38.483Z",
-  "snapshot_block_height": 967587,
+  "exported_at": "2026-09-18T22:36:10.810Z",
+  "snapshot_block_height": 967620,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-09-18 18:35:44",
-    "total_utxos_found": 455,
+    "last_run": "2026-09-18 22:35:25",
+    "total_utxos_found": 458,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -2694,14 +2694,14 @@
           "first_seen": "2026-08-02 02:05:09"
         },
         {
-          "outpoint": "12da755eef1ab1c95945a00c673bd0ae766b12ce2e164e7b3e3d74fb3229524b:14",
+          "outpoint": "b3fe9dc2862c0e67130f37dc91a6f9a58f315e5ae146e60e1c8c5edd6997d01e:10",
           "address": "bc1qamgjuxaywqls56h7rg7afga3m6rgqwfkew688k",
           "sat_range_start": "1773906170263963",
           "sat_range_end": "1773906170406808",
           "sat_count": 142846,
-          "input_offset": "19479391742",
-          "last_moved": "2026-09-18 16:46:13",
-          "first_seen": "2026-09-18 18:35:42"
+          "input_offset": "19473877279",
+          "last_moved": "2026-09-18 22:24:26",
+          "first_seen": "2026-09-18 22:35:25"
         },
         {
           "outpoint": "0a0a090cab32a076ddcbb0430360348a7a73e9539759aaf4f843e2a933f44b7a:1",
@@ -8124,14 +8124,14 @@
           "first_seen": "2026-07-22 02:25:55"
         },
         {
-          "outpoint": "3bb226a6f121cdfbb97fbffb0af4afa2e9ca43d6ab0e460a58a7bdc48b6c45d7:11",
-          "address": "bc1qt4ad7dsehu4frn7tmuunesc3ual7gyh3sptmje",
+          "outpoint": "f6a16c74d41a19d3ed7a26d2dc9fdcf578adb101d477b3d6a53c91e9e64ab0de:16",
+          "address": "bc1q923splk3wepgawavkqreqfp63n05fd77mdvxj8",
           "sat_range_start": "1773906163606235",
           "sat_range_end": "1773906163607017",
           "sat_count": 783,
-          "input_offset": "9286146439",
-          "last_moved": "2026-09-18 17:24:48",
-          "first_seen": "2026-09-18 18:35:44"
+          "input_offset": "13234625161",
+          "last_moved": "2026-09-18 21:26:39",
+          "first_seen": "2026-09-18 22:35:24"
         },
         {
           "outpoint": "2b9cef632b99d8474a6fad9a3f9f61784dd69a62b87269c78def15bb85a5b4b7:1",
@@ -8426,14 +8426,14 @@
           "first_seen": "2026-05-12 05:10:25"
         },
         {
-          "outpoint": "5a57383199dbe8eb7f6947d248907067e54af3b01b0266fcbd719d2fc1dc5695:115",
-          "address": "bc1qj69yp3w3dx2rntn6m3tzg6zthrrd7hvcle2kkp",
+          "outpoint": "f2fbf56784de1f682ca2de703624373201287b0b7c8a0440574e2ff47d721549:0",
+          "address": "bc1qunuaegn5fg0en8lw4aq2svk42w0zsjfvqh52ah",
           "sat_range_start": "1773906036765121",
           "sat_range_end": "1773906036765759",
           "sat_count": 639,
-          "input_offset": "5025834",
-          "last_moved": "2025-02-18 09:30:35",
-          "first_seen": "2026-05-12 14:25:00"
+          "input_offset": "21382519901",
+          "last_moved": "2026-09-18 20:39:05",
+          "first_seen": "2026-09-18 22:35:22"
         },
         {
           "outpoint": "0a2e55411f90260cb68160e3b08d55684f41a2127653bb428b6265ffa5578979:0",
@@ -9062,7 +9062,7 @@
           "range_count": 5,
           "outpoint_count": 1,
           "bhang_sats": 500425,
-          "btc_balance_sats": 301472408212
+          "btc_balance_sats": 299982407416
         },
         {
           "address": "1Ds2pbnUFZETBgJnioSuW6a3koUeD2UTCL",
@@ -9125,7 +9125,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3553064819617
+          "btc_balance_sats": 3554643337675
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9430,7 +9430,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 5326,
-          "btc_balance_sats": 1710688799547
+          "btc_balance_sats": 1778742717547
         },
         {
           "address": "3AfpyDsdYofkwPyCTmJkeaFt3AKDauVkM1",
