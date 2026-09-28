@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-09-28T14:36:53.400Z",
-  "snapshot_block_height": 969006,
+  "exported_at": "2026-09-28T18:36:31.831Z",
+  "snapshot_block_height": 969032,
   "conservation": {
     "target": 308915776,
     "live_sats": 308772930,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "tracing",
-    "last_run": "2026-09-28 14:36:03",
-    "total_utxos_found": 659,
+    "last_run": "2026-09-28 18:35:42",
+    "total_utxos_found": 662,
     "fee_sats_retraced": "0",
     "queue_size": 1
   },
@@ -1120,14 +1120,14 @@
           "first_seen": "2026-05-12 06:14:43"
         },
         {
-          "outpoint": "88a568563f766402efe4a096eee75a9780c002025df68c57eb3a1bd19aec97ca:0",
-          "address": "33KqoTmh6BfrozLZ7Fews1kKLcbYJKYEwD",
+          "outpoint": "3284de3f56dbf03246fe8264bbf2ff1eb5aa9af32debef921cf962c45eb8e6a2:0",
+          "address": "bc1q7vuzhk9chzz0u4u0z9u9rhkcfprlp3xwa7tk9qu3g4zya5dwl47q6ahumt",
           "sat_range_start": "1773906155256934",
           "sat_range_end": "1773906155854359",
           "sat_count": 597426,
-          "input_offset": "6215319619",
-          "last_moved": "2026-08-13 20:32:05",
-          "first_seen": "2026-08-14 02:35:42"
+          "input_offset": "47431890571",
+          "last_moved": "2026-09-28 15:42:19",
+          "first_seen": "2026-09-28 18:35:34"
         },
         {
           "outpoint": "731bad138d013ada05c1eb001120ccd99875a1bbdedfc4c89a6c23bf0dcaa103:8",
@@ -4594,14 +4594,14 @@
           "first_seen": "2026-05-12 20:07:38"
         },
         {
-          "outpoint": "10127b65bbe0b4b9941232dee9e7240f27d8fe6abeb825352654778f32a5e882:2",
+          "outpoint": "01dc8f55eb9e2c5e9a82a5bf36ac0681c0333fcc9baa386f7426e1c0124b7685:2",
           "address": "bc1qatjx2qc8vxz39m0qdz303z8et2pgmc74xz8km3",
           "sat_range_start": "1773906176990206",
           "sat_range_end": "1773906177030514",
           "sat_count": 40309,
-          "input_offset": "365102987834",
-          "last_moved": "2026-09-25 15:40:31",
-          "first_seen": "2026-09-25 18:35:41"
+          "input_offset": "364545977979",
+          "last_moved": "2026-09-28 15:45:37",
+          "first_seen": "2026-09-28 18:35:34"
         },
         {
           "outpoint": "ce20f87ab2933ec78123e1cebccf29aec0accdedef4335ddd9cd7495dcede3ef:7",
@@ -7330,14 +7330,14 @@
           "first_seen": "2026-05-15 18:58:34"
         },
         {
-          "outpoint": "b8c0008c343241058c162b68b0a58c57da9c3eec77a91597fee83667924323f9:3",
-          "address": "bc1q2wvlcjpq2mar3fua30r85qkn8k3sef86eu4sk64anwxw2hln3cuqp9c9yw",
+          "outpoint": "b436fd6689bcb4eaa0dfd9950383489e0ab6934268bed00f69d57db9e06f5a9a:0",
+          "address": "bc1q2s4z6eserrs4cdsky8ug9rpz75g265cl8yma3kjlwe3lu3r49lfs8ewamd",
           "sat_range_start": "1773906325103535",
           "sat_range_end": "1773906325106359",
           "sat_count": 2825,
           "input_offset": "10072648965",
-          "last_moved": "2026-08-27 20:27:53",
-          "first_seen": "2026-08-27 22:34:38"
+          "last_moved": "2026-09-28 17:09:32",
+          "first_seen": "2026-09-28 18:35:34"
         },
         {
           "outpoint": "a807a647f20294171e3700a9ec6486d674b51f261949e2b8b5a645f8d1eb9e88:0",
@@ -9041,7 +9041,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4236357641893
+          "btc_balance_sats": 4237032789575
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9104,7 +9104,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3601227300908
+          "btc_balance_sats": 3601427416474
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9374,7 +9374,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 11651,
-          "btc_balance_sats": 1098115283838,
+          "btc_balance_sats": 1090689557380,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
