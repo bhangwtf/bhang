@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-09-30T06:36:52.690Z",
-  "snapshot_block_height": 969273,
+  "exported_at": "2026-09-30T10:36:41.924Z",
+  "snapshot_block_height": 969294,
   "conservation": {
     "target": 308915776,
     "live_sats": 308772930,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "tracing",
-    "last_run": "2026-09-30 06:36:10",
-    "total_utxos_found": 687,
+    "last_run": "2026-09-30 10:36:02",
+    "total_utxos_found": 690,
     "fee_sats_retraced": "0",
     "queue_size": 1
   },
@@ -3062,14 +3062,14 @@
           "first_seen": "2026-05-13 07:04:46"
         },
         {
-          "outpoint": "251d341e9af0b570bacc9336bf653e27a3ca23ee4d80c37eb6f16ec5124b4b71:1",
-          "address": "bc1qay8zcupgwqe4h5tkvf4zguqcw5h4fvcw7tdg0zkdkcg98cz9em5sg3z86e",
+          "outpoint": "7b37948264664aacccdb3d4c431e7e99440a876282dd11a066e17230601e6346:1",
+          "address": "bc1qs8hp6rgtmtq2nyrjzwz493dahcdcmjgfhn4t9gm7an2p66mr6seq8dnk93",
           "sat_range_start": "1773906315267566",
           "sat_range_end": "1773906315382473",
           "sat_count": 114908,
-          "input_offset": "81737611786",
-          "last_moved": "2026-09-23 12:38:39",
-          "first_seen": "2026-09-23 14:35:43"
+          "input_offset": "37445911786",
+          "last_moved": "2026-09-30 08:47:03",
+          "first_seen": "2026-09-30 10:35:55"
         },
         {
           "outpoint": "91de5559a812d2ba81a12f6785cc5f2ec264417a595a2027c34303a46f55e3f1:1",
@@ -4540,14 +4540,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "e3517b71d9f895dfad83ec055cc539f4dedef3f54f3a192a01046b8e26509ae4:1",
+          "outpoint": "c1a0c65db39f81427b866b742ea3232ebc99f5eca75768919cab05f6eecfbe10:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
           "input_offset": "992372836701",
-          "last_moved": "2026-09-30 06:20:59",
-          "first_seen": "2026-09-30 06:35:58",
+          "last_moved": "2026-09-30 08:28:14",
+          "first_seen": "2026-09-30 10:35:55",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -6204,14 +6204,14 @@
           "first_seen": "2026-05-12 20:03:30"
         },
         {
-          "outpoint": "9bbe066a9d70ebfe3bd9613f651997673d647ebe2a96e719752ef56183fe6f90:25",
+          "outpoint": "467520aea3aab897f8f5dc89fbe97f7c79e76fe48c5e6cad404ae896c537f8af:19",
           "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906052251571",
           "sat_range_end": "1773906052260610",
           "sat_count": 9040,
-          "input_offset": "1305373469",
-          "last_moved": "2026-09-29 15:41:17",
-          "first_seen": "2026-09-29 22:37:12",
+          "input_offset": "132309572",
+          "last_moved": "2026-09-30 09:42:27",
+          "first_seen": "2026-09-30 10:35:55",
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9041,7 +9041,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4237531453356
+          "btc_balance_sats": 4238103322064
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9104,7 +9104,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3603390162259
+          "btc_balance_sats": 3635596779962
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9374,7 +9374,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 11651,
-          "btc_balance_sats": 1235732438217,
+          "btc_balance_sats": 1215126863392,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
