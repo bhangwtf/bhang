@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-10-01T00:56:30.261Z",
-  "snapshot_block_height": 969371,
+  "exported_at": "2026-10-01T02:36:30.096Z",
+  "snapshot_block_height": 969383,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308915776,
-    "queued_sats": 0,
+    "live_sats": 308772930,
+    "queued_sats": 142846,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "complete",
-    "last_run": "2026-10-01 00:55:55",
+    "status": "tracing",
+    "last_run": "2026-10-01 02:35:46",
     "total_utxos_found": 705,
     "fee_sats_retraced": "0",
-    "queue_size": 0
+    "queue_size": 1
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 859,
-        "wallet_count": 672,
-        "total_sats": 308915776,
+        "utxo_count": 858,
+        "wallet_count": 671,
+        "total_sats": 308772930,
         "inscribed_count": 0
       },
       "utxos": [
@@ -2692,16 +2692,6 @@
           "input_offset": "71023723738",
           "last_moved": "2026-08-01 22:48:35",
           "first_seen": "2026-08-02 02:05:09"
-        },
-        {
-          "outpoint": "56c2f7934ae55b5e23c7982c78ddf18b8409ae9af638aed46b873cb905fd566e:6",
-          "address": "bc1qamgjuxaywqls56h7rg7afga3m6rgqwfkew688k",
-          "sat_range_start": "1773906170263963",
-          "sat_range_end": "1773906170406808",
-          "sat_count": 142846,
-          "input_offset": "15240476587",
-          "last_moved": "2026-10-01 00:51:06",
-          "first_seen": "2026-10-01 00:55:55"
         },
         {
           "outpoint": "b2a7c2cbd1daea826d36ba7c5c445925f762dafefae583be216043c24dfb447f:1",
@@ -9110,7 +9100,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3636044580701
+          "btc_balance_sats": 3636174343113
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
