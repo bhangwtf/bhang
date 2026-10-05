@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-10-03T10:36:57.776Z",
-  "snapshot_block_height": 969715,
+  "exported_at": "2026-10-05T01:26:47.348Z",
+  "snapshot_block_height": 969935,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308772930,
-    "queued_sats": 142846,
+    "live_sats": 308915776,
+    "queued_sats": 0,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "tracing",
-    "last_run": "2026-10-03 10:36:18",
-    "total_utxos_found": 744,
+    "status": "complete",
+    "last_run": "2026-10-05 01:26:00",
+    "total_utxos_found": 750,
     "fee_sats_retraced": "0",
-    "queue_size": 1
+    "queue_size": 0
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 858,
-        "wallet_count": 671,
-        "total_sats": 308772930,
+        "utxo_count": 859,
+        "wallet_count": 672,
+        "total_sats": 308915776,
         "inscribed_count": 0
       },
       "utxos": [
@@ -2058,14 +2058,14 @@
           "first_seen": "2026-05-11 10:02:55"
         },
         {
-          "outpoint": "7d55b4cb643d590341e075b5c5eb777ff9be9c89e275e7669f0c8133a508b21b:0",
-          "address": "bc1q5nlft9m6yhlsjq9gntw8z5d6682m3npd3y4w63",
+          "outpoint": "7361e6017af9a496b703d725d172aa38f1d679a92662df2e57e546c1eb74f1e6:1",
+          "address": "bc1qjtrlmp7aslpfkydd8ew7h6pm4g94lt44g2jghh",
           "sat_range_start": "1773906036248505",
           "sat_range_end": "1773906036473356",
           "sat_count": 224852,
-          "input_offset": "19849556",
-          "last_moved": "2026-10-03 06:48:00",
-          "first_seen": "2026-10-03 10:36:11"
+          "input_offset": "17623314",
+          "last_moved": "2026-10-03 12:05:41",
+          "first_seen": "2026-10-05 01:24:03"
         },
         {
           "outpoint": "b2c00101398c49acc61f13539970af72502b34492593d37aa20d824b1946ad46:0",
@@ -2692,6 +2692,16 @@
           "input_offset": "71023723738",
           "last_moved": "2026-08-01 22:48:35",
           "first_seen": "2026-08-02 02:05:09"
+        },
+        {
+          "outpoint": "c7e04490a7ceb23060125951a8ea941de96aa2acbdd333c9329ca14f2ec871d0:3",
+          "address": "bc1qamgjuxaywqls56h7rg7afga3m6rgqwfkew688k",
+          "sat_range_start": "1773906170263963",
+          "sat_range_end": "1773906170406808",
+          "sat_count": 142846,
+          "input_offset": "13190608494",
+          "last_moved": "2026-10-05 01:24:44",
+          "first_seen": "2026-10-05 01:26:00"
         },
         {
           "outpoint": "b2a7c2cbd1daea826d36ba7c5c445925f762dafefae583be216043c24dfb447f:1",
@@ -4540,14 +4550,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "331db1f4883f33d2b458bb8d4ea79c21fa79e742bc96fe2aba833c4304c52f4d:0",
+          "outpoint": "6b53263db3d60bef93d3f19fb98d80b47bcd9a402c565b799f4d620192ce8f63:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "992248490401",
-          "last_moved": "2026-10-03 02:16:26",
-          "first_seen": "2026-10-03 02:35:47",
+          "input_offset": "994588990958",
+          "last_moved": "2026-10-05 00:18:16",
+          "first_seen": "2026-10-05 01:24:15",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -4832,14 +4842,14 @@
           "first_seen": "2026-05-12 19:51:05"
         },
         {
-          "outpoint": "fd69b39e861b144e17da5e0485f115bc4f75e87ccb8b3828ae6a4f39c9991341:0",
-          "address": "bc1pge52ax04acx0pphykkmwa5yfhklahfppec0vkdmfanhu9z2pamws6htvwr",
+          "outpoint": "4de3342b4079436d00bb039881a8c92d380122ff59b183228f78568868e6d394:0",
+          "address": "3MfH2exZAhvm1C5DQYdgdUmvoU4jbehvLk",
           "sat_range_start": "1773906159152585",
           "sat_range_end": "1773906159187680",
           "sat_count": 35096,
-          "input_offset": "243407",
-          "last_moved": "2026-06-29 16:44:53",
-          "first_seen": "2026-06-30 02:35:43"
+          "input_offset": "1779867105",
+          "last_moved": "2026-10-04 09:21:34",
+          "first_seen": "2026-10-05 01:24:03"
         },
         {
           "outpoint": "32c6034f52628676e5b596ec73719846f8208aa30c97b934496478d648d7e542:0",
@@ -8106,14 +8116,14 @@
           "first_seen": "2026-07-22 02:25:55"
         },
         {
-          "outpoint": "c1046d26bf4de4f4e56ec3aa65455a000cf06cb5057850a0251050f53efa76be:0",
-          "address": "1G47mSr3oANXMafVrR8UC4pzV7FEAzo3r9",
+          "outpoint": "52eb98b7df63bbe905d36baa80b0aa114d364cec291b80924c596b11fe094bce:0",
+          "address": "1KbDEg1tDz2ErYgaDbaDhhawnLrSQFaFx5",
           "sat_range_start": "1773906163606235",
           "sat_range_end": "1773906163607017",
           "sat_count": 783,
           "input_offset": "1599298459",
-          "last_moved": "2026-09-30 20:41:05",
-          "first_seen": "2026-10-01 00:55:35"
+          "last_moved": "2026-10-05 00:18:16",
+          "first_seen": "2026-10-05 01:24:03"
         },
         {
           "outpoint": "2b9cef632b99d8474a6fad9a3f9f61784dd69a62b87269c78def15bb85a5b4b7:1",
@@ -8514,14 +8524,14 @@
           "first_seen": "2026-05-13 10:04:57"
         },
         {
-          "outpoint": "9096a32fab59b4fc6a9a45a0a3fa408cd00efdbbac08d537cce751bb2bde78e6:1",
+          "outpoint": "138dc037ecaf9e71be7288c464759e3641250a3d2aadcdd97c0cf1bac1b15ef2:0",
           "address": "bc1qqqh0s7sja5s7yyfuzfgsdja3gmlrk5367tuzdanlmksy862xzxkqkc6m5u",
           "sat_range_start": "1773906173424807",
           "sat_range_end": "1773906173425352",
           "sat_count": 546,
-          "input_offset": "1620635266",
-          "last_moved": "2026-08-26 17:24:54",
-          "first_seen": "2026-08-26 18:35:19"
+          "input_offset": "11620635266",
+          "last_moved": "2026-10-03 19:52:56",
+          "first_seen": "2026-10-05 01:24:03"
         },
         {
           "outpoint": "fd5abe89db423d631fe270fdeb6c04068db4b285166f71d3f328fd8ce5103829:0",
@@ -9033,7 +9043,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4236845389982
+          "btc_balance_sats": 4235797986830
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9096,7 +9106,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3642188261580
+          "btc_balance_sats": 3645808190059
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9317,7 +9327,7 @@
           "range_count": 2,
           "outpoint_count": 1,
           "bhang_sats": 23730,
-          "btc_balance_sats": 1369168081
+          "btc_balance_sats": 1369168375
         },
         {
           "address": "36L36oUrKMNktD7sN3vqSSPyr5XANTpU6V",
