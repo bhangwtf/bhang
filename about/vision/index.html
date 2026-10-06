@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<link rel="stylesheet" href="/theme.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHANG — VISION</title>
+<link rel="canonical" href="/about/vision">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+  body { overflow-y: auto; padding-bottom: 56px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  #about-page { min-height: calc(100vh - 56px); color: var(--text-strong); background: var(--bg); }
+  .about-inner { color: var(--text); }
+  .about-title { color: var(--gold); }
+  .about-muted { color: var(--muted); }
+  .about-dim { color: var(--muted-strong); }
+  .about-strong { color: var(--text-strong); }
+  .about-gold { color: var(--gold); }
+  .about-card { border: 1px solid var(--line); border-radius: 8px; background: var(--bg-soft); }
+  .about-link { color: var(--gold); text-decoration: none; }
+
+  .about-tabs {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .about-tab {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-decoration: none;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .about-tab.active { color: var(--gold); }
+  .about-tab:not(.active):hover { color: var(--text-strong); }
+  .about-tab-dot {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--muted);
+    user-select: none;
+  }
+
+  .about-art-wrap {
+    position: relative;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+  }
+  .about-art-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #000;
+  }
+  .about-art-stage iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
+  }
+
+  .collection-link {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(212, 175, 55, 0.45);
+    cursor: pointer;
+    background: none;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0;
+    font: inherit;
+  }
+  .collection-link:hover { color: var(--text-strong); border-bottom-color: var(--gold); }
+  .collection-choice {
+    position: relative;
+    display: inline-block;
+  }
+  .collection-choice-panel {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: calc(100% + 6px);
+    z-index: 20;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-soft);
+    gap: 8px;
+  }
+  .collection-choice.is-open .collection-choice-panel {
+    display: flex;
+    align-items: center;
+  }
+  .collection-choice-panel a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    text-decoration: none;
+  }
+  .collection-choice-panel a:hover {
+    border-color: var(--gold);
+    background: var(--surface);
+  }
+  .collection-choice-panel img {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  .sat-render-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    width: 100%;
+  }
+  .sat-render {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+  }
+  .sat-render-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #000;
+  }
+  .sat-render-frame iframe,
+  .sat-render-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
+  }
+  .sat-render-frame img {
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+  .sat-render-label {
+    display: block;
+    padding: 6px 8px;
+    font-size: 10px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    background: var(--bg-soft);
+    text-decoration: none;
+  }
+  .sat-render-label:hover { color: var(--gold); }
+
+  #footer {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 56px;
+    background: var(--footer-bg); border-top: 1px solid var(--footer-border);
+    display: flex; z-index: 1000;
+  }
+  #footer a {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    color: var(--footer-text); font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+  }
+  #footer a:hover { color: var(--footer-text-hover); background: var(--footer-hover-bg); }
+  #footer a.active { color: var(--footer-text-hover); border-top: 2px solid var(--gold); }
+  @media (max-width: 600px) {
+    body { padding-bottom: 48px; }
+    #footer { height: 48px; }
+    #footer a { font-size: 11px; letter-spacing: 0.5px; }
+    .detail-grid { grid-template-columns: 100px 1fr !important; gap: 6px 10px !important; font-size: 12px !important; }
+    .about-inner { padding: 8px !important; }
+    .about-title { font-size: 22px !important; }
+    .about-tab,
+    .about-tab-dot { font-size: 22px; }
+    h2.about-title { font-size: 15px !important; }
+    .about-inner p { font-size: 13px !important; line-height: 1.5 !important; }
+    .about-art-stage { aspect-ratio: 16 / 9; }
+    .sat-render-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  }
+  @media (max-width: 480px) {
+    .sat-render-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div id="about-page">
+<div class="about-inner" style="max-width:720px;margin:0 auto;padding:24px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.7;">
+
+    <nav class="about-tabs" aria-label="About inscriptions">
+      <a href="/about" class="about-tab">BHANG</a>
+      <span class="about-tab-dot" aria-hidden="true">·</span>
+      <a href="/about/vision" class="about-tab active" aria-current="page">VISION</a>
+    </nav>
+    <p class="about-muted" style="font-size:14px;margin-bottom:32px;">Child of BHANG Glasses</p>
+
+    <!-- Live BHANG VISION inscription — self-refreshes tip every ~45s on-chain -->
+    <div class="about-art-wrap">
+      <div class="about-art-stage">
+        <iframe
+          title="BHANG VISION generative art (on-chain)"
+          src="https://ordinals.com/content/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0"
+          loading="eager"
+          referrerpolicy="no-referrer-when-downgrade"
+          allow="fullscreen"
+        ></iframe>
+      </div>
+    </div>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">What This Is</h2>
+    <p>BHANG VISION is the Visioncube, a 1/1 on chain child of the BHANG glasses. It is a glass cube that uses OCM libraries and tools, shows the freeze era (Baseline ART) 9 series faces plus an ice back at mint, and keeps an open center for a coin blit.</p>
+    <p>The mint message on the cube is <em class="about-gold">One plant. Many Faces.</em></p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">Parent</h2>
+    <p>Ordinals parent tag points at <a href="/about" class="about-link">BHANG</a>, inscription <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" rel="noopener" class="about-link">#124,622,117</a> on legacy sat. That link is provenance. The cube also hardcodes the parent inscription id and recursively loads leaf helpers from <code class="about-strong">/content/</code> so the leaf geometry stays tied to the glasses art.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">Three Sats as trinity</h2>
+    <p>The host is inscribed once on the art sat. Two other sats can update the cube later without reminting the host.</p>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">Art Host</span>
+        <span class="about-strong"><a href="https://ordinals.com/sat/45017804610" target="_blank" rel="noopener" class="about-link">45,017,804,610</a> · <span class="collection-choice" data-collection-choice><button type="button" class="collection-link" aria-expanded="false" aria-controls="ocm-genesis-links">OCM GENESIS</button> <span id="ocm-genesis-links" class="collection-choice-panel" role="group" aria-label="OCM Genesis marketplaces"><a href="https://ord.net/collection/ocm-genesis" target="_blank" rel="noopener" title="ord.net"><img src="/about/ord-favicon.svg" alt="ord.net" width="16" height="16"></a><a href="https://osura.com/collections/ocm-genesis" target="_blank" rel="noopener" title="Osura"><img src="/about/osura-favicon.png" alt="Osura" width="16" height="16"></a></span></span> #4610 · Block 9 450x</span>
+        <span class="about-dim">Engine Sat</span>
+        <span class="about-strong"><a href="https://ordinals.com/sat/394947745886" target="_blank" rel="noopener" class="about-link">394,947,745,886</a> · <a href="https://ord.net/collection/wizards" target="_blank" rel="noopener" class="collection-link">THE WIZARDS OF ORD</a> #2242 · Block 78</span>
+        <span class="about-dim">Coin Sat</span>
+        <span class="about-strong">Not listed here · Block 9 450x <span class="about-dim" style="font-weight:400;">(hardcoded in the cube; omitted from this page only)</span></span>
+      </div>
+    </div>
+    <p>Engine tips export <code class="about-strong">BHANG_ENGINE.mount</code>. Coin tips export <code class="about-strong">BHANG_COIN.start</code>.</p>
+    <p>Empty or broken tips fall back to baseline art and an empty center.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">What You See</h2>
+    <p>Baseline ART: glass walls, ice back, nine series showing present utilities explored from plant, optional orbital belt synced to chain reactive music. The center starts open. Face slots are front, right, top, left, bottom, back, and surround. The coin is not a face slot, it is a separate center billboard hop.</p>
+    <p>When a valid engine tip is present, faces and surround can change.</p>
+    <p>When a valid coin tip is present, the center paints from an offscreen blit each frame.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:32px;">Runtime</h2>
+    <p>On each visit the inscribed cube runs its own code. It recursively loads Three.js, fflate, p5, Tone.js, and parent HTML from fixed on chain inscription ids. It resolves engine and coin tips with <code class="about-strong">/r/sat/&lt;SAT&gt;/at/-1</code>, then <code class="about-strong">/content/&lt;id&gt;</code>. Latest tip wins.</p>
+    <p>Inside the inscription a tip loop refreshes about every 45 seconds. Opening this page starts that runtime. The site does not add its own poller.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">Inscription Details</h2>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">ID</span>
+        <a href="https://ordinals.com/inscription/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420abddd...afb25f69i0</a>
+        <span class="about-dim">Number</span>
+        <span class="about-strong">#127,519,937</span>
+        <span class="about-dim">Title</span>
+        <span class="about-strong">BHANG VISION</span>
+        <span class="about-dim">Metaprotocol</span>
+        <span class="about-gold">BHANG</span>
+        <span class="about-dim">Content Type</span>
+        <span class="about-strong">text/html</span>
+        <span class="about-dim">Content Size</span>
+        <span class="about-strong">27,719 bytes</span>
+        <span class="about-dim">Encoding</span>
+        <span class="about-strong">br</span>
+        <span class="about-dim">Block</span>
+        <span class="about-strong">969,970</span>
+        <span class="about-dim">Timestamp</span>
+        <span class="about-strong">2026-10-05 06:46:08 UTC</span>
+        <span class="about-dim">Fee</span>
+        <span class="about-strong">5,028 sats</span>
+        <span class="about-dim">Charms</span>
+        <span class="about-strong">&#128290; Nineball · &#9851; Recycled</span>
+        <span class="about-dim">OP_RETURN</span>
+        <span class="about-gold">One plant. Many Faces.</span>
+        <span class="about-dim">Parent</span>
+        <a href="/about" class="about-link">BHANG Glasses</a>
+      </div>
+    </div>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">The Host Art Sat</h2>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">Number</span>
+        <span class="about-strong"><a href="https://ordinals.com/sat/45017804610" target="_blank" rel="noopener" class="about-link">45,017,804,610</a> <span class="about-dim">(Block 9 450x)</span></span>
+        <span class="about-dim">Name</span>
+        <span class="about-strong">nvsxsqwmjyd</span>
+        <span class="about-dim">Role</span>
+        <span class="about-strong">Art Host (Baseline ART)</span>
+      </div>
+      <div class="sat-render-grid" aria-label="Other inscriptions on this sat">
+        <div class="sat-render">
+          <div class="sat-render-frame">
+            <iframe title="Inscription -248823 live OCM render" src="https://ordinals.com/content/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci327" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="autoplay"></iframe>
+          </div>
+          <a class="sat-render-label" href="https://ordinals.com/inscription/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci327" target="_blank" rel="noopener">#-248,823</a>
+        </div>
+        <div class="sat-render">
+          <div class="sat-render-frame">
+            <iframe title="Inscription -248824 live OCM render" src="https://ordinals.com/content/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci328" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="autoplay"></iframe>
+          </div>
+          <a class="sat-render-label" href="https://ordinals.com/inscription/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci328" target="_blank" rel="noopener">#-248,824</a>
+        </div>
+        <div class="sat-render">
+          <div class="sat-render-frame">
+            <iframe title="Inscription -248825 live OCM render" src="https://ordinals.com/content/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci329" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="autoplay"></iframe>
+          </div>
+          <a class="sat-render-label" href="https://ordinals.com/inscription/d9e4305ede48484583e37d4146b0a7d67ac7688a501c98d8c01fdd750f0468cci329" target="_blank" rel="noopener">#-248,825</a>
+        </div>
+        <div class="sat-render">
+          <div class="sat-render-frame">
+            <iframe title="Inscription 59017288 live OCM render" src="https://ordinals.com/content/d1781f30acb4b61f7bf6616b802aff090c3c7679a23ff402dfe990d6fbe92633i17" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="autoplay"></iframe>
+          </div>
+          <a class="sat-render-label" href="https://ordinals.com/inscription/d1781f30acb4b61f7bf6616b802aff090c3c7679a23ff402dfe990d6fbe92633i17" target="_blank" rel="noopener">#59,017,288</a>
+        </div>
+      </div>
+    </div>
+    <p>This sat carries the host in the form of inscription. Engine and coin bodies never live here. Those reinscribe on their own sats so the Host stays frozen.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">The Engine Sat</h2>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">Number</span>
+        <span class="about-strong"><a href="https://ordinals.com/sat/394947745886" target="_blank" rel="noopener" class="about-link">394,947,745,886</a> <span class="about-dim">(Block 78)</span></span>
+        <span class="about-dim">Name</span>
+        <span class="about-strong">nvrgdwxfzux</span>
+        <span class="about-dim">Role</span>
+        <span class="about-strong">Engine tip (faces &amp; surround)</span>
+      </div>
+      <div class="sat-render-grid" aria-label="Inscriptions on the engine sat">
+        <div class="sat-render">
+          <div class="sat-render-frame">
+            <img title="Inscription 11339089 Wizard tip" alt="THE WIZARDS OF ORD #2242" src="https://ordinals.com/content/37e6cca22582583af0d2362449b8c3dc933d394f83da7655dd457a2fd50956aci0" loading="eager" referrerpolicy="no-referrer-when-downgrade" width="512" height="512">
+          </div>
+          <a class="sat-render-label" href="https://ordinals.com/inscription/37e6cca22582583af0d2362449b8c3dc933d394f83da7655dd457a2fd50956aci0" target="_blank" rel="noopener">#11,339,089</a>
+        </div>
+      </div>
+    </div>
+    <p>Latest tip on this sat can update cube faces and surround. Today the tip is <a href="https://ord.net/collection/wizards" target="_blank" rel="noopener" class="collection-link">THE WIZARDS OF ORD</a> #2242. Future tips can carry a dual payload: standalone art plus an engine hop the host reads.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">How It's Built</h2>
+    <p>Built with the open <a href="https://github.com/metagood/OCM-Dimensions" target="_blank" rel="noopener" class="about-link">OCM Dimensions</a> toolchain on the Three.js library path: compress to a gzip <code class="about-strong">td=</code> shell, then inscribe. Only the render code goes on chain.</p>
+    <p>Hardcoded recursion libs:</p>
+    <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
+      <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
+        <span class="about-dim">p5.js</span>
+        <a href="https://ordinals.com/inscription/255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0</a>
+        <span class="about-dim">fflate</span>
+        <a href="https://ordinals.com/inscription/f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0</a>
+        <span class="about-dim">OCM Dimensions</span>
+        <a href="https://ordinals.com/inscription/2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0</a>
+        <span class="about-dim">Tone.js</span>
+        <a href="https://ordinals.com/inscription/44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0</a>
+        <span class="about-dim">Parent glasses</span>
+        <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0</a>
+      </div>
+    </div>
+    <p>Future engine and coin reinscriptions will carry dual payloads: standalone art on their own, and the same hop bodies the host can pull in to update faces, surround, and center.</p>
+
+    <h2 class="about-title" style="font-size:18px;margin-top:40px;">Updates Without Remint</h2>
+    <p>Reinscribe the engine sat to change faces and surround. Reinscribe the coin sat to change the center. The cube host file on the art sat does not need to move. Images or HTML without the BHANG markers do not update the cube, the host keeps baseline faces and an empty center.</p>
+
+    <div class="about-dim" style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;text-align:center;">
+      <a href="https://ordinals.com/inscription/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0" target="_blank" rel="noopener" class="about-link">View on ordinals.com</a>
+      <span style="margin:0 12px;">&middot;</span>
+      <a href="https://x.com/bhangbuddy" target="_blank" rel="noopener" class="about-link">@bhangbuddy</a>
+    </div>
+
+  </div>
+</div>
+<nav id="footer">
+  <div class="footer-nav">
+    <a href="/">Home</a>
+    <a class="active" href="/about">About</a>
+    <a href="/tracker-v2">Tracker</a>
+    <a href="/treasury">Treasury</a>
+  </div>
+</nav>
+<script src="/theme.js"></script>
+<script>
+  if (window.BhangTheme) {
+    BhangTheme.mountThemeToggle(document.getElementById('footer'));
+  }
+  (function () {
+    var roots = document.querySelectorAll('[data-collection-choice]');
+    if (!roots.length) return;
+    function closeAll(except) {
+      roots.forEach(function (root) {
+        if (except && root === except) return;
+        root.classList.remove('is-open');
+        var btn = root.querySelector('.collection-link');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+    roots.forEach(function (root) {
+      var btn = root.querySelector('.collection-link');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var open = root.classList.contains('is-open');
+        closeAll();
+        if (!open) {
+          root.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function () { closeAll(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+  })();
+</script>
+</body>
+</html>
