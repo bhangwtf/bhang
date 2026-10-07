@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-07T16:52:48.299Z",
-  "snapshot_block_height": 970364,
+  "exported_at": "2026-10-07T18:36:01.399Z",
+  "snapshot_block_height": 970377,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-07 16:51:57",
-    "total_utxos_found": 804,
+    "last_run": "2026-10-07 18:35:15",
+    "total_utxos_found": 808,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -6000,14 +6000,14 @@
           "first_seen": "2026-05-12 19:16:17"
         },
         {
-          "outpoint": "8cc85c8b141c49d33272b116c24869b0afe3acd1c96a45e33ea760278015a1ed:15",
+          "outpoint": "46970ea4a48fcbe7e1d56d36d883b7b14138a944eb92349a9a36f6a21b90df16:21",
           "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906176651181",
           "sat_range_end": "1773906176662734",
           "sat_count": 11554,
-          "input_offset": "714875346",
-          "last_moved": "2026-10-06 20:47:33",
-          "first_seen": "2026-10-07 01:22:25",
+          "input_offset": "248060473",
+          "last_moved": "2026-10-07 17:49:57",
+          "first_seen": "2026-10-07 18:35:15",
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -6034,28 +6034,28 @@
           "first_seen": "2026-05-10 17:19:47"
         },
         {
-          "outpoint": "8cc85c8b141c49d33272b116c24869b0afe3acd1c96a45e33ea760278015a1ed:15",
+          "outpoint": "46970ea4a48fcbe7e1d56d36d883b7b14138a944eb92349a9a36f6a21b90df16:21",
           "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906176662735",
           "sat_range_end": "1773906176674070",
           "sat_count": 11336,
-          "input_offset": "714864010",
-          "last_moved": "2026-10-06 20:47:33",
-          "first_seen": "2026-10-07 01:22:25",
+          "input_offset": "248049137",
+          "last_moved": "2026-10-07 17:49:57",
+          "first_seen": "2026-10-07 18:35:15",
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
           }
         },
         {
-          "outpoint": "8cc85c8b141c49d33272b116c24869b0afe3acd1c96a45e33ea760278015a1ed:15",
+          "outpoint": "46970ea4a48fcbe7e1d56d36d883b7b14138a944eb92349a9a36f6a21b90df16:21",
           "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906176674071",
           "sat_range_end": "1773906176685406",
           "sat_count": 11336,
-          "input_offset": "714852674",
-          "last_moved": "2026-10-06 20:47:33",
-          "first_seen": "2026-10-07 01:22:25",
+          "input_offset": "248037801",
+          "last_moved": "2026-10-07 17:49:57",
+          "first_seen": "2026-10-07 18:35:15",
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -6092,14 +6092,14 @@
           "first_seen": "2026-05-12 05:55:07"
         },
         {
-          "outpoint": "8cc85c8b141c49d33272b116c24869b0afe3acd1c96a45e33ea760278015a1ed:15",
+          "outpoint": "46970ea4a48fcbe7e1d56d36d883b7b14138a944eb92349a9a36f6a21b90df16:21",
           "address": "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
           "sat_range_start": "1773906176685407",
           "sat_range_end": "1773906176696306",
           "sat_count": 10900,
-          "input_offset": "714841774",
-          "last_moved": "2026-10-06 20:47:33",
-          "first_seen": "2026-10-07 01:22:25",
+          "input_offset": "248026901",
+          "last_moved": "2026-10-07 17:49:57",
+          "first_seen": "2026-10-07 18:35:15",
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9330,7 +9330,7 @@
           "range_count": 5,
           "outpoint_count": 2,
           "bhang_sats": 47737,
-          "btc_balance_sats": 1059503751744,
+          "btc_balance_sats": 1063832390070,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
