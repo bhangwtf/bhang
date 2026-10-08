@@ -3,6 +3,7 @@
 <head>
 <script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <link rel="stylesheet" href="/theme.css">
+<script src="/chain-links.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BHANG TRACKER V2</title>
@@ -25,10 +26,38 @@
   }
   #footer a:hover { color: var(--footer-text-hover); background: var(--footer-hover-bg); }
   #footer a.active { color: var(--footer-text-hover); border-top: 2px solid var(--gold); }
+  #v2-hop .chain-link { color: var(--gold); }
   @media (max-width: 600px) {
     .page { padding-bottom: 64px; }
     #footer { height: 48px; }
     #footer a { font-size: 11px; letter-spacing: 0.5px; }
+    .hdr { padding: 12px 12px; }
+    .jumps { padding: 10px 12px; gap: 8px; }
+    .jumps .stat { margin-left: 0; width: 100%; }
+    .main { padding: 12px 8px 8px; }
+    .holders { padding: 12px 8px 20px; }
+    .hint { padding: 12px; font-size: 12px; text-align: left; word-break: break-all; }
+    .search input { min-width: 0; width: 100%; }
+    table { min-width: 720px; }
+    th, td { padding: 6px 8px 6px 0; }
+    /*
+      Mobile Past: viewport-fixed on the right, but only visible once Present has
+      scrolled to the left (user is in history). Hidden again when Present returns.
+    */
+    .past-lab {
+      left: auto;
+      right: 10px;
+      transform: none;
+      top: 10px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.15s ease;
+    }
+    .past-lab.is-on {
+      opacity: 1;
+      visibility: visible;
+    }
+    .chain-box { padding: 12px 10px; }
   }
   .hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
   .tog { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; font-size: 11px; }
@@ -62,6 +91,7 @@
   .chain-labs span { position: absolute; top: 0; white-space: nowrap; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; pointer-events: none; }
   .chain-labs .future { color: #ffb000; }
   .chain-labs .present { color: #00ff41; }
+  .range-2line { display: inline-block; line-height: 1.35; white-space: normal; }
   .chain-row { display: flex; align-items: center; gap: 8px; min-height: 240px; padding-right: 16px; }
   .now { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; min-width: 56px; margin: 0 4px; }
   .now .line { width: 1px; height: 80px; border-left: 1px dashed #00ff4173; }
@@ -303,6 +333,7 @@
   var paintFrame = 0;
   var holdScroll = false;
   var pinEnd = false;
+  var suppressPinRelease = false;
   var GAP = 8;
   var OVERSCAN = 900;
 
@@ -374,15 +405,22 @@
       .then(function(hops){
         Object.keys(hops || {}).forEach(function(k){ hopByHeight[k] = hops[k]; });
         if (pinEnd) {
+          /* Finish jump-to-origin once the oldest chunk is painted, then release
+             the pin so the user can scroll away from genesis. */
           holdScroll = true;
           renderCards(false);
-          pinToEnd(document.getElementById('v2-cards'));
+          var c = document.getElementById('v2-cards');
+          if (c) pinToEnd(c);
           holdScroll = false;
+          pinEnd = false;
         } else {
           schedulePaint(false);
         }
       })
-      .catch(function(){ chunkCards[file] = []; })
+      .catch(function(){
+        chunkCards[file] = [];
+        if (pinEnd) pinEnd = false;
+      })
       .finally(function(){ delete chunkWait[file]; });
   }
   function pastOriginX(){
@@ -430,7 +468,10 @@
     return Math.max(0, chain.scrollWidth - chain.clientWidth);
   }
   function pinToEnd(chain){
+    if (!chain) return;
+    suppressPinRelease = true;
     chain.scrollLeft = maxScroll(chain);
+    requestAnimationFrame(function(){ suppressPinRelease = false; });
   }
   function jumpPresent(){
     if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
@@ -445,20 +486,23 @@
   }
   function jumpOrigin(){
     if (paintFrame) { cancelAnimationFrame(paintFrame); paintFrame = 0; }
-    pinEnd = true;
     holdScroll = true;
     var chain = document.getElementById('v2-cards');
     if (!chain) { holdScroll = false; return; }
     var chunks = (chainMeta && chainMeta.chunks) || [];
-    if (chunks.length) ensureChunk(chunks[0].file);
+    var originFile = chunks.length ? chunks[0].file : null;
+    /* Keep pin only while the origin chunk is still loading; release afterward
+       so scroll/paint does not snap back to the end forever. */
+    pinEnd = !!(originFile && !chunkCards[originFile]);
+    if (originFile) ensureChunk(originFile);
     var map = segments();
     chain.scrollLeft = pastOriginX() + map.total + 400;
     renderCards(false);
     pinToEnd(chain);
     holdScroll = false;
     requestAnimationFrame(function(){
-      if (!pinEnd) return;
       pinToEnd(chain);
+      if (!originFile || chunkCards[originFile]) pinEnd = false;
     });
   }
   function nowLabel(){
@@ -553,7 +597,8 @@
     var futureLab = document.getElementById('lab-future');
     if (futureLab) futureLab.style.display = upcoming.length ? '' : 'none';
     layoutChain(!!reset);
-    if (pinEnd && chain) pinToEnd(chain);
+    /* Do not pin here — that trapped scroll at genesis after Jump to Origin.
+       Pinning is only done from jumpOrigin / origin-chunk load. */
   }
 
   function layoutChain(reset){
@@ -571,6 +616,32 @@
     if (presentLab) presentLab.style.left = (presentCenter - presentLab.offsetWidth / 2) + 'px';
     if (futureLab) futureLab.style.left = Math.max(8, presentCenter / 2 - futureLab.offsetWidth / 2) + 'px';
     if (reset) chain.scrollLeft = 0;
+    updatePastLab();
+  }
+
+  /* Mobile only: show fixed Past after Present has moved to the left side;
+     hide again when Present comes back on screen. Desktop Past stays always on. */
+  function updatePastLab(){
+    var lab = document.querySelector('.past-lab');
+    if (!lab) return;
+    var mobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+    if (!mobile) {
+      lab.classList.remove('is-on');
+      return;
+    }
+    var chain = document.getElementById('v2-cards');
+    var now = document.getElementById('v2-now');
+    if (!chain || !now) {
+      lab.classList.remove('is-on');
+      return;
+    }
+    var chainRect = chain.getBoundingClientRect();
+    var nowRect = now.getBoundingClientRect();
+    var nowCenter = nowRect.left + nowRect.width / 2;
+    /* Present is on the left third of the hop viewport → user is in past history */
+    var leftZone = chainRect.left + chainRect.width * 0.32;
+    if (nowCenter <= leftZone) lab.classList.add('is-on');
+    else lab.classList.remove('is-on');
   }
 
   function scrollToHeight(height){
@@ -626,19 +697,30 @@
     return '<span class="live">LIVE</span>';
   }
 
+  function rangeTwoLines(start, end, endHtml){
+    var a = start == null || start === '' ? '' : String(start);
+    var b = end == null || end === '' ? '' : String(end);
+    if (!a && !b) return '—';
+    if (!b || b === a) return endHtml ? endHtml(a) : esc(a);
+    var left = endHtml ? endHtml(a) : esc(a);
+    var right = endHtml ? endHtml(b) : esc(b);
+    return '<span class="range-2line">' + left + ' <span class="dim">→</span><br>' + right + '</span>';
+  }
+
   function utxoRows(rows){
     return rows.map(function(u){
-      var vout = String(u.outpoint).split(':')[1] || '0';
-      var names = esc(trunc(u.satnameRangeStart, 8, 4));
-      if (u.satnameRangeEnd && u.satnameRangeEnd !== u.satnameRangeStart) {
-        names += ' <span class="dim">→</span> ' + esc(trunc(u.satnameRangeEnd, 8, 4));
-      }
+      var names = rangeTwoLines(
+        trunc(u.satnameRangeStart, 8, 4),
+        (u.satnameRangeEnd && u.satnameRangeEnd !== u.satnameRangeStart) ? trunc(u.satnameRangeEnd, 8, 4) : '',
+        esc
+      );
+      var sats = rangeTwoLines(u.satRangeStart, u.satRangeEnd, esc);
       var badge = walletBadge(u.walletLabel);
       var edge = (u.rarity && u.rarity[0]) ? 'border-left:2px solid ' + u.rarity[0].color : '';
-      return '<tr style="' + edge + '"><td class="dim">' + esc(String(u.outpoint).slice(0, 12)) + '…:' + esc(vout) + '</td>' +
-        '<td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(u.address) + '" target="_blank" rel="noopener">' + esc(trunc(u.address, 12, 6)) + '</a>' + badge + '</td>' +
+      return '<tr style="' + edge + '"><td class="dim">' + BhangLinks.outpointLink(u.outpoint) + '</td>' +
+        '<td>' + BhangLinks.addrLink(u.address) + badge + '</td>' +
         '<td class="right"><span class="s1" style="font-weight:bold;">' + fmt(u.satCount) + '</span> ' + glyph() + '</td>' +
-        '<td class="dim" style="font-size:10px;white-space:nowrap;">' + esc(String(u.satRangeStart || '')) + ' → ' + esc(String(u.satRangeEnd || '')) + '</td>' +
+        '<td class="dim" style="font-size:10px;">' + sats + '</td>' +
         '<td style="font-size:10px;color:var(--green);">' + names + '</td>' +
         '<td class="right dim">' + esc((u.lastMoved || '').slice(0, 10) || '—') + '</td>' +
         '<td class="right">' + rarityHtml(u) + '</td></tr>';
@@ -671,7 +753,7 @@
       var start = (page - 1) * pageSize;
       rows.slice(start, start + pageSize).forEach(function(w, i){
         var badge = walletBadge(w.walletLabel);
-        html += '<tr><td class="dim">' + (start + i + 1) + '</td><td><a class="gold" href="https://mempool.space/address/' + encodeURIComponent(w.address) + '" target="_blank" rel="noopener">' + esc(trunc(w.address, 12, 6)) + '</a>' + badge + '</td>' +
+        html += '<tr><td class="dim">' + (start + i + 1) + '</td><td>' + BhangLinks.addrLink(w.address) + badge + '</td>' +
           '<td class="right">' + fmt(w.rangeCount) + '</td><td class="right">' + fmt(w.utxoCount) + '</td><td class="right"><span class="s1" style="font-weight:bold;">' + fmt(w.bhangSats) + '</span></td></tr>';
       });
       html += '</tbody></table></div>';
@@ -751,14 +833,25 @@
       });
     });
     selectedHop = found;
-    document.getElementById('v2-hop').textContent = found
-      ? (compact(found.satCount) + ' ' + found.kind + ' → ' + found.toAddress + (labelText(found.walletLabel) ? ' · ' + labelText(found.walletLabel) : ''))
-      : 'Select a hop tile to inspect movement details.';
+    var hopEl = document.getElementById('v2-hop');
+    if (!found) {
+      hopEl.textContent = 'Select a hop tile to inspect movement details.';
+    } else {
+      var lab = labelText(found.walletLabel);
+      hopEl.innerHTML =
+        esc(compact(found.satCount) + ' ' + found.kind + ' → ') +
+        BhangLinks.addrLink(found.toAddress) +
+        (lab ? esc(' · ' + lab) : '');
+    }
     schedulePaint(false);
   });
   document.getElementById('v2-cards').addEventListener('scroll', function(){
+    /* User scroll releases end-pin; ignore programmatic pinToEnd scrolls. */
+    if (pinEnd && !holdScroll && !suppressPinRelease) pinEnd = false;
+    updatePastLab();
     schedulePaint(false);
   }, { passive: true });
+  window.addEventListener('resize', function(){ updatePastLab(); });
   loadChainTip();
   setInterval(loadChainTip, 120000);
   document.getElementById('jump-present').onclick = jumpPresent;

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/theme.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Permissions-Policy" content="autoplay=(self 'https://ordinals.com'), fullscreen=(self 'https://ordinals.com')">
 <title>BHANG — VISION</title>
 <link rel="canonical" href="/about/vision">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -193,7 +194,12 @@
     .about-tab-dot { font-size: 22px; }
     h2.about-title { font-size: 15px !important; }
     .about-inner p { font-size: 13px !important; line-height: 1.5 !important; }
-    .about-art-stage { aspect-ratio: 16 / 9; }
+    /* Taller stage so cube taps hit the iframe, not cramped letterbox chrome */
+    .about-art-stage { aspect-ratio: 1 / 1; min-height: 280px; }
+    .about-art-stage iframe {
+      touch-action: manipulation;
+      pointer-events: auto;
+    }
     .sat-render-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
   }
   @media (max-width: 480px) {
@@ -220,7 +226,8 @@
           src="https://ordinals.com/content/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0"
           loading="eager"
           referrerpolicy="no-referrer-when-downgrade"
-          allow="fullscreen"
+          allow="autoplay; fullscreen; accelerometer; gyroscope"
+          allowfullscreen
         ></iframe>
       </div>
     </div>
@@ -260,7 +267,7 @@
     <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
       <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
         <span class="about-dim">ID</span>
-        <a href="https://ordinals.com/inscription/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0</a>
+        <a href="https://ordinals.com/content/420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420abdddd4fa946b60db8a27b684d4b509958831f22e884d0a92af46afb25f69i0</a>
         <span class="about-dim">Number</span>
         <span class="about-strong">#127,519,937</span>
         <span class="about-dim">Title</span>
@@ -354,15 +361,15 @@
     <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
       <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
         <span class="about-dim">p5.js</span>
-        <a href="https://ordinals.com/inscription/255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0</a>
+        <a href="https://ordinals.com/content/255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">255ce0c5a0d8aca39510da72e604ef8837519028827ba7b7f723b7489f3ec3a4i0</a>
         <span class="about-dim">fflate</span>
-        <a href="https://ordinals.com/inscription/f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0</a>
+        <a href="https://ordinals.com/content/f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">f815bd5c566c6e46de5cdb6ccb3a7043c63deeba61f4234baea84b602b0d4440i0</a>
         <span class="about-dim">OCM Dimensions</span>
-        <a href="https://ordinals.com/inscription/2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0</a>
+        <a href="https://ordinals.com/content/2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">2dbdf9ebbec6be793fd16ae9b797c7cf968ab2427166aaf390b90b71778266abi0</a>
         <span class="about-dim">Tone.js</span>
-        <a href="https://ordinals.com/inscription/44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0</a>
+        <a href="https://ordinals.com/content/44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">44740a1f30efb247ef41de3355133e12d6f58ab4dc8a3146648e2249fa9c6a39i0</a>
         <span class="about-dim">Parent glasses</span>
-        <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0</a>
+        <a href="https://ordinals.com/content/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" rel="noopener" class="about-link" style="word-break:break-all;">420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0</a>
       </div>
     </div>
     <p>Future engine and coin reinscriptions will carry dual payloads: standalone art on their own, and the same hop bodies the host can pull in to update faces, surround, and center.</p>

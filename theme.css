@@ -122,6 +122,25 @@ html[data-theme="light"] {
   display: block;
 }
 
+/* Full on-chain ids: wrap on narrow screens; keep clickable */
+.chain-link {
+  color: var(--gold);
+  text-decoration: none;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+.chain-link:hover {
+  text-decoration: underline;
+}
+.chain-link-tx,
+.chain-link-outpoint,
+.chain-link-inscription {
+  color: var(--gold);
+}
+td .chain-link {
+  display: inline;
+}
+
 @media (max-width: 600px) {
   #footer .footer-theme {
     padding: 0 10px;
@@ -129,5 +148,9 @@ html[data-theme="light"] {
   #footer .theme-toggle {
     width: 32px;
     height: 32px;
+  }
+  .chain-link {
+    font-size: inherit;
+    line-height: 1.35;
   }
 }

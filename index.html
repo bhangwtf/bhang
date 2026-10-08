@@ -8,6 +8,7 @@
   <meta name="description" content="BHANG — Bitcoin block glasses generative art. A living artwork on the Bitcoin blockchain." />
   <script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
   <link rel="stylesheet" href="/theme.css">
+  <script src="/chain-links.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.min.js"></script>
   <style>
 html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -140,6 +141,7 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+#t-live-feed .chain-link { word-break: break-all; }
 /* ─── Mobile responsive ─── */
 @media (max-width: 600px) {
   /* Footer */
@@ -149,6 +151,26 @@ html, body { margin: 0; padding: 0; overflow: hidden; background: #000; font-fam
   .gallery.fullscreen { height: calc(100vh - 48px) !important; }
   /* Mode button */
   .mode-btn { font-size: 10px !important; padding: 4px 8px !important; }
+  /* Gallery 3D frame: thicker on phone so it reads vs fullscreen */
+  .gallery:not(.fullscreen) { perspective: 900px; }
+  .gallery:not(.fullscreen) .frame-border.top,
+  .gallery:not(.fullscreen) .frame-border.bottom { height: 7%; }
+  .gallery:not(.fullscreen) .frame-border.left,
+  .gallery:not(.fullscreen) .frame-border.right { width: 7%; }
+  .gallery:not(.fullscreen) .frame-depth.top,
+  .gallery:not(.fullscreen) .frame-depth.bottom { height: 22px; }
+  .gallery:not(.fullscreen) .frame-depth.left,
+  .gallery:not(.fullscreen) .frame-depth.right { width: 22px; }
+  .gallery:not(.fullscreen) .frame-shadow-top {
+    top: 7%; left: 7%; width: 86%; height: 12%;
+  }
+  #tracker-content { padding: 14px 8px !important; }
+  #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+  #t-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #t-utxos table { min-width: 720px; }
+  #t-search-results { overflow-x: auto; }
+  #t-live-feed { max-height: 240px; }
 }
 
   </style>
@@ -470,11 +492,10 @@ function formatPushed(iso){
         rh+='<tr style="border-bottom:1px solid #222;color:#555;text-align:left;"><th style="padding:4px;">Outpoint</th><th style="padding:4px;">Address</th><th style="padding:4px;text-align:right;">Sats</th><th style="padding:4px;text-align:right;">Last Moved</th><th style="padding:4px;text-align:right;">Status</th></tr>';
         for(var i=0;i<matches.length;i++){
           var u=matches[i];
-          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
           var tags=getUtxoRarity(u);
           rh+='<tr style="border-bottom:1px solid #111;'+(tags.length?'border-left:2px solid '+tags[0].color+';':'')+'">';
-          rh+='<td style="padding:4px;color:#888;">'+opShort+'</td>';
-          rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a>'+walletBadge(u.wallet_label)+'</td>';
+          rh+='<td style="padding:4px;color:#888;">'+BhangLinks.outpointLink(u.outpoint)+'</td>';
+          rh+='<td style="padding:4px;">'+BhangLinks.addrLink(u.address)+walletBadge(u.wallet_label)+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:#888;">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
           rh+='<td style="padding:4px;text-align:right;white-space:nowrap;">';
@@ -534,15 +555,13 @@ function formatPushed(iso){
         uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
         for(var j=0;j<pageUtxos.length;j++){
           var u=pageUtxos[j];
-          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
-          var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
           var moved=u.last_moved?u.last_moved.substring(0,10):'—';
-          var sRange=s1.sat_start.substring(0,7)+'… → '+s1.sat_end.substring(0,7)+'…';
+          var sRange=(u.sat_range_start!=null&&u.sat_range_end!=null)?(String(u.sat_range_start)+' → '+String(u.sat_range_end)):'—';
           var tags=getUtxoRarity(u);
           var rowBorder=tags.length?'border-left:2px solid '+tags[0].color+';':'';
           uh+='<tr style="border-bottom:1px solid #111;'+rowBorder+'">';
-          uh+='<td style="padding:5px 4px;color:#888;white-space:nowrap;">'+opShort+'</td>';
-          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(u.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;color:#888;max-width:280px;">'+BhangLinks.outpointLink(u.outpoint)+'</td>';
+          uh+='<td style="padding:5px 4px;max-width:320px;">'+BhangLinks.addrLink(u.address)+walletBadge(u.wallet_label)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+u.sat_count.toLocaleString()+'</td>';
           uh+='<td style="padding:5px 4px;color:#555;white-space:nowrap;font-size:10px;">'+sRange+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+moved+'</td>';
@@ -587,7 +606,6 @@ function formatPushed(iso){
         uh+='<th style="padding:6px 4px;">#</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">RANGES</th><th style="padding:6px 4px;text-align:right;">UTXOS</th><th style="padding:6px 4px;text-align:right;">BHANG SATS ▾</th><th style="padding:6px 4px;text-align:right;">TOTAL BTC BALANCE</th></tr>';
         for(var j=0;j<page.length;j++){
           var w=page[j];
-          var addr=w.address.substring(0,12)+'...'+w.address.substring(w.address.length-6);
           var bal;
           if(w.btc_balance_sats===null||w.btc_balance_sats===undefined){
             bal='<span style="color:#555;">—</span>';
@@ -596,7 +614,7 @@ function formatPushed(iso){
           }
           uh+='<tr style="border-bottom:1px solid #111;">';
           uh+='<td style="padding:5px 4px;color:#555;">'+(start+j+1)+'</td>';
-          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+w.address+'" target="_blank" style="color:#D4AF37;text-decoration:none;">'+addr+'</a>'+walletBadge(w.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;max-width:360px;">'+BhangLinks.addrLink(w.address)+walletBadge(w.wallet_label)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+w.range_count+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#888;">'+w.outpoint_count+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:#fff;">'+Number(w.bhang_sats).toLocaleString()+'</td>';
@@ -764,7 +782,7 @@ function formatPushed(iso){
                 movementsFound++;
                 addFeedItem(
                   'CATCH-UP BLK '+blockHeight+': '+u.sat_count.toLocaleString()+' sats moved from '+
-                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4),
+                  BhangLinks.addrLink(u.address),
                   'movement'
                 );
                 traceFifo(tx,j,u,blockHeight);
@@ -870,7 +888,7 @@ function formatPushed(iso){
                 movementsFound++;
                 addFeedItem(
                   'MOVEMENT: '+u.sat_count.toLocaleString()+' sats moved from '+
-                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4)+
+                  BhangLinks.addrLink(u.address)+
                   ' — tracing FIFO →',
                   'movement'
                 );
@@ -945,8 +963,8 @@ function formatPushed(iso){
 
       addFeedItem(
         '→ '+Number(count).toLocaleString()+' sats → '+
-        newAddr.substring(0,8)+'…'+newAddr.substring(newAddr.length-4)+
-        ' ('+newOutpoint.substring(0,8)+'…:'+v+')',
+        BhangLinks.addrLink(newAddr)+
+        ' ('+BhangLinks.outpointLink(newOutpoint)+')',
         'movement'
       );
     }
@@ -1045,6 +1063,14 @@ var tiltX=0,tiltY=0;
 var tiltTargetX=0,tiltTargetY=0;
 var TILT_MAX=12;
 var TILT_EASE=0.08;
+var gyroArmed=false;
+
+function isMobileGallery(){
+  return window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+}
+function tiltMax(){
+  return isMobileGallery() ? 16 : TILT_MAX;
+}
 
 // ─── Build 3D frame DOM around p5 canvas ───
 function buildFrame(){
@@ -1069,21 +1095,56 @@ function buildFrame(){
   document.body.appendChild(btn);
 }
 
+function armMobileGyro(){
+  if(gyroArmed || !isMobileGallery()) return;
+  gyroArmed=true;
+  function onOrient(e){
+    if(!isMobileGallery() || isFullscreen) return;
+    var gamma=typeof e.gamma==='number' ? e.gamma : 0;
+    var beta=typeof e.beta==='number' ? e.beta : 90;
+    var gx=Math.max(-1, Math.min(1, gamma/45));
+    var gy=Math.max(-1, Math.min(1, (beta-90)/45));
+    var max=tiltMax();
+    tiltTargetY=gx*max;
+    tiltTargetX=-gy*max*0.6;
+  }
+  function listen(){
+    window.addEventListener('deviceorientation', onOrient, true);
+  }
+  try{
+    if(typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function'){
+      DeviceOrientationEvent.requestPermission().then(function(state){
+        if(state==='granted') listen();
+      }).catch(function(){});
+    }else{
+      listen();
+    }
+  }catch(err){}
+}
+
 function initTilt(){
   document.addEventListener('mousemove',function(e){
+    if(isMobileGallery()) return; // desktop mouse path only
     var nx=(e.clientX/window.innerWidth-0.5)*2;
     var ny=(e.clientY/window.innerHeight-0.5)*2;
-    tiltTargetY=nx*TILT_MAX;
-    tiltTargetX=-ny*TILT_MAX*0.6;
+    var max=tiltMax();
+    tiltTargetY=nx*max;
+    tiltTargetX=-ny*max*0.6;
   });
+  document.addEventListener('touchstart',function(){
+    if(isMobileGallery()) armMobileGyro();
+  },{passive:true});
   document.addEventListener('touchmove',function(e){
+    if(!isMobileGallery() || isFullscreen) return;
     var t=e.touches[0];
     var nx=(t.clientX/window.innerWidth-0.5)*2;
     var ny=(t.clientY/window.innerHeight-0.5)*2;
-    tiltTargetY=nx*TILT_MAX;
-    tiltTargetX=-ny*TILT_MAX*0.6;
+    var max=tiltMax();
+    tiltTargetY=nx*max;
+    tiltTargetX=-ny*max*0.6;
   },{passive:true});
   document.addEventListener('mouseleave',function(){
+    if(isMobileGallery()) return;
     tiltTargetX=0;tiltTargetY=0;
   });
 }

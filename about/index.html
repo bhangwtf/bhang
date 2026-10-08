@@ -57,6 +57,11 @@
     border: 1px solid var(--line);
     background: #000;
   }
+  .about-art-tilt {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
   .about-art-stage {
     position: relative;
     width: 100%;
@@ -98,7 +103,31 @@
     .about-tab-dot { font-size: 22px; }
     h2.about-title { font-size: 15px !important; }
     .about-inner p { font-size: 13px !important; line-height: 1.5 !important; }
-    .about-art-stage { aspect-ratio: 16 / 9; }
+    /* Rectangular stage like desktop (full glasses). No second gold frame.
+       Subtle mobile tilt of the whole rectangular viewport only. */
+    .about-art-wrap {
+      perspective: 900px;
+      overflow: visible;
+      border: none;
+      background: transparent;
+    }
+    .about-art-tilt {
+      transform-style: preserve-3d;
+      will-change: transform;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #000;
+    }
+    .about-art-stage {
+      aspect-ratio: 16 / 10;
+    }
+    .about-art-stage iframe {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: manipulation;
+    }
   }
 </style>
 </head>
@@ -115,14 +144,16 @@
 
     <!-- True inscription renderer from ordinals.com (gallery + 3D tilt + mode toggle + /r/blockheight on each load) -->
     <div class="about-art-wrap">
-      <div class="about-art-stage">
-        <iframe
-          title="BHANG generative art (on-chain)"
-          src="https://ordinals.com/content/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allow="fullscreen"
-        ></iframe>
+      <div class="about-art-tilt" id="about-art-tilt">
+        <div class="about-art-stage">
+          <iframe
+            title="BHANG generative art (on-chain)"
+            src="https://ordinals.com/content/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0"
+            loading="eager"
+            referrerpolicy="no-referrer-when-downgrade"
+            allow="autoplay; fullscreen"
+          ></iframe>
+        </div>
       </div>
     </div>
 
@@ -175,7 +206,7 @@
     <div class="about-card" style="border-radius:8px;padding:20px;margin:16px 0;font-size:13px;font-family:'JetBrains Mono',monospace;">
       <div class="detail-grid" style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;">
         <span class="about-dim">ID</span>
-        <a href="https://ordinals.com/inscription/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" class="about-link" style="word-break:break-all;">420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0</a>
+        <a href="https://ordinals.com/content/420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0" target="_blank" class="about-link" style="word-break:break-all;">420a3e99e9252b45f6185c1cee22294dc1671725da3fc54ce3e77480e9372a69i0</a>
         <span class="about-dim">Number</span>
         <span class="about-strong">#124,622,117</span>
         <span class="about-dim">Title</span>
@@ -305,6 +336,87 @@
   if (window.BhangTheme) {
     BhangTheme.mountThemeToggle(document.getElementById('footer'));
   }
+
+  /* Mobile-only 3D tilt of museum frame around on-chain iframe. Desktop unchanged. */
+  (function () {
+    function isMobile() {
+      return window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+    }
+    var wrap = document.getElementById('about-art-tilt');
+    if (!wrap) return;
+
+    var tiltX = 0, tiltY = 0, targetX = 0, targetY = 0;
+    var MAX = 8, EASE = 0.1, gyroArmed = false, raf = 0;
+
+    function apply() {
+      if (!isMobile()) {
+        wrap.style.transform = '';
+        return;
+      }
+      tiltX += (targetX - tiltX) * EASE;
+      tiltY += (targetY - tiltY) * EASE;
+      wrap.style.transform = 'rotateX(' + tiltX.toFixed(2) + 'deg) rotateY(' + tiltY.toFixed(2) + 'deg)';
+      raf = requestAnimationFrame(apply);
+    }
+
+    function startLoop() {
+      if (raf) return;
+      raf = requestAnimationFrame(apply);
+    }
+
+    function armGyro() {
+      if (gyroArmed || !isMobile()) return;
+      gyroArmed = true;
+      function onOrient(e) {
+        if (!isMobile()) return;
+        var gamma = typeof e.gamma === 'number' ? e.gamma : 0;
+        var beta = typeof e.beta === 'number' ? e.beta : 90;
+        var gx = Math.max(-1, Math.min(1, gamma / 45));
+        var gy = Math.max(-1, Math.min(1, (beta - 90) / 45));
+        targetY = gx * MAX;
+        targetX = -gy * MAX * 0.6;
+        startLoop();
+      }
+      function listen() {
+        window.addEventListener('deviceorientation', onOrient, true);
+      }
+      try {
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+          DeviceOrientationEvent.requestPermission().then(function (state) {
+            if (state === 'granted') listen();
+          }).catch(function () {});
+        } else {
+          listen();
+        }
+      } catch (err) {}
+    }
+
+    var surface = document.querySelector('.about-art-wrap') || wrap;
+
+    surface.addEventListener('touchstart', function () {
+      if (!isMobile()) return;
+      armGyro();
+      startLoop();
+    }, { passive: true });
+
+    surface.addEventListener('touchmove', function (e) {
+      if (!isMobile()) return;
+      var t = e.touches[0];
+      var rect = wrap.getBoundingClientRect();
+      var nx = ((t.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+      var ny = ((t.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
+      targetY = Math.max(-1, Math.min(1, nx)) * MAX;
+      targetX = -Math.max(-1, Math.min(1, ny)) * MAX * 0.6;
+      startLoop();
+    }, { passive: true });
+
+    window.addEventListener('resize', function () {
+      if (!isMobile()) {
+        wrap.style.transform = '';
+        targetX = targetY = tiltX = tiltY = 0;
+      }
+    });
+  })();
 </script>
 </body>
 </html>

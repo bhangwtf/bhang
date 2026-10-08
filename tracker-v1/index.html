@@ -3,6 +3,7 @@
 <head>
 <script>(function(){try{var t=localStorage.getItem("bhang-theme");document.documentElement.setAttribute("data-theme",(t==="light"||t==="dark")?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <link rel="stylesheet" href="/theme.css">
+  <script src="/chain-links.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BHANG TRACKER V1</title>
@@ -28,14 +29,55 @@
       #footer { height: 48px; }
       #footer a { font-size: 11px; letter-spacing: 0.5px; }
     }
+    #t-live-feed .chain-link { word-break: break-all; }
+    .range-2line { display: inline-block; line-height: 1.35; white-space: normal; }
+    .trace-grid,
+    .next-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      font-size: 12px;
+    }
+    .next-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .trace-grid > div,
+    .next-grid > div { min-width: 0; }
+    .trace-grid .trace-val,
+    .next-grid .trace-val {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    #t-trace,
+    #t-next-target { overflow: hidden; box-sizing: border-box; }
+    #t-utxos table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    #t-utxos th,
+    #t-utxos td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid color-mix(in srgb, var(--line-soft) 66%, transparent); vertical-align: top; }
+    #t-utxos th { color: var(--muted-strong); font-size: 11px; font-weight: normal; }
+    #t-utxos td.right,
+    #t-utxos th.right { text-align: right; }
+    #t-utxos .dim { color: var(--muted-strong); }
     @media (max-width: 600px) {
       .tracker-series-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
       .tracker-series-grid > div { padding: 6px 4px !important; }
       #t-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-      #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
-      #t-utxos { overflow-x: auto; }
-      #t-utxos table { min-width: 480px; }
+      #tracker-content > div:first-child { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+      #t-utxos { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      #t-utxos table { min-width: 720px; }
+      #t-search-results { overflow-x: auto; }
       #tracker-content { padding: 14px 8px !important; }
+      #t-live-feed { max-height: 240px; }
+      #t-trace,
+      #t-next-target { padding: 12px !important; }
+      .trace-grid,
+      .next-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 12px;
+      }
+      .trace-range,
+      .next-range {
+        font-size: 10px;
+        margin-top: 10px;
+        word-break: break-all;
+      }
     }
   </style>
 </head>
@@ -157,6 +199,11 @@ function formatPushed(iso){
         }
         return name;
       }
+      function rangeTwoLines(a,b){
+        if((a==null||a==='')&&(b==null||b===''))return '—';
+        if(b==null||b===''||a===b)return String(a||'—');
+        return '<span class="range-2line">'+a+' <span style="color:var(--muted-strong)">→</span><br>'+b+'</span>';
+      }
       function satnameRangeText(start,end){
         if(start==null||end==null)return '—';
         var lo=BigInt(start);
@@ -165,8 +212,11 @@ function formatPushed(iso){
         var a=satToName(lo);
         var b=satToName(hi);
         if(!a)return '—';
-        if(!b||a===b)return a;
-        return a+' → '+b;
+        return rangeTwoLines(a,b);
+      }
+      function satRangeText(start,end){
+        if(start==null||end==null)return '—';
+        return rangeTwoLines(String(start),String(end));
       }
 
       // Series cards
@@ -203,13 +253,13 @@ function formatPushed(iso){
         nt+='<span style="color:var(--orange);font-size:13px;font-weight:bold;">'+miningPct+'%</span></div>';
         nt+='<div style="background:var(--line-soft);border-radius:2px;height:8px;margin-bottom:12px;overflow:hidden;">';
         nt+='<div style="background:linear-gradient(90deg,#00ff41,#ffb000);height:100%;width:'+miningPct+'%;transition:width 0.3s;"></div></div>';
-        nt+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px;">';
-        nt+='<div><span style="color:var(--muted-strong);">Target Block</span><div style="color:var(--text-strong);font-weight:bold;">'+nextSeries.target_block.toLocaleString()+'</div></div>';
-        nt+='<div><span style="color:var(--muted-strong);">Blocks Remaining</span><div style="color:var(--orange);font-weight:bold;">'+blocksRemaining.toLocaleString()+'</div></div>';
-        nt+='<div><span style="color:var(--muted-strong);">Est. Time</span><div style="color:var(--text-strong);">~'+estYears+' years</div></div>';
-        nt+='<div><span style="color:var(--muted-strong);">Sats to Unlock</span><div style="color:var(--text-strong);">'+nextSeries.sat_count.toLocaleString()+'</div></div>';
+        nt+='<div class="next-grid">';
+        nt+='<div><span style="color:var(--muted-strong);">Target Block</span><div class="trace-val" style="color:var(--text-strong);font-weight:bold;">'+nextSeries.target_block.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:var(--muted-strong);">Blocks Remaining</span><div class="trace-val" style="color:var(--orange);font-weight:bold;">'+blocksRemaining.toLocaleString()+'</div></div>';
+        nt+='<div><span style="color:var(--muted-strong);">Est. Time</span><div class="trace-val" style="color:var(--text-strong);">~'+estYears+' years</div></div>';
+        nt+='<div><span style="color:var(--muted-strong);">Sats to Unlock</span><div class="trace-val" style="color:var(--text-strong);">'+nextSeries.sat_count.toLocaleString()+'</div></div>';
         nt+='</div>';
-        nt+='<div style="color:var(--muted-strong);font-size:10px;margin-top:8px;">Range: '+nextSeries.sat_start+' → '+nextSeries.sat_end+'</div>';
+        nt+='<div class="next-range" style="color:var(--muted-strong);font-size:10px;margin-top:8px;">Range<br>'+satRangeText(nextSeries.sat_start,nextSeries.sat_end)+'</div>';
         document.getElementById('t-next-target').innerHTML=nt;
       } else {
         document.getElementById('t-next-target').style.display='none';
@@ -224,9 +274,9 @@ function formatPushed(iso){
       var pct=Math.round((traced/total)*10000)/100;
       var tracedPctLabel='Traced: '+pct+'%';
       var untracedPct=(100-pct).toFixed(2);
-      var th='<div style="display:flex;justify-content:space-between;margin-bottom:8px;">';
+      var th='<div style="display:flex;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap;">';
       th+='<span style="color:var(--muted-strong);font-size:11px;letter-spacing:2px;">SERIES 1 — TRACE PROGRESS</span>';
-      th+='<span style="font-size:11px;">STATUS: <span style="color:'+(tr.status==='tracing'?'#00ff41':'#ffb000')+';">'+tr.status.toUpperCase()+(tr.status==='tracing'?' ▸':'')+'</span></span></div>';
+      th+='<span style="font-size:11px;white-space:nowrap;">STATUS: <span style="color:'+(tr.status==='tracing'?'#00ff41':'#ffb000')+';">'+tr.status.toUpperCase()+(tr.status==='tracing'?' ▸':'')+'</span></span></div>';
       th+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">';
       th+='<div style="flex:1;background:var(--line-soft);border-radius:2px;height:8px;overflow:hidden;">';
       th+='<div style="background:#00ff41;height:100%;width:'+pct+'%;transition:width 0.3s;"></div></div>';
@@ -235,15 +285,15 @@ function formatPushed(iso){
       th+='<span style="color:var(--green);">● Traced: '+pct+'%</span>';
       th+='<span style="color:var(--muted-strong);">● Untraced: '+untracedPct+'%</span></div>';
       var feeRetraced=parseInt(tr.fee_sats_retraced||'0');
-      th+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;font-size:12px;">';
-      th+='<div><span style="color:var(--muted-strong);">Traced</span><div style="color:var(--green);font-weight:bold;">'+traced.toLocaleString()+'</div></div>';
-      th+='<div><span style="color:var(--muted-strong);">Untraced</span><div style="color:var(--orange);">'+untraced.toLocaleString()+'</div></div>';
-      th+='<div><span style="color:var(--muted-strong);">Total Supply</span><div style="color:var(--text-strong);">'+total.toLocaleString()+'</div></div>';
-      th+='<div><span style="color:var(--muted-strong);">Fee Sats Retraced</span><div style="color:var(--gold);">'+feeRetraced.toLocaleString()+'</div></div>';
-      th+='<div><span style="color:var(--muted-strong);">Queue</span><div style="color:var(--orange);">'+tr.queue_size.toLocaleString()+' items</div></div>';
-      th+='<div><span style="color:var(--muted-strong);">Last Run</span><div style="color:var(--text-strong);">'+tr.last_run+'</div></div>';
+      th+='<div class="trace-grid">';
+      th+='<div><span style="color:var(--muted-strong);">Traced</span><div class="trace-val" style="color:var(--green);font-weight:bold;">'+traced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:var(--muted-strong);">Untraced</span><div class="trace-val" style="color:var(--orange);">'+untraced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:var(--muted-strong);">Total Supply</span><div class="trace-val" style="color:var(--text-strong);">'+total.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:var(--muted-strong);">Fee Sats Retraced</span><div class="trace-val" style="color:var(--gold);">'+feeRetraced.toLocaleString()+'</div></div>';
+      th+='<div><span style="color:var(--muted-strong);">Queue</span><div class="trace-val" style="color:var(--orange);">'+tr.queue_size.toLocaleString()+' items</div></div>';
+      th+='<div><span style="color:var(--muted-strong);">Last Run</span><div class="trace-val" style="color:var(--text-strong);">'+tr.last_run+'</div></div>';
       th+='</div>';
-      th+='<div style="color:var(--muted-strong);font-size:10px;margin-top:8px;">Range: '+s1.sat_start+' → '+s1.sat_end+'</div>';
+      th+='<div class="trace-range" style="color:var(--muted-strong);font-size:10px;margin-top:8px;">Range<br>'+satRangeText(s1.sat_start,s1.sat_end)+'</div>';
       document.getElementById('t-trace').innerHTML=th;
 
       // Sat conservation banner — every BHANG sat must be located or queued
@@ -365,11 +415,10 @@ function formatPushed(iso){
         rh+='<tr style="border-bottom:1px solid var(--line);color:var(--muted-strong);text-align:left;"><th style="padding:4px;">Outpoint</th><th style="padding:4px;">Address</th><th style="padding:4px;text-align:right;">Sats</th><th style="padding:4px;text-align:right;">Last Moved</th><th style="padding:4px;text-align:right;">Status</th></tr>';
         for(var i=0;i<matches.length;i++){
           var u=matches[i];
-          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
           var tags=getUtxoRarity(u);
           rh+='<tr style="border-bottom:1px solid var(--line-soft);'+(tags.length?'border-left:2px solid '+tags[0].color+';':'')+'">';
-          rh+='<td style="padding:4px;color:var(--muted);">'+opShort+'</td>';
-          rh+='<td style="padding:4px;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:var(--gold);text-decoration:none;">'+u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6)+'</a>'+walletBadge(u.wallet_label)+'</td>';
+          rh+='<td style="padding:4px;color:var(--muted);">'+BhangLinks.outpointLink(u.outpoint)+'</td>';
+          rh+='<td style="padding:4px;">'+BhangLinks.addrLink(u.address)+walletBadge(u.wallet_label)+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:var(--text-strong);">'+u.sat_count.toLocaleString()+'</td>';
           rh+='<td style="padding:4px;text-align:right;color:var(--muted);">'+(u.last_moved?u.last_moved.substring(0,10):'—')+'</td>';
           rh+='<td style="padding:4px;text-align:right;white-space:nowrap;">';
@@ -424,25 +473,21 @@ function formatPushed(iso){
         var pageUtxos=list.slice(start,end);
 
         var uh='<div style="overflow-x:auto;">';
-        uh+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
-        uh+='<tr style="border-bottom:1px solid var(--line);color:var(--muted-strong);text-align:left;">';
-        uh+='<th style="padding:6px 4px;">OUTPOINT</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">SATS ▾</th><th style="padding:6px 4px;">SAT RANGE</th><th style="padding:6px 4px;">SATNAME RANGE</th><th style="padding:6px 4px;text-align:right;">LAST MOVED</th><th style="padding:6px 4px;text-align:right;">RARITY</th></tr>';
+        uh+='<table>';
+        uh+='<tr><th>Outpoint</th><th>Address</th><th class="right">Sats ▾</th><th>Sat range</th><th>Satname range</th><th class="right">Last moved</th><th class="right">Rarity</th></tr>';
         for(var j=0;j<pageUtxos.length;j++){
           var u=pageUtxos[j];
-          var opShort=u.outpoint.substring(0,12)+'...'+u.outpoint.split(':')[1];
-          var addr=u.address.substring(0,12)+'...'+u.address.substring(u.address.length-6);
           var moved=u.last_moved?u.last_moved.substring(0,10):'—';
-          var sRange=(u.sat_range_start!=null&&u.sat_range_end!=null)?(String(u.sat_range_start)+' → '+String(u.sat_range_end)):'—';
           var tags=getUtxoRarity(u);
           var rowBorder=tags.length?'border-left:2px solid '+tags[0].color+';':'';
-          uh+='<tr style="border-bottom:1px solid var(--line-soft);'+rowBorder+'">';
-          uh+='<td style="padding:5px 4px;color:var(--muted);white-space:nowrap;">'+opShort+'</td>';
-          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+u.address+'" target="_blank" style="color:var(--gold);text-decoration:none;">'+addr+'</a>'+walletBadge(u.wallet_label)+'</td>';
-          uh+='<td style="padding:5px 4px;text-align:right;color:var(--text-strong);">'+u.sat_count.toLocaleString()+'</td>';
-          uh+='<td style="padding:5px 4px;color:var(--muted-strong);white-space:nowrap;font-size:10px;">'+sRange+'</td>';
-          uh+='<td style="padding:5px 4px;color:var(--green);white-space:nowrap;font-size:10px;">'+satnameRangeText(u.sat_range_start,u.sat_range_end)+'</td>';
-          uh+='<td style="padding:5px 4px;text-align:right;color:var(--muted);">'+moved+'</td>';
-          uh+='<td style="padding:5px 4px;text-align:right;white-space:nowrap;">';
+          uh+='<tr style="'+rowBorder+'">';
+          uh+='<td class="dim">'+BhangLinks.outpointLink(u.outpoint)+'</td>';
+          uh+='<td>'+BhangLinks.addrLink(u.address)+walletBadge(u.wallet_label)+'</td>';
+          uh+='<td class="right" style="color:var(--text-strong);">'+u.sat_count.toLocaleString()+'</td>';
+          uh+='<td class="dim" style="font-size:10px;">'+satRangeText(u.sat_range_start,u.sat_range_end)+'</td>';
+          uh+='<td style="font-size:10px;color:var(--green);">'+satnameRangeText(u.sat_range_start,u.sat_range_end)+'</td>';
+          uh+='<td class="right dim">'+moved+'</td>';
+          uh+='<td class="right" style="white-space:nowrap;">';
           if(tags.length){for(var t=0;t<tags.length;t++){uh+=rarityBadge(tags[t]);}}
           else{uh+='<span style="color:var(--green);">LIVE</span>';}
           uh+='</td>';
@@ -483,7 +528,6 @@ function formatPushed(iso){
         uh+='<th style="padding:6px 4px;">#</th><th style="padding:6px 4px;">ADDRESS</th><th style="padding:6px 4px;text-align:right;">RANGES</th><th style="padding:6px 4px;text-align:right;">UTXOS</th><th style="padding:6px 4px;text-align:right;">BHANG SATS ▾</th><th style="padding:6px 4px;text-align:right;">TOTAL BTC BALANCE</th></tr>';
         for(var j=0;j<page.length;j++){
           var w=page[j];
-          var addr=w.address.substring(0,12)+'...'+w.address.substring(w.address.length-6);
           var bal;
           if(w.btc_balance_sats===null||w.btc_balance_sats===undefined){
             bal='<span style="color:var(--muted-strong);">—</span>';
@@ -492,7 +536,7 @@ function formatPushed(iso){
           }
           uh+='<tr style="border-bottom:1px solid var(--line-soft);">';
           uh+='<td style="padding:5px 4px;color:var(--muted-strong);">'+(start+j+1)+'</td>';
-          uh+='<td style="padding:5px 4px;white-space:nowrap;"><a href="https://mempool.space/address/'+w.address+'" target="_blank" style="color:var(--gold);text-decoration:none;">'+addr+'</a>'+walletBadge(w.wallet_label)+'</td>';
+          uh+='<td style="padding:5px 4px;max-width:360px;">'+BhangLinks.addrLink(w.address)+walletBadge(w.wallet_label)+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:var(--text-strong);">'+w.range_count+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:var(--muted);">'+w.outpoint_count+'</td>';
           uh+='<td style="padding:5px 4px;text-align:right;color:var(--text-strong);">'+Number(w.bhang_sats).toLocaleString()+'</td>';
@@ -660,7 +704,7 @@ function formatPushed(iso){
                 movementsFound++;
                 addFeedItem(
                   'CATCH-UP BLK '+blockHeight+': '+u.sat_count.toLocaleString()+' sats moved from '+
-                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4),
+                  BhangLinks.addrLink(u.address),
                   'movement'
                 );
                 traceFifo(tx,j,u,blockHeight);
@@ -766,7 +810,7 @@ function formatPushed(iso){
                 movementsFound++;
                 addFeedItem(
                   'MOVEMENT: '+u.sat_count.toLocaleString()+' sats moved from '+
-                  u.address.substring(0,8)+'…'+u.address.substring(u.address.length-4)+
+                  BhangLinks.addrLink(u.address)+
                   ' — tracing FIFO →',
                   'movement'
                 );
@@ -841,8 +885,8 @@ function formatPushed(iso){
 
       addFeedItem(
         '→ '+Number(count).toLocaleString()+' sats → '+
-        newAddr.substring(0,8)+'…'+newAddr.substring(newAddr.length-4)+
-        ' ('+newOutpoint.substring(0,8)+'…:'+v+')',
+        BhangLinks.addrLink(newAddr)+
+        ' ('+BhangLinks.outpointLink(newOutpoint)+')',
         'movement'
       );
     }
