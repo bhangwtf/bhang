@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-08T22:35:51.396Z",
-  "snapshot_block_height": 970540,
+  "exported_at": "2026-10-09T02:36:08.457Z",
+  "snapshot_block_height": 970572,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-08 22:34:55",
-    "total_utxos_found": 834,
+    "last_run": "2026-10-09 02:35:19",
+    "total_utxos_found": 838,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -6000,18 +6000,14 @@
           "first_seen": "2026-05-12 19:16:17"
         },
         {
-          "outpoint": "516cdf48e1b953849601d3050b010db8e2e11ef25e5f5578dc1ec49e758ef4f7:0",
-          "address": "bc1qx9n80t5q7tfmutzaj0ramzzzsvtveara68zntc",
+          "outpoint": "9c2ded945c9199cc1294f6ca5bf8b3d9a742f2752a3389af05b187ae5ad86d50:7",
+          "address": "bc1q46vn9nljzf4fy6ef4ewhgcf4tn4wfx9uzz6c3u",
           "sat_range_start": "1773906176651181",
           "sat_range_end": "1773906176662734",
           "sat_count": 11554,
-          "input_offset": "5168595007",
-          "last_moved": "2026-10-08 20:47:35",
-          "first_seen": "2026-10-08 22:34:55",
-          "wallet_label": {
-            "label": "Kraken",
-            "kind": "exchange"
-          }
+          "input_offset": "5162253995",
+          "last_moved": "2026-10-08 23:40:02",
+          "first_seen": "2026-10-09 02:35:19"
         },
         {
           "outpoint": "c6652359f6e06b8e01a69da4a5e261596b52217514462c0c9797c803048cf6eb:0",
@@ -6034,32 +6030,24 @@
           "first_seen": "2026-05-10 17:19:47"
         },
         {
-          "outpoint": "516cdf48e1b953849601d3050b010db8e2e11ef25e5f5578dc1ec49e758ef4f7:0",
-          "address": "bc1qx9n80t5q7tfmutzaj0ramzzzsvtveara68zntc",
+          "outpoint": "9c2ded945c9199cc1294f6ca5bf8b3d9a742f2752a3389af05b187ae5ad86d50:7",
+          "address": "bc1q46vn9nljzf4fy6ef4ewhgcf4tn4wfx9uzz6c3u",
           "sat_range_start": "1773906176662735",
           "sat_range_end": "1773906176674070",
           "sat_count": 11336,
-          "input_offset": "5168583671",
-          "last_moved": "2026-10-08 20:47:35",
-          "first_seen": "2026-10-08 22:34:55",
-          "wallet_label": {
-            "label": "Kraken",
-            "kind": "exchange"
-          }
+          "input_offset": "5162242659",
+          "last_moved": "2026-10-08 23:40:02",
+          "first_seen": "2026-10-09 02:35:19"
         },
         {
-          "outpoint": "516cdf48e1b953849601d3050b010db8e2e11ef25e5f5578dc1ec49e758ef4f7:0",
-          "address": "bc1qx9n80t5q7tfmutzaj0ramzzzsvtveara68zntc",
+          "outpoint": "9c2ded945c9199cc1294f6ca5bf8b3d9a742f2752a3389af05b187ae5ad86d50:7",
+          "address": "bc1q46vn9nljzf4fy6ef4ewhgcf4tn4wfx9uzz6c3u",
           "sat_range_start": "1773906176674071",
           "sat_range_end": "1773906176685406",
           "sat_count": 11336,
-          "input_offset": "5168572335",
-          "last_moved": "2026-10-08 20:47:35",
-          "first_seen": "2026-10-08 22:34:55",
-          "wallet_label": {
-            "label": "Kraken",
-            "kind": "exchange"
-          }
+          "input_offset": "5162231323",
+          "last_moved": "2026-10-08 23:40:02",
+          "first_seen": "2026-10-09 02:35:19"
         },
         {
           "outpoint": "a265c968f53784f31394e619972025c1b00b0c3f02b9a3e5bff076da59aeeea7:1",
@@ -6092,18 +6080,14 @@
           "first_seen": "2026-05-12 05:55:07"
         },
         {
-          "outpoint": "516cdf48e1b953849601d3050b010db8e2e11ef25e5f5578dc1ec49e758ef4f7:0",
-          "address": "bc1qx9n80t5q7tfmutzaj0ramzzzsvtveara68zntc",
+          "outpoint": "9c2ded945c9199cc1294f6ca5bf8b3d9a742f2752a3389af05b187ae5ad86d50:7",
+          "address": "bc1q46vn9nljzf4fy6ef4ewhgcf4tn4wfx9uzz6c3u",
           "sat_range_start": "1773906176685407",
           "sat_range_end": "1773906176696306",
           "sat_count": 10900,
-          "input_offset": "5168561435",
-          "last_moved": "2026-10-08 20:47:35",
-          "first_seen": "2026-10-08 22:34:55",
-          "wallet_label": {
-            "label": "Kraken",
-            "kind": "exchange"
-          }
+          "input_offset": "5162220423",
+          "last_moved": "2026-10-08 23:40:02",
+          "first_seen": "2026-10-09 02:35:19"
         },
         {
           "outpoint": "53b6c6fc443b433bf024f1bec8d9976c88e6f735ed991485aafe6bc52396d257:1",
@@ -9035,7 +9019,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4240152452893
+          "btc_balance_sats": 4241906357936
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9322,15 +9306,11 @@
           "btc_balance_sats": 1329557050728
         },
         {
-          "address": "bc1qx9n80t5q7tfmutzaj0ramzzzsvtveara68zntc",
+          "address": "bc1q46vn9nljzf4fy6ef4ewhgcf4tn4wfx9uzz6c3u",
           "range_count": 4,
           "outpoint_count": 1,
           "bhang_sats": 45126,
-          "btc_balance_sats": 382840675388,
-          "wallet_label": {
-            "label": "Kraken",
-            "kind": "exchange"
-          }
+          "btc_balance_sats": 182419095547
         },
         {
           "address": "bc1qxe6nlda4y4h6ekj7jm9klr6vn6h9pmy8pn6yzycceqzj08532z4qxxrlza",
