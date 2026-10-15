@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-10-15T14:37:08.023Z",
-  "snapshot_block_height": 971587,
+  "exported_at": "2026-10-15T18:35:52.135Z",
+  "snapshot_block_height": 971609,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308866776,
-    "queued_sats": 49000,
+    "live_sats": 308915776,
+    "queued_sats": 0,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "tracing",
-    "last_run": "2026-10-15 14:36:14",
-    "total_utxos_found": 987,
+    "status": "complete",
+    "last_run": "2026-10-15 18:35:03",
+    "total_utxos_found": 989,
     "fee_sats_retraced": "0",
-    "queue_size": 1
+    "queue_size": 0
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 858,
-        "wallet_count": 669,
-        "total_sats": 308866776,
+        "utxo_count": 859,
+        "wallet_count": 670,
+        "total_sats": 308915776,
         "inscribed_count": 0
       },
       "utxos": [
@@ -4316,6 +4316,16 @@
           "first_seen": "2026-05-09 17:22:54"
         },
         {
+          "outpoint": "1863860803bcaf05024d73eee042ba47425311e0d504faa6d7ad5c866de94ad9:0",
+          "address": "bc1qr4dl5wa7kl8yu792dceg9z5knl2gkn220lk7a9",
+          "sat_range_start": "1773906173375807",
+          "sat_range_end": "1773906173424806",
+          "sat_count": 49000,
+          "input_offset": "1131128257",
+          "last_moved": "2026-10-15 15:34:48",
+          "first_seen": "2026-10-15 18:35:03"
+        },
+        {
           "outpoint": "9e09043f83d3d93f0281bbd581344e553d33622a802a27dcf7386970a5a297ef:0",
           "address": "3P44ZPKKmqGFbTyXm632RGRVC7LWqNdRB2",
           "sat_range_start": "1773906052146302",
@@ -4590,14 +4600,14 @@
           "first_seen": "2026-05-12 20:07:38"
         },
         {
-          "outpoint": "f8fcfbc74f9a76d1637cbd396ba0d7e166503ecfbea38c6821305ab206897817:2",
+          "outpoint": "3886314387d9a4d83635a1d0a3bc02174561be41ecd2882841517f06732045ae:2",
           "address": "bc1qatjx2qc8vxz39m0qdz303z8et2pgmc74xz8km3",
           "sat_range_start": "1773906176990206",
           "sat_range_end": "1773906177030514",
           "sat_count": 40309,
-          "input_offset": "361251920541",
-          "last_moved": "2026-10-09 15:40:25",
-          "first_seen": "2026-10-09 18:35:37"
+          "input_offset": "360365896754",
+          "last_moved": "2026-10-15 15:09:47",
+          "first_seen": "2026-10-15 18:35:03"
         },
         {
           "outpoint": "ce20f87ab2933ec78123e1cebccf29aec0accdedef4335ddd9cd7495dcede3ef:7",
@@ -8874,7 +8884,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 12159898,
-          "btc_balance_sats": 1281478096831,
+          "btc_balance_sats": 1289309590624,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9044,14 +9054,14 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4244013258052
+          "btc_balance_sats": 4244141629557
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
           "range_count": 5,
           "outpoint_count": 1,
           "bhang_sats": 500425,
-          "btc_balance_sats": 283613594823
+          "btc_balance_sats": 283374991447
         },
         {
           "address": "1Lj2mCPJYbbC2X6oYwV6sXnE8CZ4heK5UD",
@@ -9114,7 +9124,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3687149544137
+          "btc_balance_sats": 3687402751631
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9156,7 +9166,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 206453,
-          "btc_balance_sats": 814416867078
+          "btc_balance_sats": 831312941731
         },
         {
           "address": "bc1qjasf9z3h7w3jspkhtgatgpyvvzgpa2wwd2lr0eh5tx44reyn2k7sfc27a4",
