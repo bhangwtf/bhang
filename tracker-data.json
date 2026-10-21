@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-10-21T12:50:57.198Z",
-  "snapshot_block_height": 972478,
+  "exported_at": "2026-10-21T14:47:04.115Z",
+  "snapshot_block_height": 972488,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308879257,
-    "queued_sats": 36519,
+    "live_sats": 308915776,
+    "queued_sats": 0,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "tracing",
-    "last_run": "2026-10-21 12:50:15",
-    "total_utxos_found": 1051,
+    "status": "complete",
+    "last_run": "2026-10-21 14:46:07",
+    "total_utxos_found": 1052,
     "fee_sats_retraced": "0",
-    "queue_size": 1
+    "queue_size": 0
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 858,
-        "wallet_count": 670,
-        "total_sats": 308879257,
+        "utxo_count": 859,
+        "wallet_count": 671,
+        "total_sats": 308915776,
         "inscribed_count": 0
       },
       "utxos": [
@@ -4788,6 +4788,16 @@
           }
         },
         {
+          "outpoint": "449c4f4e1ca68828c70ae920b1703fa3161c6ebabf13e65ce1e51bf7c9a22366:4",
+          "address": "bc1quhruqrghgcca950rvhtrg7cpd7u8k6svpzgzmrjy8xyukacl5lkq0r8l2d",
+          "sat_range_start": "1773906200557110",
+          "sat_range_end": "1773906200593628",
+          "sat_count": 36519,
+          "input_offset": "90747084598",
+          "last_moved": "2026-10-21 13:20:33",
+          "first_seen": "2026-10-21 14:46:07"
+        },
+        {
           "outpoint": "40d987d709eab4622a4ab8fd82e5f780a44f8031b70b9efc34cce019ac51e24a:13",
           "address": "bc1qeprf0dk3ayshpru2urxztvutn83s89chw75z50",
           "sat_range_start": "1773906074244254",
@@ -8874,7 +8884,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 12159898,
-          "btc_balance_sats": 1778329822469,
+          "btc_balance_sats": 1740989907833,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9114,7 +9124,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3696205149133
+          "btc_balance_sats": 3696490388704
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
