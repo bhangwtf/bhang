@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-22T10:00:58.235Z",
-  "snapshot_block_height": 972600,
+  "exported_at": "2026-10-22T10:35:50.067Z",
+  "snapshot_block_height": 972605,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-22 10:00:02",
-    "total_utxos_found": 1065,
+    "last_run": "2026-10-22 10:34:55",
+    "total_utxos_found": 1066,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -8618,14 +8618,14 @@
           "first_seen": "2026-05-13 03:17:43"
         },
         {
-          "outpoint": "06c23b066d001c7623c740a7e880244b4065fad7dd1569777536a011547b602c:1",
+          "outpoint": "e79aec808713f7aa3d7ce6c65191cf04f17e347bf66fde5743f1762a0591b087:1",
           "address": "1NpkQ8qGerbVsxvZ5vcqSpbYGBQDQtYTXF",
           "sat_range_start": "1773906177030515",
           "sat_range_end": "1773906177031060",
           "sat_count": 546,
-          "input_offset": "316845113847",
-          "last_moved": "2026-10-22 08:40:45",
-          "first_seen": "2026-10-22 10:00:01"
+          "input_offset": "316669965852",
+          "last_moved": "2026-10-22 10:24:11",
+          "first_seen": "2026-10-22 10:34:55"
         },
         {
           "outpoint": "be6bc8896b4f621e4f4cadbd99c19efb2be40e0ffbe83e88a50a339e2d9986d8:29",
@@ -8884,7 +8884,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 12159898,
-          "btc_balance_sats": 1512549210228,
+          "btc_balance_sats": 1495928925790,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -8895,14 +8895,14 @@
           "range_count": 5,
           "outpoint_count": 5,
           "bhang_sats": 9425531,
-          "btc_balance_sats": 5580467079600
+          "btc_balance_sats": 5580467080680
         },
         {
           "address": "3M219KR5vEneNb47ewrPfWyb5jQ2DjxRP6",
           "range_count": 19,
           "outpoint_count": 10,
           "bhang_sats": 5460991,
-          "btc_balance_sats": 17734150534516,
+          "btc_balance_sats": 17734150535596,
           "wallet_label": {
             "label": "Binance Cold Wallet",
             "kind": "exchange"
@@ -8941,7 +8941,7 @@
           "range_count": 7,
           "outpoint_count": 6,
           "bhang_sats": 3110784,
-          "btc_balance_sats": 14084998554501,
+          "btc_balance_sats": 14084998555165,
           "wallet_label": {
             "label": "Robinhood Cold Wallet",
             "kind": "exchange"
@@ -8973,7 +8973,7 @@
           "range_count": 19,
           "outpoint_count": 14,
           "bhang_sats": 2005842,
-          "btc_balance_sats": 24859759291626,
+          "btc_balance_sats": 24859759292706,
           "wallet_label": {
             "label": "Binance Cold Wallet",
             "kind": "exchange"
@@ -9054,7 +9054,7 @@
           "range_count": 4,
           "outpoint_count": 2,
           "bhang_sats": 554309,
-          "btc_balance_sats": 4244807933667
+          "btc_balance_sats": 4244807934331
         },
         {
           "address": "3MnJVJkfU28gVjLWayMErmGjWQVfH5h8rC",
@@ -9089,7 +9089,7 @@
           "range_count": 2,
           "outpoint_count": 1,
           "bhang_sats": 329671,
-          "btc_balance_sats": 1578549981899
+          "btc_balance_sats": 1578549982991
         },
         {
           "address": "3FsDiWdG76meMpdCLbVV4dUXhrFyaLrtxL",
@@ -9117,21 +9117,21 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7520257613147
+          "btc_balance_sats": 7520257614239
         },
         {
           "address": "1EoGpcfUVYtLqptk2C8y31brTGfow3PJFM",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3699035756721
+          "btc_balance_sats": 3699478380653
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
           "range_count": 3,
           "outpoint_count": 1,
           "bhang_sats": 270845,
-          "btc_balance_sats": 13001008332619
+          "btc_balance_sats": 13001008333283
         },
         {
           "address": "16Dy3cdFqeJZ7PrGnf5LS71aYMHtYg2pN2",
@@ -9173,7 +9173,7 @@
           "range_count": 7,
           "outpoint_count": 1,
           "bhang_sats": 203437,
-          "btc_balance_sats": 9693240685594
+          "btc_balance_sats": 9693240686258
         },
         {
           "address": "bc1qeh5e4ndkrs9sxw8wed2yce69tkrg7t003rz4vk5jhkaf6knkem4q944qvt",
@@ -9187,7 +9187,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 196686,
-          "btc_balance_sats": 2698353504711
+          "btc_balance_sats": 2698353505791
         },
         {
           "address": "3Kx4doXvL4UhDrKJqn8FoS5wVU3VeS9ebM",
@@ -9215,7 +9215,7 @@
           "range_count": 5,
           "outpoint_count": 1,
           "bhang_sats": 156722,
-          "btc_balance_sats": 9185011562369
+          "btc_balance_sats": 9185011563033
         },
         {
           "address": "bc1qtf50my2qjmpcrxd6lj8gmx35eeevu4mfrjzmeh",
@@ -9250,7 +9250,7 @@
           "range_count": 8,
           "outpoint_count": 7,
           "bhang_sats": 106075,
-          "btc_balance_sats": 3164340227040,
+          "btc_balance_sats": 3164340227704,
           "wallet_label": {
             "label": "Binance Pool",
             "kind": "mining-pool"
