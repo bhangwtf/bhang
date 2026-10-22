@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-22T06:00:58.981Z",
-  "snapshot_block_height": 972578,
+  "exported_at": "2026-10-22T06:35:42.285Z",
+  "snapshot_block_height": 972581,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-22 06:00:24",
-    "total_utxos_found": 1060,
+    "last_run": "2026-10-22 06:34:56",
+    "total_utxos_found": 1061,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -570,14 +570,14 @@
           "first_seen": "2026-08-12 06:35:28"
         },
         {
-          "outpoint": "f105c4a8214435e477c97d5e2aec4603299b2ae97ea037c0638c9013d7ecbbff:28",
-          "address": "1L5aA3TgNZdb4EU32s8E5RqKbTkexGEggD",
+          "outpoint": "a22272b2dd11da2afb03086fc02fb704aece35060e553f6053fbc1aec6f672ac:0",
+          "address": "bc1qy9capy3xxe4mwxal3cemy2zq6qrnaurd73c3dn",
           "sat_range_start": "1773906086036361",
           "sat_range_end": "1773906087320866",
           "sat_count": 1284506,
-          "input_offset": "6916070",
-          "last_moved": "2019-11-12 04:14:30",
-          "first_seen": "2026-05-11 07:01:09"
+          "input_offset": "244975946",
+          "last_moved": "2026-10-22 06:32:49",
+          "first_seen": "2026-10-22 06:34:56"
         },
         {
           "outpoint": "bb694d6b589499e43295417c1564518ea088acf92fccc08bc486123d2e895c37:1",
@@ -8884,7 +8884,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 12159898,
-          "btc_balance_sats": 1559158313615,
+          "btc_balance_sats": 1543354011936,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9124,7 +9124,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3697441566060
+          "btc_balance_sats": 3697857107248
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
