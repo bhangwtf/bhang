@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-26T01:48:52.193Z",
-  "snapshot_block_height": 973159,
+  "exported_at": "2026-10-26T02:35:27.448Z",
+  "snapshot_block_height": 973166,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-26 01:48:15",
+    "last_run": "2026-10-26 02:34:53",
     "total_utxos_found": 1116,
     "fee_sats_retraced": "0",
     "queue_size": 0
@@ -8884,7 +8884,7 @@
           "range_count": 2,
           "outpoint_count": 2,
           "bhang_sats": 12156006,
-          "btc_balance_sats": 2128079845036,
+          "btc_balance_sats": 2110686572574,
           "wallet_label": {
             "label": "Binance Hot Wallet",
             "kind": "hot-wallet"
@@ -9124,7 +9124,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3707830895085
+          "btc_balance_sats": 3708076990691
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
