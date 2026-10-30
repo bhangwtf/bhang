@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-29T22:36:05.936Z",
-  "snapshot_block_height": 973748,
+  "exported_at": "2026-10-30T02:35:38.651Z",
+  "snapshot_block_height": 973762,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,8 +11,8 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-29 22:35:30",
-    "total_utxos_found": 1189,
+    "last_run": "2026-10-30 02:34:59",
+    "total_utxos_found": 1192,
     "fee_sats_retraced": "0",
     "queue_size": 0
   },
@@ -3068,14 +3068,14 @@
           "first_seen": "2026-05-13 07:04:46"
         },
         {
-          "outpoint": "9118eb39d9609fd4e8b9eefde074b99a8689b7277a85c8dca766949c65155e08:18",
+          "outpoint": "143625a099eac4449f871e3544b7b7723ef007d2272337d161f433cb491ce33b:19",
           "address": "bc1qcdpcwn8s7477vn75tca7eud58yrpg29yq5ggm5",
           "sat_range_start": "1773906315267566",
           "sat_range_end": "1773906315382473",
           "sat_count": 114908,
-          "input_offset": "5959124879",
-          "last_moved": "2026-10-29 22:19:10",
-          "first_seen": "2026-10-29 22:35:14"
+          "input_offset": "5337759982",
+          "last_moved": "2026-10-30 00:06:29",
+          "first_seen": "2026-10-30 02:34:59"
         },
         {
           "outpoint": "91de5559a812d2ba81a12f6785cc5f2ec264417a595a2027c34303a46f55e3f1:1",
@@ -8128,14 +8128,14 @@
           "first_seen": "2026-05-12 18:12:15"
         },
         {
-          "outpoint": "58b59b9927c3a19ec3e466ecdd87409f39291edab47515a73ea6dce22a57fe63:0",
-          "address": "bc1p3edvy64suqvsk3twsnx7e2a2n4d62f9m5ntdh7zwp9v4pgv09spsh409jn",
+          "outpoint": "2c587bfc46433c24c5f26b78587299723f7d57b8dd7582b24ad537b2b7aca8a1:2",
+          "address": "bc1qwr2dg2zc7g43akmsjrmkwpzdhdjv2fxsxz0c40",
           "sat_range_start": "1773906048976196",
           "sat_range_end": "1773906048976895",
           "sat_count": 700,
-          "input_offset": "356480858",
-          "last_moved": "2026-10-29 22:19:10",
-          "first_seen": "2026-10-29 22:35:30"
+          "input_offset": "56511296",
+          "last_moved": "2026-10-30 00:08:04",
+          "first_seen": "2026-10-30 02:34:59"
         },
         {
           "outpoint": "a89534d502b350f908ff9335394234b99f45607a6635984db47c108150e7bf5e:1",
@@ -8610,14 +8610,14 @@
           "first_seen": "2026-05-13 03:17:43"
         },
         {
-          "outpoint": "ec74a8caa21085529be39c4cbf2c3a2595426f99ce9a199a84e6bc751ed85ad5:0",
-          "address": "1A6MMVWpsiy2JQqs6VQCciZDPUzRw1FvQ8",
+          "outpoint": "ec94f59ddd9809eb1ee6caeda15d0c4b8caeda972f9f263eb4f50bea6510ee77:4",
+          "address": "bc1quq29mutxkgxmjfdr7ayj3zd9ad0ld5mrhh89l2",
           "sat_range_start": "1773906177030515",
           "sat_range_end": "1773906177031060",
           "sat_count": 546,
-          "input_offset": "832628924",
-          "last_moved": "2026-10-29 22:23:32",
-          "first_seen": "2026-10-29 22:35:16"
+          "input_offset": "292957342",
+          "last_moved": "2026-10-29 23:55:11",
+          "first_seen": "2026-10-30 02:34:59"
         },
         {
           "outpoint": "be6bc8896b4f621e4f4cadbd99c19efb2be40e0ffbe83e88a50a339e2d9986d8:29",
@@ -8883,7 +8883,7 @@
           "range_count": 19,
           "outpoint_count": 10,
           "bhang_sats": 5460991,
-          "btc_balance_sats": 17221786340216,
+          "btc_balance_sats": 17398786340216,
           "wallet_label": {
             "label": "Binance Cold Wallet",
             "kind": "exchange"
@@ -8986,7 +8986,7 @@
           "range_count": 4,
           "outpoint_count": 4,
           "bhang_sats": 1563565,
-          "btc_balance_sats": 4041082914516
+          "btc_balance_sats": 4218882914516
         },
         {
           "address": "3GwXb4ph4B4yp9iiopomyzkodMbKui89ag",
@@ -9091,14 +9091,14 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7506348284285
+          "btc_balance_sats": 7506383109555
         },
         {
           "address": "1EoGpcfUVYtLqptk2C8y31brTGfow3PJFM",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3719329159778
+          "btc_balance_sats": 3723208888422
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
