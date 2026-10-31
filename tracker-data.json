@@ -1,6 +1,6 @@
 {
-  "exported_at": "2026-10-31T10:36:49.997Z",
-  "snapshot_block_height": 973965,
+  "exported_at": "2026-10-31T14:36:19.674Z",
+  "snapshot_block_height": 973982,
   "conservation": {
     "target": 308915776,
     "live_sats": 308915776,
@@ -11,7 +11,7 @@
   },
   "trace": {
     "status": "complete",
-    "last_run": "2026-10-31 10:36:04",
+    "last_run": "2026-10-31 14:35:36",
     "total_utxos_found": 1227,
     "fee_sats_retraced": "0",
     "queue_size": 0
@@ -8979,7 +8979,7 @@
           "range_count": 2,
           "outpoint_count": 1,
           "bhang_sats": 1593366,
-          "btc_balance_sats": 1000000611878
+          "btc_balance_sats": 1000000612424
         },
         {
           "address": "bc1q0j55cut9nd2c88tnnsfultdx696c8lt6n4n0su",
@@ -9091,14 +9091,14 @@
           "range_count": 6,
           "outpoint_count": 5,
           "bhang_sats": 281810,
-          "btc_balance_sats": 7517195702056
+          "btc_balance_sats": 7517539694141
         },
         {
           "address": "1EoGpcfUVYtLqptk2C8y31brTGfow3PJFM",
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3729225189010
+          "btc_balance_sats": 3764225189010
         },
         {
           "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
@@ -9361,7 +9361,7 @@
           "range_count": 4,
           "outpoint_count": 1,
           "bhang_sats": 13803,
-          "btc_balance_sats": 52006311673
+          "btc_balance_sats": 184217452891
         },
         {
           "address": "3Bgnw76tv3c6d7wBQGSwL6WUhGEeW8EwBF",
