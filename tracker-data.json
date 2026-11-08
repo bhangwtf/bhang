@@ -1,20 +1,20 @@
 {
-  "exported_at": "2026-11-08T18:35:34.215Z",
-  "snapshot_block_height": 975085,
+  "exported_at": "2026-11-08T22:35:40.093Z",
+  "snapshot_block_height": 975105,
   "conservation": {
     "target": 308915776,
-    "live_sats": 308915776,
-    "queued_sats": 0,
+    "live_sats": 308878681,
+    "queued_sats": 37095,
     "accounted": 308915776,
     "gap": 0,
     "duplicate": 0
   },
   "trace": {
-    "status": "complete",
-    "last_run": "2026-11-08 18:34:54",
-    "total_utxos_found": 1406,
+    "status": "tracing",
+    "last_run": "2026-11-08 22:34:57",
+    "total_utxos_found": 1408,
     "fee_sats_retraced": "0",
-    "queue_size": 0
+    "queue_size": 1
   },
   "series": [
     {
@@ -27,9 +27,9 @@
       "estimated_year": "2019",
       "mined": 1,
       "stats": {
-        "utxo_count": 859,
-        "wallet_count": 675,
-        "total_sats": 308915776,
+        "utxo_count": 858,
+        "wallet_count": 674,
+        "total_sats": 308878681,
         "inscribed_count": 0
       },
       "utxos": [
@@ -3046,14 +3046,14 @@
           "first_seen": "2026-08-12 06:35:31"
         },
         {
-          "outpoint": "3228500b96e6feea0ef08eadf25eae2c8c7ee0c012cf46eea8f229ebf0594939:38",
+          "outpoint": "12d51a67f5fb19ca2eb194b30b66293539522fc23b5902368918637346c6ee19:33",
           "address": "bc1qhp7n555hk5mxlp3pz0347nzah8gazwe7wp5fjj",
           "sat_range_start": "1773906023682613",
           "sat_range_end": "1773906023797750",
           "sat_count": 115138,
-          "input_offset": "768823841",
-          "last_moved": "2026-11-08 18:03:28",
-          "first_seen": "2026-11-08 18:34:50"
+          "input_offset": "659648963",
+          "last_moved": "2026-11-08 20:39:08",
+          "first_seen": "2026-11-08 22:34:54"
         },
         {
           "outpoint": "2ff25039f3c1fb1218cf88f43be5144b4173c55965dd8808cb1aee420430e5c3:0",
@@ -4526,14 +4526,14 @@
           "first_seen": "2026-05-13 04:51:32"
         },
         {
-          "outpoint": "2fe95ca01093d582be61aa79b8c162ac67107875c038b24e62b27e4a05ef4d81:1",
+          "outpoint": "a44240428722934a2ee2f8516afa5e5a0bd11c982dd5f705bfac0d82888bb632:0",
           "address": "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l",
           "sat_range_start": "1773906129910404",
           "sat_range_end": "1773906129951971",
           "sat_count": 41568,
-          "input_offset": "998260838221",
-          "last_moved": "2026-11-07 16:13:26",
-          "first_seen": "2026-11-07 18:34:50",
+          "input_offset": "1001187280653",
+          "last_moved": "2026-11-08 18:34:55",
+          "first_seen": "2026-11-08 22:34:54",
           "wallet_label": {
             "label": "Coinbase",
             "kind": "exchange"
@@ -4692,16 +4692,6 @@
           "input_offset": "12589065105",
           "last_moved": "2026-07-06 09:27:29",
           "first_seen": "2026-07-07 02:59:26"
-        },
-        {
-          "outpoint": "ad576bdd4614d819b99e28e406489bb8e476004a3b75632cf54565df7d12d253:10",
-          "address": "bc1q4vxcxw7mpg9dcryqu0kav8awrn7qk5e6wgs3hg",
-          "sat_range_start": "1773906056187369",
-          "sat_range_end": "1773906056224463",
-          "sat_count": 37095,
-          "input_offset": "5136561364",
-          "last_moved": "2026-11-08 18:03:28",
-          "first_seen": "2026-11-08 18:34:54"
         },
         {
           "outpoint": "a7127123228e7745bddbc1af5897995b431bbeec0d5c959a390ef97a6d16c1b7:0",
@@ -9046,7 +9036,7 @@
           "range_count": 3,
           "outpoint_count": 2,
           "bhang_sats": 371736,
-          "btc_balance_sats": 1736380729133
+          "btc_balance_sats": 1736836327405
         },
         {
           "address": "bc1q0ymzksy046tv4z88ts5nmu7s574umnwmdev3rt",
@@ -9102,7 +9092,7 @@
           "range_count": 5,
           "outpoint_count": 4,
           "bhang_sats": 276120,
-          "btc_balance_sats": 3783162874984
+          "btc_balance_sats": 3784020318226
         },
         {
           "address": "bc1q0u35spz0y30hnyg676zjcg5v4g6xs65lpcu9af",
